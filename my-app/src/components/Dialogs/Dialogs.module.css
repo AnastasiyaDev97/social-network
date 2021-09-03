@@ -1,0 +1,16 @@
+.dialogs{
+    display: grid;
+    grid-template-columns:2fr 10fr;
+}
+.dialogsItems{
+
+}
+.dialog{
+    color:saddlebrown;
+}
+.active{
+    color: cornflowerblue;
+}
+.addMessageWrapper{
+    margin:10px;
+}

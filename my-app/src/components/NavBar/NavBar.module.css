@@ -1,0 +1,13 @@
+.navBar{
+    grid-area: nav;
+    background-color: mediumspringgreen;
+}
+.item a{
+    color:blue;
+}
+.item a.activemmm{
+    color:orangered;
+}
+.item{
+    padding: 5px;
+}
