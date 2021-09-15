@@ -8,10 +8,11 @@ import {News} from "./components/News/News";
 import {Music} from './components/Music/Music';
 import {Settings} from './components/Settings/Settings';
 import {BrowserRouter, Route} from 'react-router-dom';
-import {addMessage, addPost, changeNewMessage, changeNewText, state, stateType} from "./redux/state";
+import { stateType, storeType} from "./redux/state";
 
 type AppPropsType = {
     state: stateType
+    store:storeType
 }
 
 function App(props: AppPropsType) {
@@ -22,14 +23,13 @@ function App(props: AppPropsType) {
                 <NavBar/>
                 <div className='appWrapperContent'>
                     <Route path='/profile'
-                           render={() => <Profile posts={props.state.ProfilePage.postsData} addPost={addPost}
-                                                  newPostText={props.state.ProfilePage.newPostText}
-                                                  changeNewText={changeNewText}/>}/>
+                           render={() => <Profile posts={props.state.ProfilePage.postsData}
+                                                  dispatch={props.store.dispatch.bind(props.store)}
+                                                  newPostText={props.state.ProfilePage.newPostText}/>}/>
                     <Route path='/dialogs' render={() => <Dialogs messages={props.state.DialogsPage.messageData}
                                                                   dialogs={props.state.DialogsPage.dialogsData}
-                                                                  addMessage={addMessage}
-                                                                  newMessageText={props.state.DialogsPage.newMessageText}
-                                                                  changeNewMessage={changeNewMessage}/>}/>
+                                                                  dispatch={props.store.dispatch.bind(props.store)}
+                                                                  newMessageText={props.state.DialogsPage.newMessageText}/>}/>
                     <Route path='/news' render={() => <News/>}/>
                     <Route path='/music' render={() => <Music/>}/>
                     <Route path='/settings' render={() => <Settings/>}/>

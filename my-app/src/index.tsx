@@ -1,16 +1,16 @@
 import React from 'react';
 import './index.css';
-import {state, stateType, subscriber} from "./redux/state";
+import {store} from "./redux/state";
 import ReactDOM from "react-dom";
 import App from "./App";
 
 export let rerender = () => {
     ReactDOM.render(
         <React.StrictMode>
-            <App state={state}/>
+            <App state={store.getState()} store={store}/>
         </React.StrictMode>,
         document.getElementById('root')
     );
 }
 rerender();
-subscriber(rerender)
+store.subscriber(rerender)
