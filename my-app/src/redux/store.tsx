@@ -2,6 +2,7 @@ import profileReducer, {addPostAC, changeTextAC} from "./reducer/profile-reducer
 import dialogReducer, {addMessageAC, changeMessageAC} from "./reducer/dialog-reducer";
 import sidebarReducer from "./reducer/sidebar-reducer";
 import {v1} from "uuid";
+import userReducer, {followUserAC, setUsersAC, unFollowUserAC} from "./reducer/user-reducer";
 
 export type dialogsDataType = {
     id: string
@@ -16,6 +17,17 @@ export type postsDataType = {
     message: string
     likes: number
 }
+export type usersDataType = {
+    id: number
+    photoUrl:string
+    name: string
+    followed: boolean
+    status: string
+    location: {
+        city: string
+        country: string
+    }
+}
 export type DialogsPageType = {
     dialogsData: Array<dialogsDataType>
     messageData: Array<messageDataType>
@@ -26,11 +38,19 @@ export type ProfilePageType = {
     postsData: Array<postsDataType>
     newPostText: string
 }
-export type sidebarPageType = {}
+export type UsersPageType = {
+    usersData: Array<usersDataType>
+}
+export type sidebarPageType = {
+    sidebarData: sidebarDataType
+}
+
+
 export type stateType = {
     DialogsPage: DialogsPageType
     ProfilePage: ProfilePageType
     sidebarPage: sidebarPageType
+    UsersPage: UsersPageType
 }
 export type sidebarDataType = {}
 export type storeType = {
@@ -40,18 +60,18 @@ export type storeType = {
     getState: () => stateType
     dispatch: (action: actionsType) => void
 }
-/*export type actionAddPostType= ReturnType<typeof addPostAC>
-export type actionAddMessageType=ReturnType<typeof addMessageAC>
-export type actionChangeTextType=ReturnType<typeof changeTextAC>
-export type actionChangeMessageType=ReturnType<typeof changeMessageAC>*/
+
 export type actionsType =
     ReturnType<typeof addPostAC>
     | ReturnType<typeof addMessageAC>
     | ReturnType<typeof changeTextAC>
     | ReturnType<typeof changeMessageAC>
+    | ReturnType<typeof followUserAC>
+    | ReturnType<typeof unFollowUserAC>
+    | ReturnType<typeof setUsersAC>
 
 
-export let store: storeType = {
+/*export let store: storeType = {
     _state: {
         DialogsPage: {
             dialogsData: [{id: v1(), user: 'Nastya'},
@@ -69,6 +89,22 @@ export let store: storeType = {
         },
         sidebarPage: {
             sidebarData: []
+        },
+        UsersPage: {
+            usersData: [
+                {
+                    id: 1, name: 'Nastya', followed: true, status: 'student',
+                    location: {city: 'Minsk', country: 'Belarus'},
+                },
+                {
+                    id: 2, name: 'Dima', followed: true, status: 'kitty',
+                    location: {city: 'Minsk', country: 'Belarus'},
+                },
+                {
+                    id: 3, name: 'Olya', followed: false, status: 'sister',
+                    location: {city: 'Mogilev', country: 'Belarus'},
+                },
+            ],
         }
     },
     //меняют state
@@ -77,6 +113,7 @@ export let store: storeType = {
         this._state.ProfilePage = profileReducer(this._state.ProfilePage, action);
         this._state.DialogsPage = dialogReducer(this._state.DialogsPage, action)
         this._state.sidebarPage = sidebarReducer(this._state.sidebarPage, action)
+       /!* this._state.UsersPage = userReducer(this._state.UsersPage, action)*!/
         this._callSubscriber()
     },
 
@@ -92,5 +129,5 @@ export let store: storeType = {
     _callSubscriber() {                     //rerender
         console.log('state changed')
     }
-}
+}*/
 
