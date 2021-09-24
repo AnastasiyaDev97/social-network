@@ -16,8 +16,8 @@ type DialogsPropsType = {
 
 
 export const Dialogs = (props: DialogsPropsType) => {
-    let dialogsElements = props.dialogs.map(m => <DialogItem number={m.id} user={m.user}/>)
-    let messagesElements = props.messages.map(m => <MessageItem textMessage={m.textMessage}/>)
+    let dialogsElements = props.dialogs.map(m => <DialogItem key={m.id} number={m.id} user={m.user}/>)
+    let messagesElements = props.messages.map(m => <MessageItem key={m.id} textMessage={m.textMessage}/>)
 
 
 

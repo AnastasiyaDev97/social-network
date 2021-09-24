@@ -2,7 +2,7 @@ import {actionsType, DialogsPageType, messageDataType, postsDataType} from "../s
 import {v1} from "uuid";
 
 
-let initialState={
+let initialState = {
     dialogsData: [{id: v1(), user: 'Nastya'},
         {id: v1(), user: 'Dima'},
         {id: v1(), user: 'Victor'}],
@@ -11,16 +11,21 @@ let initialState={
     newMessageText: ''
 }
 
-const dialogReducer = (state: DialogsPageType=initialState, action: actionsType) => {
+const dialogReducer = (state: DialogsPageType = initialState, action: actionsType) => {
+
     switch (action.type) {
         case 'ADD-MESSAGE':
             let newMessage: messageDataType = {id: v1(), textMessage: action.messageText}
-            state.messageData.push(newMessage)
-            state.newMessageText=''
-            return state
+            return {
+                ...state,
+                messageData: [...state.messageData, newMessage],
+                newMessageText: ''
+            }
         case "CHANGE-NEW-MESSAGE":
-            state.newMessageText = action.newMessage
-            return state
+            return {
+                ...state,
+                newMessageText: action.newMessage
+            }
         default:
             return state
     }
