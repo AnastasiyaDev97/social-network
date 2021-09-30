@@ -8,6 +8,7 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
         return (
         <div>
             <div><img src=''/></div>
+
         </div>
     )
 }

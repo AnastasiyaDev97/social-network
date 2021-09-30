@@ -1,7 +1,11 @@
 import {actionsType, usersDataType, UsersPageType} from "../store";
 
 let initialState = {
-    usersData: []
+
+    items: [],
+    pageSize: 5,
+    totalUserCount: 10,
+    currentPage: 1
 };
 
 export const userReducer = (state: UsersPageType = initialState, action: actionsType) => {
@@ -9,17 +13,29 @@ export const userReducer = (state: UsersPageType = initialState, action: actions
     switch (action.type) {
         case "FOLLOW-USER":
 
-            return {...state,
-                usersData:state.usersData.map(m => m.id === action.id ? {...m, followed: true} : m)}       //...state у димы
+            return {
+                ...state,
+                items: state.items.map(m => m.id === action.id ? {...m, followed: true} : m)
+            }       //...state у димы
         case "UNFOLLOW-USER":
 
-            return {...state,
-                usersData:state.usersData.map(m => m.id === action.id ? {...m, followed: false} : m)}     //и тут
+            return {
+                ...state,
+                items: state.items.map(m => m.id === action.id ? {...m, followed: false} : m)
+            }     //и тут
         case "SET-USERS":
             return {
                 ...state,
-                usersData: [...state.usersData,...action.users]
+                items: action.items
             }         //????
+        case "CHANGE-PAGE":
+            return {
+                ...state, currentPage: action.currentPage
+            }
+        case "SET-TOTAL-USER-COUNT":
+            return {
+                ...state, totalUserCount:action.totalUsersCount
+            }
         default:
             return state
     }
@@ -35,11 +51,22 @@ export const unFollowUserAC = (id: number) => ({
     id
 }) as const
 
-export const setUsersAC = (users:Array<usersDataType>) => (
+export const setUsersAC = (items: Array<usersDataType>) => (
     {
         type: 'SET-USERS',
-        users
+        items
     }
 ) as const
-
+export const changePageAC = (currentPage: number) => (
+    {
+        type: 'CHANGE-PAGE',
+        currentPage
+    }
+) as const
+export const setTotalUsersCountAC = (totalUsersCount: number) => (
+    {
+        type: 'SET-TOTAL-USER-COUNT',
+        totalUsersCount
+    }
+) as const
 export default userReducer

@@ -2,7 +2,13 @@ import profileReducer, {addPostAC, changeTextAC} from "./reducer/profile-reducer
 import dialogReducer, {addMessageAC, changeMessageAC} from "./reducer/dialog-reducer";
 import sidebarReducer from "./reducer/sidebar-reducer";
 import {v1} from "uuid";
-import userReducer, {followUserAC, setUsersAC, unFollowUserAC} from "./reducer/user-reducer";
+import userReducer, {
+    changePageAC,
+    followUserAC,
+    setTotalUsersCountAC,
+    setUsersAC,
+    unFollowUserAC
+} from "./reducer/user-reducer";
 
 export type dialogsDataType = {
     id: string
@@ -19,7 +25,10 @@ export type postsDataType = {
 }
 export type usersDataType = {
     id: number
-    photoUrl:string
+    photos: {
+        large: string
+        small: string
+    }
     name: string
     followed: boolean
     status: string
@@ -39,7 +48,10 @@ export type ProfilePageType = {
     newPostText: string
 }
 export type UsersPageType = {
-    usersData: Array<usersDataType>
+    items: Array<usersDataType>
+    pageSize: number
+    totalUserCount: number
+    currentPage: number
 }
 export type sidebarPageType = {
     sidebarData: sidebarDataType
@@ -69,6 +81,8 @@ export type actionsType =
     | ReturnType<typeof followUserAC>
     | ReturnType<typeof unFollowUserAC>
     | ReturnType<typeof setUsersAC>
+    | ReturnType<typeof changePageAC>
+    | ReturnType<typeof setTotalUsersCountAC>
 
 
 /*export let store: storeType = {

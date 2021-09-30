@@ -1,4 +1,4 @@
-import {actionsType, messageDataType, postsDataType, sidebarPageType} from "../store";
+import {actionsType, sidebarPageType} from "../store";
 
 let initialState={
     sidebarData: []
