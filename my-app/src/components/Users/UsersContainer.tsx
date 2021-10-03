@@ -8,41 +8,51 @@ import {
     setUsersAC,
     unFollowUserAC
 } from "../../redux/reducer/user-reducer";
-import {Users} from "./Users";
+import { UsersAPIContainer} from "./UsersAPIContainer";
 
-type mapDispatchToPropsType={
+type mapDispatchToPropsType = {
     followUser: (id: number) => void
     unFollowUser: (id: number) => void
     setUsers: (users: Array<usersDataType>) => void
     setTotalUsersCount: (totalUsersCount: number) => void
-    changePage:(currentPage:number)=>void
+    changePage: (currentPage: number) => void
 }
-type mapStateToPropsType={
+type mapStateToPropsType = {
     items: Array<usersDataType>
-    pageSize:number
-    totalUserCount:number
-    currentPage:number
+    pageSize: number
+    totalUserCount: number
+    currentPage: number
 
 }
-export type PropsType=mapStateToPropsType&mapDispatchToPropsType
+export type PropsType = mapStateToPropsType & mapDispatchToPropsType
 
-let mapStateToProps=(state:stateType)=>{
+let mapStateToProps = (state: stateType) => {
 
-    return{
-        items:state.UsersPage.items,
-        pageSize:state.UsersPage.pageSize,
-        totalUserCount:state.UsersPage.totalUserCount,
-        currentPage:state.UsersPage.currentPage
+    return {
+        items: state.UsersPage.items,
+        pageSize: state.UsersPage.pageSize,
+        totalUserCount: state.UsersPage.totalUserCount,
+        currentPage: state.UsersPage.currentPage
     }
 }
-let mapDispatchToProps=(dispatch:(action: actionsType) => void)=>{
+let mapDispatchToProps = (dispatch: (action: actionsType) => void) => {
 
-return{
-    followUser:(id:number)=>{dispatch(followUserAC(id))},
-    unFollowUser:(id:number)=>{dispatch(unFollowUserAC(id))},
-    setUsers:(users:Array<usersDataType>)=>{dispatch(setUsersAC(users))},
-    setTotalUsersCount:(totalUsersCount:number)=>{dispatch(setTotalUsersCountAC(totalUsersCount))},
-    changePage:(currentPage:number)=>{dispatch(changePageAC(currentPage))}
+    return {
+        followUser: (id: number) => {
+            dispatch(followUserAC(id))
+        },
+        unFollowUser: (id: number) => {
+            dispatch(unFollowUserAC(id))
+        },
+        setUsers: (users: Array<usersDataType>) => {
+            dispatch(setUsersAC(users))
+        },
+        setTotalUsersCount: (totalUsersCount: number) => {
+            dispatch(setTotalUsersCountAC(totalUsersCount))
+        },
+        changePage: (currentPage: number) => {
+            dispatch(changePageAC(currentPage))
+        }
+    }
 }
-}
-export let UsersContainer=connect(mapStateToProps,mapDispatchToProps)(Users)
+export let UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersAPIContainer)
