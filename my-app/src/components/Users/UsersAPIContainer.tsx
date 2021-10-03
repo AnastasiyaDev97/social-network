@@ -2,8 +2,10 @@ import React from "react"
 import axios from "axios";
 import {PropsType} from "./UsersContainer";
 import {Users} from "./Users";
+import Preloader from "../../common/preloader/Preloader";
 
-import {Preloader} from "../../common/preloader/Preloader";
+
+
 
 
 export class UsersAPIContainer extends React.Component<PropsType> /*(props: UsersPropsType) =>*/ {

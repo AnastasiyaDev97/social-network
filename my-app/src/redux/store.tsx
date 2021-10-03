@@ -1,14 +1,14 @@
 import profileReducer, {addPostAC, changeTextAC} from "./reducer/profile-reducer";
 import dialogReducer, {addMessageAC, changeMessageAC} from "./reducer/dialog-reducer";
-import sidebarReducer from "./reducer/sidebar-reducer";
-import {v1} from "uuid";
-import userReducer, {
-    changePageAC,
-    followUserAC,
-    setTotalUsersCountAC,
-    setUsersAC, toggleIsFetchingAC,
-    unFollowUserAC
+import {
+    changePage,
+    followUser,
+    setTotalUsersCount,
+    setUsers,
+    toggleIsFetching,
+    unFollowUser
 } from "./reducer/user-reducer";
+
 
 export type dialogsDataType = {
     id: string
@@ -79,12 +79,12 @@ export type actionsType =
     | ReturnType<typeof addMessageAC>
     | ReturnType<typeof changeTextAC>
     | ReturnType<typeof changeMessageAC>
-    | ReturnType<typeof followUserAC>
-    | ReturnType<typeof unFollowUserAC>
-    | ReturnType<typeof setUsersAC>
-    | ReturnType<typeof changePageAC>
-    | ReturnType<typeof setTotalUsersCountAC>
-    | ReturnType<typeof toggleIsFetchingAC>
+    | ReturnType<typeof followUser>
+    | ReturnType<typeof unFollowUser>
+    | ReturnType<typeof setUsers>
+    | ReturnType<typeof changePage>
+    | ReturnType<typeof setTotalUsersCount>
+    | ReturnType<typeof toggleIsFetching>
 
 
 /*export let store: storeType = {
