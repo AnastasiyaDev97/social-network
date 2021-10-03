@@ -6,7 +6,7 @@ import userReducer, {
     changePageAC,
     followUserAC,
     setTotalUsersCountAC,
-    setUsersAC,
+    setUsersAC, toggleIsFetchingAC,
     unFollowUserAC
 } from "./reducer/user-reducer";
 
@@ -52,6 +52,7 @@ export type UsersPageType = {
     pageSize: number
     totalUserCount: number
     currentPage: number
+    isFetching: boolean
 }
 export type sidebarPageType = {
     sidebarData: sidebarDataType
@@ -83,6 +84,7 @@ export type actionsType =
     | ReturnType<typeof setUsersAC>
     | ReturnType<typeof changePageAC>
     | ReturnType<typeof setTotalUsersCountAC>
+    | ReturnType<typeof toggleIsFetchingAC>
 
 
 /*export let store: storeType = {
