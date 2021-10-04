@@ -10,12 +10,12 @@ export const NavBar = (props:NavBarPropsType)=>{
     return (
 
             <nav className={s.navBar}>
-                <div className={s.item}><NavLink activeClassName={s.activemmm} to='/profile'>Profile</NavLink></div>
-                <div className={s.item}><NavLink activeClassName={s.activemmm} to='/dialogs'>Dialogs</NavLink></div>
-                <div className={s.item}><NavLink activeClassName={s.activemmm} to='/users'>Users</NavLink></div>
-                <div className={s.item}><NavLink activeClassName={s.activemmm} to='/news'>News</NavLink></div>
-                <div className={s.item}><NavLink activeClassName={s.activemmm} to='/music'>Music</NavLink></div>
-                <div className={s.item}><NavLink activeClassName={s.activemmm} to='/settings'>Settings</NavLink></div>
+                <div className={s.item}><NavLink activeClassName={s.active} to='/profile'>Profile</NavLink></div>
+                <div className={s.item}><NavLink activeClassName={s.active} to='/dialogs'>Dialogs</NavLink></div>
+                <div className={s.item}><NavLink activeClassName={s.active} to='/users'>Users</NavLink></div>
+                <div className={s.item}><NavLink activeClassName={s.active} to='/news'>News</NavLink></div>
+                <div className={s.item}><NavLink activeClassName={s.active} to='/music'>Music</NavLink></div>
+                <div className={s.item}><NavLink activeClassName={s.active} to='/settings'>Settings</NavLink></div>
             </nav>
 
     )

@@ -3,7 +3,7 @@ import {actionsType, usersDataType, UsersPageType} from "../store";
 let initialState = {
 
     items: [],
-    pageSize: 5,
+    pageSize: 10,
     totalUserCount: 10,
     currentPage: 1,
     isFetching:true

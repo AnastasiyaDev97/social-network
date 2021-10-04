@@ -1,11 +1,12 @@
 import {v1} from "uuid";
-import {actionsType, postsDataType, ProfilePageType} from "../store";
+import {actionsType, postsDataType, profileDataUserType, ProfilePageType} from "../store";
 
 let initialState = {
     postsData: [
         {id: v1(), message: 'it is my first post', likes: 30},
         {id: v1(), message: 'it-kamasutra', likes: 10}],
-    newPostText: ''
+    newPostText: '',
+    profile: null
 }
 
 export const profileReducer = (state: ProfilePageType = initialState, action: actionsType) => {
@@ -22,6 +23,10 @@ export const profileReducer = (state: ProfilePageType = initialState, action: ac
                 ...state,
                 newPostText: action.newText
             }
+        case "SET-USER-PROFILE":
+            return {
+                ...state, profile:action.profile
+            }
         default:
             return state
     }
@@ -35,5 +40,11 @@ export const changeTextAC = (newText: string) => ({
     type: 'CHANGE-NEW-TEXT',
     newText: newText
 }) as const
+
+export const setUserProfile=(profile:profileDataUserType)=>({
+    type:'SET-USER-PROFILE',
+    profile,
+}) as const
+
 
 export default profileReducer

@@ -1,4 +1,4 @@
-import profileReducer, {addPostAC, changeTextAC} from "./reducer/profile-reducer";
+import profileReducer, {addPostAC, changeTextAC, setUserProfile} from "./reducer/profile-reducer";
 import dialogReducer, {addMessageAC, changeMessageAC} from "./reducer/dialog-reducer";
 import {
     changePage,
@@ -46,6 +46,30 @@ export type DialogsPageType = {
 export type ProfilePageType = {
     postsData: Array<postsDataType>
     newPostText: string
+    profile: profileDataUserType
+}
+export type profileDataUserType = null | {
+    aboutMe: string
+    contacts: ContactsType
+    lookingForAJob: boolean
+    lookingForAJobDescription: string
+    fullName: string
+    userId: number
+    photos: PhotosType
+}
+export type ContactsType={
+    facebook: string
+    website: string
+    vk: string
+    twitter: string
+    instagram: string
+    youtube: string
+    github: string
+    mainLink: string
+}
+type PhotosType={
+    small: string
+    large: string
 }
 export type UsersPageType = {
     items: Array<usersDataType>
@@ -85,6 +109,7 @@ export type actionsType =
     | ReturnType<typeof changePage>
     | ReturnType<typeof setTotalUsersCount>
     | ReturnType<typeof toggleIsFetching>
+    | ReturnType<typeof setUserProfile>
 
 
 /*export let store: storeType = {
