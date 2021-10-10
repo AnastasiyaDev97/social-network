@@ -7,9 +7,9 @@ import {Settings} from './components/Settings/Settings';
 import {BrowserRouter, Route} from 'react-router-dom';
 import {stateType, storeType} from "./redux/store";
 import {DialogsContainer} from './components/Dialogs/DialogsContainer';
-import {UsersContainer} from "./components/Users/UsersContainer";
 import WithRoutProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
+import UsersContainer from "./components/Users/UsersContainer";
 
 type AppPropsType = {
     state: stateType
