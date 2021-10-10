@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import {Header} from './components/Header/Header';
 import {NavBar} from "./components/NavBar/NavBar";
 import {News} from "./components/News/News";
 import {Music} from './components/Music/Music';
@@ -10,6 +9,7 @@ import {stateType, storeType} from "./redux/store";
 import {DialogsContainer} from './components/Dialogs/DialogsContainer';
 import {UsersContainer} from "./components/Users/UsersContainer";
 import WithRoutProfileContainer from "./components/Profile/ProfileContainer";
+import HeaderContainer from "./components/Header/HeaderContainer";
 
 type AppPropsType = {
     state: stateType
@@ -20,7 +20,7 @@ function App() {
     return (
         <BrowserRouter>
             <div className='appWrapper'>
-                <Header/>
+                <HeaderContainer/>
                 <NavBar/>
                 <div className='appWrapperContent'>
                     <Route path='/profile/:userId?'

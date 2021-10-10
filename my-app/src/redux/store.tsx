@@ -8,6 +8,7 @@ import {
     toggleIsFetching,
     unFollowUser
 } from "./reducer/user-reducer";
+import {setAuthUserData} from "./reducer/auth-reducer";
 
 
 export type dialogsDataType = {
@@ -57,7 +58,7 @@ export type profileDataUserType = null | {
     userId: number
     photos: PhotosType
 }
-export type ContactsType={
+export type ContactsType = {
     facebook: string
     website: string
     vk: string
@@ -67,7 +68,7 @@ export type ContactsType={
     github: string
     mainLink: string
 }
-type PhotosType={
+type PhotosType = {
     small: string
     large: string
 }
@@ -82,12 +83,22 @@ export type sidebarPageType = {
     sidebarData: sidebarDataType
 }
 
+export type authType = {
+    data: authDataType
+    isAuth: boolean
+}
 
+export type authDataType = {
+    email: string
+    id: number | null
+    login: string
+}
 export type stateType = {
     DialogsPage: DialogsPageType
     ProfilePage: ProfilePageType
     sidebarPage: sidebarPageType
     UsersPage: UsersPageType
+    auth:authType
 }
 export type sidebarDataType = {}
 export type storeType = {
@@ -110,6 +121,7 @@ export type actionsType =
     | ReturnType<typeof setTotalUsersCount>
     | ReturnType<typeof toggleIsFetching>
     | ReturnType<typeof setUserProfile>
+    | ReturnType<typeof setAuthUserData>
 
 
 /*export let store: storeType = {
