@@ -11,10 +11,7 @@ import WithRoutProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import UsersContainer from "./components/Users/UsersContainer";
 
-type AppPropsType = {
-    state: stateType
-    store: any
-}
+
 
 function App() {
     return (
