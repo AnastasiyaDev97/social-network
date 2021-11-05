@@ -1,4 +1,4 @@
-import {actionsType, authDataType, authType} from "../store";
+import {actionsType} from "../redux-store";
 
 let initialState = {
     data: {
@@ -8,6 +8,17 @@ let initialState = {
     },
     isAuth: false,
 };
+
+export type authType = {
+    data: authDataType
+    isAuth: boolean
+}
+
+export type authDataType = {
+    email: string
+    id: number | null
+    login: string
+}
 
 export const authReducer = (state: authType = initialState, action: actionsType) => {
 

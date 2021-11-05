@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {actionsType, postsDataType, profileDataUserType, ProfilePageType} from "../store";
+import {actionsType} from "../redux-store";
 
 let initialState = {
     postsData: [
@@ -7,6 +7,41 @@ let initialState = {
         {id: v1(), message: 'it-kamasutra', likes: 10}],
     newPostText: '',
     profile: null
+}
+export type postsDataType = {
+    id: string
+    message: string
+    likes: number
+}
+
+
+export type ProfilePageType = {
+    postsData: Array<postsDataType>
+    newPostText: string
+    profile: profileDataUserType
+}
+export type profileDataUserType = null | {
+    aboutMe: string
+    contacts: ContactsType
+    lookingForAJob: boolean
+    lookingForAJobDescription: string
+    fullName: string
+    userId: number
+    photos: PhotosType
+}
+export type ContactsType = {
+    facebook: string
+    website: string
+    vk: string
+    twitter: string
+    instagram: string
+    youtube: string
+    github: string
+    mainLink: string
+}
+type PhotosType = {
+    small: string
+    large: string
 }
 
 export const profileReducer = (state: ProfilePageType = initialState, action: actionsType) => {
@@ -31,12 +66,12 @@ export const profileReducer = (state: ProfilePageType = initialState, action: ac
             return state
     }
 }
-export const addPostAC = (postText: string) => ({
+export const addPost = (postText: string) => ({
     type: 'ADD-POST',
     postText: postText
 }) as const
 
-export const changeTextAC = (newText: string) => ({
+export const changePost = (newText: string) => ({
     type: 'CHANGE-NEW-TEXT',
     newText: newText
 }) as const

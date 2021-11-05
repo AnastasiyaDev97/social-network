@@ -1,7 +1,7 @@
-import React, {LegacyRef} from 'react';
+import React from 'react';
 import s from './ProfileInfo.module.css'
-import {profileDataUserType} from "../../../redux/store";
 import Preloader from "../../../common/preloader/Preloader";
+import {profileDataUserType} from "../../../redux/reducer/profile-reducer";
 type ProfileInfoPropsType = {
     profile:profileDataUserType|null
 
@@ -14,7 +14,7 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
         return (
         <div className={s.container}>
             {props.profile.fullName}
-            <div><img src={props.profile.photos.large}/></div>
+            <div><img src={props.profile.photos.large} alt={'profile avatar'}/></div>
             <div className={s.userForm}><span>About me:{props.profile.aboutMe}</span>
                 <span>My contacts: {props.profile.contacts.vk}</span>
             </div>
