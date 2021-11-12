@@ -8,7 +8,8 @@ import { stateType} from "../../redux/redux-store";
 let mapStateToProps = (state: stateType) => {
     return {
         posts: state.ProfilePage.postsData,
-        newPostText: state.ProfilePage.newPostText
+        newPostText: state.ProfilePage.newPostText,
+        isAuth:state.auth.isAuth,
     }
 }
 

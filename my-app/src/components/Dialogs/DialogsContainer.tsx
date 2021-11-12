@@ -5,10 +5,12 @@ import {stateType} from "../../redux/redux-store";
 
 
 let mapStateToProps=(state:stateType)=>{
+
     return{
         dialogs:state.DialogsPage.dialogsData,
         messages:state.DialogsPage.messageData,
-        newMessageText:state.DialogsPage.newMessageText
+        newMessageText:state.DialogsPage.newMessageText,
+        isAuth: state.auth.isAuth,
     }
 }
 export let DialogsContainer=connect(mapStateToProps, {addMessage,changeMessage})(Dialogs)

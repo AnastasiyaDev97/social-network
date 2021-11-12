@@ -2,6 +2,7 @@ import React, {ChangeEvent} from 'react';
 import s from './MyPosts.module.css'
 import {Post} from "./Post/Post";
 import {postsDataType} from "../../redux/reducer/profile-reducer";
+import {Redirect} from "react-router-dom";
 
 
 type MyPostsPropsType = {
@@ -9,6 +10,7 @@ type MyPostsPropsType = {
     newPostText: string
     addPost: (newPostText: string) => void
     changePost: (text: string) => void
+    isAuth:boolean
 }
 
 
@@ -20,6 +22,9 @@ export const MyPosts = (props: MyPostsPropsType) => {
     let onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         console.log(e.currentTarget.value)
         props.changePost(e.currentTarget.value)
+    }
+    if(!props.isAuth){
+        return <Redirect to={'/login'}/>
     }
     return (
         <div className={s.myPosts}>
