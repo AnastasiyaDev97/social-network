@@ -1,5 +1,7 @@
 import {v1} from "uuid";
 import {actionsType} from "../redux-store";
+import {Dispatch} from "redux";
+import {getUserProfileAPI} from "../../api/api";
 
 let initialState = {
     postsData: [
@@ -60,7 +62,7 @@ export const profileReducer = (state: ProfilePageType = initialState, action: ac
             }
         case "SET-USER-PROFILE":
             return {
-                ...state, profile:action.profile
+                ...state, profile: action.profile
             }
         default:
             return state
@@ -76,10 +78,18 @@ export const changePost = (newText: string) => ({
     newText: newText
 }) as const
 
-export const setUserProfile=(profile:profileDataUserType)=>({
-    type:'SET-USER-PROFILE',
+export const setUserProfile = (profile: profileDataUserType) => ({
+    type: 'SET-USER-PROFILE',
     profile,
 }) as const
 
+export const getUserProfile = (userId: string) => {
+    return (dispatch: Dispatch<actionsType>) => {
+        getUserProfileAPI(userId)
+            .then(data => {
+                dispatch(setUserProfile(data))
+            })
+    }
+}
 
 export default profileReducer

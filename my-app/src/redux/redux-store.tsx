@@ -1,4 +1,4 @@
-import {combineReducers, createStore} from "redux";
+import {applyMiddleware, combineReducers, createStore} from "redux";
 import dialogReducer, {addMessage, changeMessage} from "./reducer/dialog-reducer";
 import profileReducer, {addPost, changePost, setUserProfile} from "./reducer/profile-reducer";
 import sidebarReducer from "./reducer/sidebar-reducer";
@@ -10,7 +10,8 @@ import userReducer, {
     toggleIsFetching,
     unFollowUser
 } from "./reducer/user-reducer";
-import authReducer, {setAuthUserData} from "./reducer/auth-reducer";
+import authReducer, {setAuthUserData, setMyProfileData} from "./reducer/auth-reducer";
+import ThunkMiddleware from 'redux-thunk'
 
 let reducers=combineReducers({
     DialogsPage:dialogReducer,
@@ -22,7 +23,7 @@ let reducers=combineReducers({
 
 export type stateType=ReturnType<typeof reducers>
 
-export let store = createStore(reducers)
+export let store = createStore(reducers,applyMiddleware(ThunkMiddleware) )
 
 export type actionsType =
     ReturnType<typeof addPost>
@@ -38,6 +39,8 @@ export type actionsType =
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setAuthUserData>
     | ReturnType<typeof toggleFollowProgress>
+    | ReturnType<typeof setMyProfileData>
+
 
 
 /*

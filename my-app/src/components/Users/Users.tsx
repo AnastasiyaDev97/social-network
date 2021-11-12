@@ -1,19 +1,17 @@
 import s from "./User.module.css";
 import React from "react";
 import {NavLink} from "react-router-dom";
-import {followUserAPI, unfollowUserAPI} from "../../api/api";
-import {usersDataType} from "../../redux/reducer/user-reducer";
+import {ItemsUsersResponseType} from "../../api/api";
 
 type UsersPropsType = {
     totalUserCount: number
     pageSize: number
     changePage: (currentPage: number) => void
     currentPage: number
-    items: Array<usersDataType>
-    unFollowUser: (id: number) => void
-    followUser: (id: number) => void
-    toggleFollowProgress: (isFollowInProgress: boolean, userId: number) => void
+    items: Array<ItemsUsersResponseType>
     followingInProgress: number[]
+    followThunk: any
+    unfollowThunk: any
 }
 
 export const Users = (props: UsersPropsType) => {
@@ -40,27 +38,12 @@ export const Users = (props: UsersPropsType) => {
 
                     <div>{m.followed ?
                         <button disabled={props.followingInProgress.some(id => id === m.id)} onClick={() => {
-                            props.toggleFollowProgress(true, m.id)
-                            unfollowUserAPI(m.id)
-                                .then(data => {
-                                    if (data.resultCode === 0) {
-                                        props.toggleFollowProgress(false, m.id)
-                                        props.unFollowUser(m.id)
-                                    }
-
-                                })
+                            props.unfollowThunk(m.id)
                         }
                         }>Unfollow</button>
 
                         : <button disabled={props.followingInProgress.some(id => id === m.id)} onClick={() => {
-                            props.toggleFollowProgress(true, m.id)
-                            followUserAPI(m.id)
-                                .then(data => {
-                                    if (data.resultCode === 0) {
-                                        props.toggleFollowProgress(false, m.id)
-                                        props.followUser(m.id)
-                                    }
-                                })
+                            props.followThunk(m.id)
                         }
                         }>Follow</button>}</div>
 
