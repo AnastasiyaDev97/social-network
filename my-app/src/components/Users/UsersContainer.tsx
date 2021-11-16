@@ -12,7 +12,7 @@ import {
 import {stateType} from "../../redux/redux-store";
 import {ItemsUsersResponseType} from "../../api/api";
 import {withRedirect} from "../../hoc/withRedirect";
-
+import {compose} from "redux";
 
 
 class UsersContainer extends React.Component<PropsType> {
@@ -38,10 +38,10 @@ class UsersContainer extends React.Component<PropsType> {
 }
 
 type mapDispatchToPropsType = {
-    getUsersThunk: (currentPage:number,pageSize:number)=>any
-    changePageThunk: (currentPage:number,pageSize:number)=>any
-    followThunk:(id:number)=> any
-    unfollowThunk:(id:number)=> any
+    getUsersThunk: (currentPage: number, pageSize: number) => any
+    changePageThunk: (currentPage: number, pageSize: number) => any
+    followThunk: (id: number) => any
+    unfollowThunk: (id: number) => any
 
 }
 type mapStateToPropsType = {
@@ -62,10 +62,11 @@ let mapStateToProps = (state: stateType) => ({
     isFetching: state.UsersPage.isFetching,
     followingInProgress: state.UsersPage.followingInProgress,
 })
-export default withRedirect( connect(mapStateToProps, {
-    changePageThunk,
-    getUsersThunk,
-    followThunk,
-    unfollowThunk,
-
-})(UsersContainer))
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, {
+        changePageThunk,
+        getUsersThunk,
+        followThunk,
+        unfollowThunk,
+    }),
+    withRedirect)(UsersContainer)

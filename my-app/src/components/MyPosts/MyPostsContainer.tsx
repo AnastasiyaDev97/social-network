@@ -3,6 +3,7 @@ import {MyPosts} from "./MyPosts";
 import {connect} from "react-redux";
 import {stateType} from "../../redux/redux-store";
 import {withRedirect} from "../../hoc/withRedirect";
+import {compose} from "redux";
 
 let mapStateToProps = (state: stateType) => {
     return {
@@ -11,4 +12,6 @@ let mapStateToProps = (state: stateType) => {
     }
 }
 
-export default  withRedirect( connect(mapStateToProps, {addPost, changePost})(MyPosts))
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, {addPost, changePost}),
+    withRedirect)(MyPosts)
