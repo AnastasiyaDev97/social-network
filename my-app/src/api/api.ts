@@ -24,13 +24,11 @@ export const getAuthUserData = () => {
 
 export const followUserAPI = (id: number) => {
     return instance.post<ResponseType>(`follow/${id}`).then(response => {
-        console.log(response, 'followUserAPI')
         return response.data
     })
 }
 export const unfollowUserAPI = (id: number) => {
     return instance.delete<ResponseType>(`follow/${id}`).then(response => {
-        console.log(response)
         return response.data
     })
 }
