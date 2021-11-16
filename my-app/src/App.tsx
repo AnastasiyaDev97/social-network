@@ -5,15 +5,16 @@ import {News} from "./components/News/News";
 import {Music} from './components/Music/Music';
 import {Settings} from './components/Settings/Settings';
 import {BrowserRouter, Route} from 'react-router-dom';
-import {DialogsContainer} from './components/Dialogs/DialogsContainer';
 import WithRoutProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import UsersContainer from "./components/Users/UsersContainer";
 import {Login} from "./components/Login/Login";
+import DialogsContainer from "./components/Dialogs/DialogsContainer";
 
 
 
 function App() {
+    debugger
     return (
         <BrowserRouter>
             <div className='appWrapper'>

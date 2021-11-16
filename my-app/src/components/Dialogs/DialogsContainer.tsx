@@ -1,17 +1,20 @@
-import {addMessage, changeMessage} from "../../redux/reducer/dialog-reducer";
+import {addMessage, changeMessage, dialogsDataType, messageDataType} from "../../redux/reducer/dialog-reducer";
 import {Dialogs} from "./Dialogs";
 import {connect} from "react-redux";
 import {stateType} from "../../redux/redux-store";
+import {withRedirect} from "../../hoc/withRedirect";
 
-
-let mapStateToProps=(state:stateType)=>{
-
-    return{
+type mapStateToPropsType={
+    dialogs:Array<dialogsDataType>
+    messages:Array<messageDataType>
+    newMessageText:string
+}
+let mapStateToProps=(state:stateType):mapStateToPropsType=>({
         dialogs:state.DialogsPage.dialogsData,
         messages:state.DialogsPage.messageData,
         newMessageText:state.DialogsPage.newMessageText,
-        isAuth: state.auth.isAuth,
-    }
-}
-export let DialogsContainer=connect(mapStateToProps, {addMessage,changeMessage})(Dialogs)
+
+    })
+
+export default withRedirect( connect(mapStateToProps, {addMessage,changeMessage})(Dialogs))
 

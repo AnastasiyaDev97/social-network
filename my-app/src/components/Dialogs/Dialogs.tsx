@@ -3,7 +3,6 @@ import React, {ChangeEvent} from "react"
 import {DialogItem} from "./Dialog/DialogItem";
 import {MessageItem} from "./Message/Message";
 import {dialogsDataType, messageDataType} from "../../redux/reducer/dialog-reducer";
-import {Redirect} from "react-router-dom";
 
 
 
@@ -14,10 +13,12 @@ type DialogsPropsType = {
     addMessage:(newMessage:string)=>void
     changeMessage:(text:string)=>void
     isAuth:boolean
+
 }
 
 
 export const Dialogs = (props: DialogsPropsType) => {
+
     let dialogsElements = props.dialogs.map(m => <DialogItem key={m.id} number={m.id} user={m.user}/>)
     let messagesElements = props.messages.map(m => <MessageItem key={m.id} textMessage={m.textMessage}/>)
 
@@ -30,9 +31,7 @@ export const Dialogs = (props: DialogsPropsType) => {
     const onChangeHandler=(e:ChangeEvent<HTMLTextAreaElement>)=> {
         props.changeMessage(e.currentTarget.value)}
 
-    if(!props.isAuth){
-        return <Redirect to={'/login'}/>
-    }
+
         return (
             <div>
                 <div className={s.dialogs}>

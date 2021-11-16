@@ -11,13 +11,15 @@ import {
 
 import {stateType} from "../../redux/redux-store";
 import {ItemsUsersResponseType} from "../../api/api";
-import {Redirect} from "react-router-dom";
+import {withRedirect} from "../../hoc/withRedirect";
+
 
 
 class UsersContainer extends React.Component<PropsType> {
 
     componentDidMount() {
         this.props.getUsersThunk(this.props.currentPage, this.props.pageSize)
+
     }
 
     ChangePageHandler = (currentPage: number) => {
@@ -25,9 +27,6 @@ class UsersContainer extends React.Component<PropsType> {
     }
 
     render() {
-        if(!this.props.isAuth){
-            return <Redirect to={'/login'}/>
-        }
         return (
             <>
                 {this.props.isFetching ? <Preloader/> : null}
@@ -43,6 +42,7 @@ type mapDispatchToPropsType = {
     changePageThunk: (currentPage:number,pageSize:number)=>any
     followThunk:(id:number)=> any
     unfollowThunk:(id:number)=> any
+
 }
 type mapStateToPropsType = {
     items: Array<ItemsUsersResponseType>
@@ -51,7 +51,6 @@ type mapStateToPropsType = {
     currentPage: number
     isFetching: boolean
     followingInProgress: number[]
-    isAuth:boolean
 }
 export type PropsType = mapStateToPropsType & mapDispatchToPropsType
 
@@ -62,11 +61,11 @@ let mapStateToProps = (state: stateType) => ({
     currentPage: state.UsersPage.currentPage,
     isFetching: state.UsersPage.isFetching,
     followingInProgress: state.UsersPage.followingInProgress,
-    isAuth: state.auth.isAuth,
 })
-export default connect(mapStateToProps, {
+export default withRedirect( connect(mapStateToProps, {
     changePageThunk,
     getUsersThunk,
     followThunk,
-    unfollowThunk
-})(UsersContainer)
+    unfollowThunk,
+
+})(UsersContainer))

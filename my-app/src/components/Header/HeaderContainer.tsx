@@ -15,6 +15,7 @@ type mapDispatchToPropsType = {
 }
 
 let mapStateToProps = (state: stateType): mapStateToPropsType => ({
+
     login: state.auth.data.login,
     isAuth: state.auth.isAuth
 })

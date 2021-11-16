@@ -18,7 +18,6 @@ export const getUsers = (currentPage: number, pageSize: number) => {
 export const getAuthUserData = () => {
     return instance.get<ResponseType<authDataType>>(`auth/me`)
         .then(response => {
-            console.log(response, 'getauth')
             return response.data
         })
 }
