@@ -5,9 +5,13 @@ type ProfileStatusPropsType = {
     status: string
     updateUserStatus: (status: string) => any
 }
+type localStateType = {
+    editMode: boolean
+    status: string
+}
 
 export class ProfileStatus extends React.Component<ProfileStatusPropsType> {
-    state = {
+    state: localStateType = {
         editMode: false,
         status: this.props.status,
     }
@@ -19,13 +23,18 @@ export class ProfileStatus extends React.Component<ProfileStatusPropsType> {
         this.props.updateUserStatus(this.state.status)
     }
     onKeyPressActivateSpan = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.code==="Enter") {
+        if (e.code === "Enter") {
             this.activateSpanHandler()
         }
     }
-
     updateStatus = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({status: e.currentTarget.value})
+    }
+
+    componentDidUpdate(prevProps: Readonly<ProfileStatusPropsType>, prevState: Readonly<localStateType>) {
+        if (prevProps.status !== this.props.status) {
+            this.setState({status: this.props.status})
+        }
     }
 
     render() {
@@ -34,7 +43,7 @@ export class ProfileStatus extends React.Component<ProfileStatusPropsType> {
                 {this.state.editMode
                     ? <input value={this.state.status} autoFocus onBlur={this.activateSpanHandler}
                              onChange={this.updateStatus} onKeyPress={this.onKeyPressActivateSpan}/>
-                    : <span onDoubleClick={this.activateInputHandler}>{this.props.status}</span>}
+                    : <span onDoubleClick={this.activateInputHandler}>{this.props.status || '----'}</span>}
 
             </div>
         )
