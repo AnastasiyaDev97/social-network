@@ -1,5 +1,6 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import dialogReducer, {addMessage, changeMessage} from "./reducer/dialog-reducer";
+import { reducer as formReducer } from 'redux-form'
 import profileReducer, {addPost, changePost, setStatus, setUserProfile} from "./reducer/profile-reducer";
 import sidebarReducer from "./reducer/sidebar-reducer";
 import userReducer, {
@@ -19,6 +20,7 @@ let reducers=combineReducers({
     sidebarPage:sidebarReducer,
     UsersPage:userReducer,
     auth:authReducer,
+    form:formReducer,
 })
 
 export type stateType=ReturnType<typeof reducers>
@@ -52,3 +54,6 @@ export type storeType = {
     getState: () => stateType
     dispatch: (action: actionsType) => void
 }*/
+
+// @ts-ignore
+window.store=store
