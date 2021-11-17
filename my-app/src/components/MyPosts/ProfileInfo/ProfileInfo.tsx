@@ -6,6 +6,8 @@ import {ProfileStatus} from "./ProfileStatus/ProfileStatus";
 
 type ProfileInfoPropsType = {
     profile: profileDataUserType | null
+    updateUserStatus: (status: string) => any
+    status: string
 }
 
 export const ProfileInfo = (props: ProfileInfoPropsType) => {
@@ -23,7 +25,9 @@ export const ProfileInfo = (props: ProfileInfoPropsType) => {
                     <span>My contacts: {props.profile.contacts.vk}</span>
                 </div>
             </div>
-            <div className={s.statusBlock}><ProfileStatus status={'hello!!!!'}/></div>
+            <div className={s.statusBlock}>
+                <ProfileStatus status={props.status} updateUserStatus={props.updateUserStatus}/>
+            </div>
         </div>
     )
 }

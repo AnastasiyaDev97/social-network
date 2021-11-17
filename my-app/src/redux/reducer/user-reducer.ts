@@ -1,10 +1,9 @@
 import {actionsType} from "../redux-store";
-import {followUserAPI, getUsers, ItemsUsersResponseType, unfollowUserAPI} from "../../api/api";
+import {followUserAPI,  ItemsUsersResponseType, unfollowUserAPI, UsersAPI} from "../../api/api";
 import {Dispatch} from "redux";
 
 
 let initialState = {
-
     items: [],
     pageSize: 10,
     totalUserCount: 10,
@@ -20,20 +19,19 @@ export type UsersPageType = {
     isFetching: boolean
     followingInProgress: number[]
 }
-/*export type usersDataType = {
-    id: number
-    photos: {
-        large: string
-        small: string
-    }
+
+/*export type ItemsUsersResponseType = {
     name: string
-    followed: boolean
-    status: string
-    location: {
-        city: string
-        country: string
+    id: number
+    uniqueUrlName: null
+    photos: {
+        small: null | string
+        large: null | string
     }
+    status: null | string
+    followed: boolean
 }*/
+
 export const userReducer = (state: UsersPageType = initialState, action: actionsType) => {
     switch (action.type) {
         case "FOLLOW-USER":
@@ -118,7 +116,7 @@ export const toggleFollowProgress = (isFollowInProgress: boolean, userId: number
 export const getUsersThunk = (currentPage: number, pageSize: number) => {
     return (dispatch: Dispatch<actionsType>) => {
         dispatch(toggleIsFetching(true))
-        getUsers(currentPage, pageSize)
+        UsersAPI.getUsers(currentPage, pageSize)
             .then(data => {
                 dispatch(toggleIsFetching(false))
                 dispatch(setUsers(data.items))
@@ -131,7 +129,7 @@ export const changePageThunk = (currentPage: number, pageSize: number) => {
     return (dispatch: Dispatch<actionsType>) => {
         dispatch(toggleIsFetching(true))
         dispatch(changePage(currentPage))
-        getUsers(currentPage, pageSize)
+        UsersAPI.getUsers(currentPage, pageSize)
             .then(data => {
                 dispatch(toggleIsFetching(false))
                 dispatch(setUsers(data.items))

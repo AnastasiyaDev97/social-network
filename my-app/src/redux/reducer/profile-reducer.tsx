@@ -1,14 +1,15 @@
 import {v1} from "uuid";
 import {actionsType} from "../redux-store";
 import {Dispatch} from "redux";
-import {getUserProfileAPI} from "../../api/api";
+import { ProfileAPI} from "../../api/api";
 
 let initialState = {
     postsData: [
         {id: v1(), message: 'it is my first post', likes: 30},
         {id: v1(), message: 'it-kamasutra', likes: 10}],
     newPostText: '',
-    profile: null
+    profile: null,
+    status:'',
 }
 export type postsDataType = {
     id: string
@@ -21,6 +22,7 @@ export type ProfilePageType = {
     postsData: Array<postsDataType>
     newPostText: string
     profile: profileDataUserType
+    status:string
 }
 export type profileDataUserType = null | {
     aboutMe: string
@@ -64,6 +66,10 @@ export const profileReducer = (state: ProfilePageType = initialState, action: ac
             return {
                 ...state, profile: action.profile
             }
+        case "SET-STATUS":
+            return {
+                ...state, status: action.status
+            }
         default:
             return state
     }
@@ -82,12 +88,35 @@ export const setUserProfile = (profile: profileDataUserType) => ({
     type: 'SET-USER-PROFILE',
     profile,
 }) as const
+export const setStatus = (status: string) => ({
+    type: 'SET-STATUS',
+    status,
+}) as const
+
 
 export const getUserProfile = (userId: string) => {
     return (dispatch: Dispatch<actionsType>) => {
-        getUserProfileAPI(userId)
+        ProfileAPI.getUserProfileAPI(userId)
             .then(data => {
                 dispatch(setUserProfile(data))
+            })
+    }
+}
+export const getUserStatus = (userId: string) => {
+    return (dispatch: Dispatch<actionsType>) => {
+        ProfileAPI.getStatus(userId)
+            .then(data => {
+                let newData=data?data:'---'
+                dispatch(setStatus(newData))
+            })
+    }
+}
+export const updateUserStatus = (status: string) => {
+    return (dispatch: Dispatch<actionsType>) => {
+        ProfileAPI.updateStatus(status)
+            .then(data => {
+                if(data.resultCode===0){
+                dispatch(setStatus(status))}
             })
     }
 }

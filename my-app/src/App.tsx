@@ -13,7 +13,6 @@ import ProfileContainer from "./components/Profile/ProfileContainer";
 
 
 function App() {
-    debugger
     return (
         <BrowserRouter>
             <div className='appWrapper'>

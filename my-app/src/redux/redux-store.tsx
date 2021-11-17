@@ -1,6 +1,6 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import dialogReducer, {addMessage, changeMessage} from "./reducer/dialog-reducer";
-import profileReducer, {addPost, changePost, setUserProfile} from "./reducer/profile-reducer";
+import profileReducer, {addPost, changePost, setStatus, setUserProfile} from "./reducer/profile-reducer";
 import sidebarReducer from "./reducer/sidebar-reducer";
 import userReducer, {
     changePage,
@@ -40,6 +40,7 @@ export type actionsType =
     | ReturnType<typeof setAuthUserData>
     | ReturnType<typeof toggleFollowProgress>
     | ReturnType<typeof setMyProfileData>
+    | ReturnType<typeof setStatus>
 
 
 
