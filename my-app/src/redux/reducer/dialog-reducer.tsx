@@ -8,7 +8,6 @@ let initialState = {
         {id: v1(), user: 'Victor'}],
     messageData: [{id: v1(), textMessage: 'yo'},
         {id: v1(), textMessage: 'konichiwa'}],
-    newMessageText: ''
 }
 
 export type dialogsDataType = {
@@ -23,7 +22,7 @@ export type messageDataType = {
 export type DialogsPageType = {
     dialogsData: Array<dialogsDataType>
     messageData: Array<messageDataType>
-    newMessageText: string
+
 
 }
 
@@ -37,11 +36,6 @@ const dialogReducer = (state: DialogsPageType = initialState, action: actionsTyp
                 messageData: [...state.messageData, newMessage],
                 newMessageText: ''
             }
-        case "CHANGE-NEW-MESSAGE":
-            return {
-                ...state,
-                newMessageText: action.newMessage
-            }
         default:
             return state
     }
@@ -53,10 +47,7 @@ export const addMessage = (messageText: string) => ({
 }) as const
 
 
-export const changeMessage = (newMessage: string) => ({
-    type: 'CHANGE-NEW-MESSAGE',
-    newMessage: newMessage
-}) as const
+
 
 
 export default dialogReducer

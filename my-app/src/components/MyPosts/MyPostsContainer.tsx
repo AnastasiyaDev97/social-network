@@ -1,4 +1,4 @@
-import {addPost, changePost} from "../../redux/reducer/profile-reducer";
+import {addPost} from "../../redux/reducer/profile-reducer";
 import {MyPosts} from "./MyPosts";
 import {connect} from "react-redux";
 import {stateType} from "../../redux/redux-store";
@@ -8,10 +8,9 @@ import {compose} from "redux";
 let mapStateToProps = (state: stateType) => {
     return {
         posts: state.ProfilePage.postsData,
-        newPostText: state.ProfilePage.newPostText,
     }
 }
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {addPost, changePost}),
+    connect(mapStateToProps, {addPost}),
     withRedirect)(MyPosts)

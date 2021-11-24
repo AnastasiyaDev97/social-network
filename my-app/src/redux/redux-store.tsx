@@ -1,7 +1,7 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
-import dialogReducer, {addMessage, changeMessage} from "./reducer/dialog-reducer";
+import dialogReducer, {addMessage} from "./reducer/dialog-reducer";
 import { reducer as formReducer } from 'redux-form'
-import profileReducer, {addPost, changePost, setStatus, setUserProfile} from "./reducer/profile-reducer";
+import profileReducer, {addPost,  setStatus, setUserProfile} from "./reducer/profile-reducer";
 import sidebarReducer from "./reducer/sidebar-reducer";
 import userReducer, {
     changePage,
@@ -30,8 +30,6 @@ export let store = createStore(reducers,applyMiddleware(ThunkMiddleware) )
 export type actionsType =
     ReturnType<typeof addPost>
     | ReturnType<typeof addMessage>
-    | ReturnType<typeof changePost>
-    | ReturnType<typeof changeMessage>
     | ReturnType<typeof followUser>
     | ReturnType<typeof unFollowUser>
     | ReturnType<typeof setUsers>

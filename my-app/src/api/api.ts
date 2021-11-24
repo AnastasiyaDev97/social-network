@@ -37,8 +37,21 @@ export const ProfileAPI={
             })
     },
 }
-
-
+type loginAPIDataType={
+    email:string
+    password:string
+    rememberMe:boolean
+    captcha:boolean
+}
+export const LoginAPI={
+    login:(loginData:loginAPIDataType)=>{
+        let {email,password,rememberMe,captcha}=loginData
+        return instance.post<ResponseLoginType>('/auth/login',{email,password,rememberMe,captcha})
+            .then(response=>{
+                return response.data
+            })
+    }
+}
 
 export const getAuthUserData = () => {
     return instance.get<ResponseType<authDataType>>(`auth/me`)
@@ -80,6 +93,11 @@ type ResponseType<D = {}> = {
     data: D
     messages: []
     fieldsErrors: []
+    resultCode: number
+}
+type ResponseLoginType = {
+    data: { userId:number }
+    messages: []
     resultCode: number
 }
 type UpdateStatusResponseType={
