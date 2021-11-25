@@ -2,17 +2,20 @@ import React from 'react';
 import {NavLink} from 'react-router-dom';
 import s from './Header.module.css'
 
+
 type HeaderPropsType = {
-    login: string
+    login: string|null
     isAuth: boolean
+    logoutThunk:()=>any
 }
 export const Header = (props: HeaderPropsType) => {
     return (
 
-        <header className={s.header}><img src='IMG-317fc6bd3835eddb1eae7ef04c5e395e-V.jpg'/>
-            <span className={s.loginBlock}>{props.isAuth ? props.login
+        <header className={s.header}>
+            <div className={s.loginBlock}>{props.isAuth ? <div>{props.login}
+            <button onClick={props.logoutThunk}>logout</button></div>
                 : <NavLink to={'/login'}>login</NavLink>}
-               </span>
+               </div>
 
         </header>
 

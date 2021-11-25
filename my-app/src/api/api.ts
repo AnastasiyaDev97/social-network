@@ -8,8 +8,8 @@ let instance = axios.create({
     headers: {"API-KEY": "78ba9efb-88a6-4c7f-b505-5ad3ba5a9466"}
 })
 
-export const UsersAPI={
-    getUsers : (currentPage: number, pageSize: number) => {
+export const UsersAPI = {
+    getUsers: (currentPage: number, pageSize: number) => {
         return instance.get<getUsersResponse>(`users?page=${currentPage}&count=${pageSize}`)
             .then(response => {
                 return response.data
@@ -17,43 +17,54 @@ export const UsersAPI={
     }
 }
 
-export const ProfileAPI={
-    getUserProfileAPI : (id: string) => {
+export const ProfileAPI = {
+    getUserProfileAPI: (id: string) => {
         return instance.get<profileDataUserType>(`profile/${id}`)
             .then(response => {
                 return response.data
             })
     },
-    getStatus:(id: string)=>{
+    getStatus: (id: string) => {
         return instance.get<string>(`/profile/status/${id}`)
-            .then(response=>{
+            .then(response => {
                 return response.data
             })
     },
-    updateStatus:(status: string)=>{
-        return instance.put<UpdateStatusResponseType>(`/profile/status`,{status})
-            .then(response=>{
+    updateStatus: (status: string) => {
+        return instance.put<UpdateStatusResponseType>(`/profile/status`, {status})
+            .then(response => {
                 return response.data
             })
     },
 }
-type loginAPIDataType={
-    email:string
-    password:string
-    rememberMe:boolean
-    captcha:boolean
+export type loginAPIDataType = {
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha?: boolean
 }
-export const LoginAPI={
-    login:(loginData:loginAPIDataType)=>{
-        let {email,password,rememberMe,captcha}=loginData
-        return instance.post<ResponseLoginType>('/auth/login',{email,password,rememberMe,captcha})
-            .then(response=>{
+export const LoginAPI = {
+    login: (loginData: loginAPIDataType) => {
+        let {email, password, rememberMe, captcha} = loginData
+        return instance.post<ResponseLoginType<{ userId: number }>>('/auth/login', {
+            email,
+            password,
+            rememberMe,
+            captcha
+        })
+            .then(response => {debugger
+                return response.data
+            })
+    }, logout: () => {
+        return instance.delete<ResponseLoginType>('/auth/login')
+            .then(response => {
                 return response.data
             })
     }
 }
 
 export const getAuthUserData = () => {
+
     return instance.get<ResponseType<authDataType>>(`auth/me`)
         .then(response => {
             return response.data
@@ -95,14 +106,14 @@ type ResponseType<D = {}> = {
     fieldsErrors: []
     resultCode: number
 }
-type ResponseLoginType = {
-    data: { userId:number }
+type ResponseLoginType<D = {}> = {
+    data: D
     messages: []
     resultCode: number
 }
-type UpdateStatusResponseType={
+type UpdateStatusResponseType = {
     resultCode: number
     messages: string[]
-    data: { }
+    data: {}
     fieldsErrors: []
 }
