@@ -1,19 +1,37 @@
 import React from 'react';
 import './App.css';
-import {NavBar} from "./components/NavBar/NavBar";
+
 import {News} from "./components/News/News";
 import {Music} from './components/Music/Music';
 import {Settings} from './components/Settings/Settings';
-import { Route} from 'react-router-dom';
+import {Route} from 'react-router-dom';
 import HeaderContainer from "./components/Header/HeaderContainer";
 import UsersContainer from "./components/Users/UsersContainer";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import LoginContainer from "./components/Login/LoginContainer";
+import {connect} from "react-redux";
+import {stateType} from "./redux/redux-store";
 
+import {Initialize} from "./redux/reducer/app-reducer";
+import Preloader from "./common/preloader/Preloader";
+import NavBar from "./components/NavBar/NavBar";
 
-function App() {
-    return (
+type AppPropsType = mapStateToPropsType & mapDispatchToPropsType
+
+class App extends React.Component<AppPropsType> {
+
+    componentDidMount() {
+        debugger
+        this.props.Initialize()
+    }
+
+    render() {
+        if (!this.props.isInitialization) {
+            return <Preloader/>
+        }
+        debugger
+        return (
             <div className='appWrapper'>
                 <HeaderContainer/>
                 <NavBar/>
@@ -28,7 +46,20 @@ function App() {
                     <Route path='/login' render={() => <LoginContainer/>}/>
                 </div>
             </div>
-    );
+        );
+
+    }
 }
 
-export default App;
+let mapStateToProps = (state: stateType) => ({
+    isInitialization: state.app.isInitialization
+})
+type mapStateToPropsType = {
+    isInitialization: boolean
+}
+type mapDispatchToPropsType = {
+    Initialize: () => void
+}
+
+export default connect<mapStateToPropsType, mapDispatchToPropsType, {}, stateType>
+(mapStateToProps, {Initialize})(App);

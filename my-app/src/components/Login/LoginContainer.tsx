@@ -16,4 +16,4 @@ const mapStateToProps=(state:stateType):mapStateToPropsType=>({
 
 
 
-export default connect<mapStateToPropsType,mapDispatchToPropsType,null,stateType>(mapStateToProps,{loginThunk})(Login)
+export default connect<mapStateToPropsType,mapDispatchToPropsType, { },stateType>(mapStateToProps,{loginThunk})(Login)

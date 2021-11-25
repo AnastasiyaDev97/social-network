@@ -11,7 +11,6 @@ import {
 
 import {stateType} from "../../redux/redux-store";
 import {ItemsUsersResponseType} from "../../api/api";
-import {withRedirect} from "../../hoc/withRedirect";
 import {compose} from "redux";
 
 
@@ -68,5 +67,4 @@ export default compose<React.ComponentType>(
         getUsersThunk,
         followThunk,
         unfollowThunk,
-    }),
-    withRedirect)(UsersContainer)
+    }))(UsersContainer)

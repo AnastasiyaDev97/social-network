@@ -13,6 +13,7 @@ import userReducer, {
 } from "./reducer/user-reducer";
 import authReducer, {setAuthUserData, setMyProfileData} from "./reducer/auth-reducer";
 import ThunkMiddleware from 'redux-thunk'
+import appReducer, {setInitialization} from "./reducer/app-reducer";
 
 let reducers=combineReducers({
     DialogsPage:dialogReducer,
@@ -21,6 +22,7 @@ let reducers=combineReducers({
     UsersPage:userReducer,
     auth:authReducer,
     form:formReducer,
+    app:appReducer,
 })
 
 export type stateType=ReturnType<typeof reducers>
@@ -41,6 +43,7 @@ export type actionsType =
     | ReturnType<typeof toggleFollowProgress>
     | ReturnType<typeof setMyProfileData>
     | ReturnType<typeof setStatus>
+    | ReturnType<typeof setInitialization>
 
 
 

@@ -19,6 +19,7 @@ export const UsersAPI = {
 
 export const ProfileAPI = {
     getUserProfileAPI: (id: string) => {
+
         return instance.get<profileDataUserType>(`profile/${id}`)
             .then(response => {
                 return response.data
@@ -102,13 +103,13 @@ export type ItemsUsersResponseType = {
 
 type ResponseType<D = {}> = {
     data: D
-    messages: []
+    messages: string[]
     fieldsErrors: []
     resultCode: number
 }
 type ResponseLoginType<D = {}> = {
     data: D
-    messages: []
+    messages: string[]
     resultCode: number
 }
 type UpdateStatusResponseType = {

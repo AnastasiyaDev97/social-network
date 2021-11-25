@@ -36,6 +36,7 @@ export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
             <div><Field validate={[required,maxLength30]} component={Textarea} type={'input'} placeholder={'login'} name={'email'}/></div>
             <div><Field validate={[required,maxLength30]} component={Textarea} type={'input'} placeholder={'password'} name={'password'}/></div>
             <div><Field  component={'input'} type={'checkbox'} name={'rememberMe'}/>remember me</div>
+            {props.error&&<div>{props.error}</div>}
             <button>Login</button>
         </form>
     )

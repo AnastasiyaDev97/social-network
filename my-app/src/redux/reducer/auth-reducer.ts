@@ -3,6 +3,8 @@ import {profileDataUserType} from "./profile-reducer";
 import {Dispatch} from "redux";
 import {getAuthUserData, LoginAPI, loginAPIDataType} from "../../api/api";
 import { ThunkAction } from "redux-thunk";
+import { stopSubmit } from "redux-form";
+
 
 let initialState = {
     data: {
@@ -53,34 +55,37 @@ export const setMyProfileData = (profile: profileDataUserType) => ({
 }) as const
 
 
-type ThunkType = ThunkAction<void, stateType, unknown, actionsType>
+ type ThunkType = ThunkAction<void, stateType, unknown, actionsType>
 
 
-export const getAuthDataThunk = (isAuth: boolean) => {
-    debugger
-    return (dispatch: Dispatch<actionsType>) => {
-        getAuthUserData()
+export const getAuthDataThunk = () =>
+     (dispatch: Dispatch<actionsType>) => {
+      return   getAuthUserData()
             .then(data => {
                 if (data.resultCode === 0) {
-
-                    dispatch(setAuthUserData(data.data, isAuth))
+                    dispatch(setAuthUserData(data.data, true))
                 }
             })
     }
-}
+
 export const loginThunk = (loginData: loginAPIDataType):ThunkType => {
 
     return (dispatch) => {
         LoginAPI.login(loginData)
             .then(data => {
                 if (data.resultCode === 0) {
-                    dispatch(getAuthDataThunk(true))
+                    dispatch(getAuthDataThunk())
                 }
+                else{
+                    let textErr=data.messages.length>0?data.messages[0]:'some err'
+                    // @ts-ignore
+                    dispatch(stopSubmit('login',{_error:textErr}))}
             })
     }
 }
 
 export const logoutThunk = () => {
+    debugger
     return (dispatch: Dispatch<actionsType>) => {
         LoginAPI.logout()
             .then(data => {

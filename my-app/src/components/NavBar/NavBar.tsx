@@ -1,12 +1,14 @@
 import React from 'react';
 import s from './NavBar.module.css'
 import {NavLink} from 'react-router-dom'
-import {Dialogs} from "../Dialogs/Dialogs";
-import {Profile} from "../Profile/Profile";
-type NavBarPropsType = {
+import {connect} from "react-redux";
+import {stateType} from "../../redux/redux-store";
 
-}
-export const NavBar = (props:NavBarPropsType)=>{
+type NavBarPropsType = mapStateToPropsType
+const NavBar = (props:NavBarPropsType)=>{
+    if(props.authId){
+
+    }
     return (
 
             <nav className={s.navBar}>
@@ -20,3 +22,11 @@ export const NavBar = (props:NavBarPropsType)=>{
 
     )
 }
+type mapStateToPropsType={
+    authId:number | null
+}
+let mapStateToProps=(state:stateType)=>({
+    authId:state.auth.data.id
+})
+
+export default connect (mapStateToProps,{})(NavBar)
