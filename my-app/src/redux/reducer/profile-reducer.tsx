@@ -7,7 +7,7 @@ let initialState = {
     postsData: [
         {id: v1(), message: 'it is my first post', likes: 30},
         {id: v1(), message: 'it-kamasutra', likes: 10}],
-    profile: null,
+    profile: null as profileDataUserType,
     status:'',
 }
 export type postsDataType = {
@@ -86,9 +86,11 @@ export const setStatus = (status: string) => ({
 
 
 export const getUserProfile = (userId: string) => {
+    debugger
     return (dispatch: Dispatch<actionsType>) => {
         ProfileAPI.getUserProfileAPI(userId)
             .then(data => {
+                debugger
                 dispatch(setUserProfile(data))
             })
     }

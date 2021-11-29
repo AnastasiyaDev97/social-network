@@ -9,9 +9,11 @@ type mapDispatchToPropsType={
 }
 type mapStateToPropsType={
     isAuth:boolean
+    userId:number|undefined
 }
 const mapStateToProps=(state:stateType):mapStateToPropsType=>({
-    isAuth:state.auth.isAuth
+    isAuth:state.auth.isAuth,
+    userId:state.ProfilePage.profile?.userId
 })
 
 

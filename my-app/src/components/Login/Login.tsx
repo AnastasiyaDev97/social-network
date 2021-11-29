@@ -7,6 +7,7 @@ import {Redirect} from "react-router-dom";
 type LoginPropsType={
     loginThunk:(loginData:loginAPIDataType)=>void
     isAuth:boolean
+    userId:number|undefined
 }
 
 type FormDataType = {
@@ -20,7 +21,8 @@ export const Login = (props:LoginPropsType) => {
     const onSubmit = (formData: FormDataType) => {
         props.loginThunk(formData)
     }
-    if(props.isAuth) return <Redirect to={'/profile'}/>
+    if(props.isAuth ) return <Redirect to={'/profile'}/>
+
     return (
         <div>
             <h4>login</h4>

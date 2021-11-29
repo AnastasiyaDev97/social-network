@@ -22,7 +22,7 @@ export const Users = (props: UsersPropsType) => {
             pageNumberArr.push(i)
         }
     }
-    debugger
+
     return (
         <div>
             {pageNumberArr.map(m => <span onClick={() => {

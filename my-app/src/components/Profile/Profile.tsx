@@ -12,6 +12,7 @@ type ProfilePropsType = {
 }
 
 export const Profile = (props: ProfilePropsType) => {
+    debugger
     return (
         <div>
             <ProfileInfo profile={props.profile} updateUserStatus={props.updateUserStatus} status={props.status}/>

@@ -32,7 +32,6 @@ export const authReducer = (state: authType = initialState, action: actionsType)
 
     switch (action.type) {
         case "SET-AUTH-USER-DATA":
-            debugger
             return {
                 ...state,
                 data: {...action.data}, isAuth: action.isAuth

@@ -16,14 +16,14 @@ type PathParamsType = {
 class ProfileContainer extends React.Component<ProfilePropsType> {
 
     componentDidMount() {
-debugger
+
         let userId = this.props.match.params.userId
         if (!userId && this.props.isAuth) {
-            debugger
+
             // @ts-ignore
             userId= this.props.userIdAuth.toString()}
             if(!userId){
-                debugger
+
                 this.props.history.push('/login')
             }
 

@@ -22,7 +22,7 @@ type AppPropsType = mapStateToPropsType & mapDispatchToPropsType
 class App extends React.Component<AppPropsType> {
 
     componentDidMount() {
-        debugger
+
         this.props.Initialize()
     }
 
@@ -30,7 +30,6 @@ class App extends React.Component<AppPropsType> {
         if (!this.props.isInitialization) {
             return <Preloader/>
         }
-        debugger
         return (
             <div className='appWrapper'>
                 <HeaderContainer/>
