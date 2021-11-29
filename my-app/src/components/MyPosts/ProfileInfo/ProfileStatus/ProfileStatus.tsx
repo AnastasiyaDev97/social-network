@@ -43,7 +43,7 @@ export class ProfileStatus extends React.Component<ProfileStatusPropsType> {
                 {this.state.editMode
                     ? <input value={this.state.status} autoFocus onBlur={this.activateSpanHandler}
                              onChange={this.updateStatus} onKeyPress={this.onKeyPressActivateSpan}/>
-                    : <span onDoubleClick={this.activateInputHandler}>{this.props.status || '----'}</span>}
+                    : <span onDoubleClick={this.activateInputHandler}>{this.state.status || '----'}</span>}
 
             </div>
         )
