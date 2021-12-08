@@ -27,18 +27,14 @@ export const appReducer = (state: initialStateAppType = initialState, action: ac
 
 export const setInitialization = () => ({
     type: 'SET-INITIALIZATION',
-
 }) as const
 
 type ThunkType = ThunkAction<void, stateType, unknown, actionsType>
 
 export const Initialize = (): ThunkType =>
-    (dispatch) => {
-        let pr = dispatch(getAuthDataThunk())
-        pr.then(() => {
+    async (dispatch) => {
+      await dispatch(getAuthDataThunk())
             dispatch(setInitialization())
-        })
     }
-
 
 export default appReducer

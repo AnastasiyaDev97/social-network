@@ -6,7 +6,6 @@ type ProfileStatusPropsType = {
     updateUserStatus: (status: string) => any
 }
 
-
 export const ProfileStatusWithHooks=(props:ProfileStatusPropsType)=> {
 
     let [editMode,setEditMode]=useState(false)
@@ -30,7 +29,6 @@ export const ProfileStatusWithHooks=(props:ProfileStatusPropsType)=> {
     useEffect(()=>{
        setStatus(props.status)
     },[props.status])
-
 
             return (
             <div>

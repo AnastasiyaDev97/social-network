@@ -2,8 +2,8 @@ import {actionsType, stateType} from "../redux-store";
 import {profileDataUserType} from "./profile-reducer";
 import {Dispatch} from "redux";
 import {getAuthUserData, LoginAPI, loginAPIDataType} from "../../api/api";
-import { ThunkAction } from "redux-thunk";
-import { stopSubmit } from "redux-form";
+import {ThunkAction} from "redux-thunk";
+import {stopSubmit} from "redux-form";
 
 
 let initialState = {
@@ -37,7 +37,7 @@ export const authReducer = (state: authType = initialState, action: actionsType)
                 data: {...action.data}, isAuth: action.isAuth
             }
         case "SET-MY-PROFILE-DATA":
-            return {...state, profile: action.profile}
+            return {...state, ...action.payload}
         default:
             return state
     }
@@ -50,49 +50,40 @@ export const setAuthUserData = (data: authDataType, isAuth: boolean) => ({
 }) as const
 export const setMyProfileData = (profile: profileDataUserType) => ({
     type: 'SET-MY-PROFILE-DATA',
-    profile,
+    payload:{profile},
 }) as const
 
 
- type ThunkType = ThunkAction<void, stateType, unknown, actionsType>
+type ThunkType = ThunkAction<void, stateType, unknown, actionsType>
 
 
 export const getAuthDataThunk = () =>
-     (dispatch: Dispatch<actionsType>) => {
-      return   getAuthUserData()
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(setAuthUserData(data.data, true))
-                }
-            })
+    async (dispatch: Dispatch<actionsType>) => {
+        let data = await getAuthUserData()
+        if (data.resultCode === 0) {
+            dispatch(setAuthUserData(data.data, true))
+        }
     }
 
-export const loginThunk = (loginData: loginAPIDataType):ThunkType => {
 
-    return (dispatch) => {
-        LoginAPI.login(loginData)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(getAuthDataThunk())
-                }
-                else{
-                    let textErr=data.messages.length>0?data.messages[0]:'some err'
-                    // @ts-ignore
-                    dispatch(stopSubmit('login',{_error:textErr}))}
-            })
+export const loginThunk = (loginData: loginAPIDataType): ThunkType =>
+    async (dispatch) => {
+        let data = await LoginAPI.login(loginData)
+        if (data.resultCode === 0) {
+           await dispatch(getAuthDataThunk())
+        } else {
+            let textErr = data.messages.length > 0 ? data.messages[0] : 'some err'
+            dispatch(stopSubmit('login', {_error: textErr}))
+        }
     }
-}
 
-export const logoutThunk = () => {
-    debugger
-    return (dispatch: Dispatch<actionsType>) => {
-        LoginAPI.logout()
-            .then(data => {
+
+export const logoutThunk = () =>
+    async (dispatch: Dispatch<actionsType>) => {
+        let data = await LoginAPI.logout()
                 if (data.resultCode === 0) {
-                    dispatch(setAuthUserData({id:null, login:null, email:null}, false))
+                    dispatch(setAuthUserData({id: null, login: null, email: null}, false))
                 }
-            })
     }
-}
 
 export default authReducer

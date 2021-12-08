@@ -53,7 +53,7 @@ export const LoginAPI = {
             rememberMe,
             captcha
         })
-            .then(response => {debugger
+            .then(response => {
                 return response.data
             })
     }, logout: () => {

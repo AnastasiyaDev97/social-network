@@ -57,12 +57,9 @@ export const profileReducer = (state: ProfilePageType = initialState, action: ac
             }
 
         case "SET-USER-PROFILE":
-            return {
-                ...state, profile: action.profile
-            }
         case "SET-STATUS":
             return {
-                ...state, status: action.status
+                ...state, ...action.payload
             }
         default:
             return state
@@ -77,40 +74,30 @@ export const addPost = (postText: string) => ({
 
 export const setUserProfile = (profile: profileDataUserType) => ({
     type: 'SET-USER-PROFILE',
-    profile,
+    payload:{profile},
 }) as const
 export const setStatus = (status: string) => ({
     type: 'SET-STATUS',
-    status,
+    payload:{status},
 }) as const
 
 
-export const getUserProfile = (userId: string) => {
-    debugger
-    return (dispatch: Dispatch<actionsType>) => {
-        ProfileAPI.getUserProfileAPI(userId)
-            .then(data => {
-                debugger
+export const getUserProfile = (userId: string) =>
+   async (dispatch: Dispatch<actionsType>) => {
+        let data=await ProfileAPI.getUserProfileAPI(userId)
                 dispatch(setUserProfile(data))
-            })
     }
-}
-export const getUserStatus = (userId: string) => {
-    return (dispatch: Dispatch<actionsType>) => {
-        ProfileAPI.getStatus(userId)
-            .then(data => {
+
+export const getUserStatus = (userId: string) =>
+    async (dispatch: Dispatch<actionsType>) => {
+        let data = await ProfileAPI.getStatus(userId)
                 dispatch(setStatus(data))
-            })
-    }
 }
-export const updateUserStatus = (status: string) => {
-    return (dispatch: Dispatch<actionsType>) => {
-        ProfileAPI.updateStatus(status)
-            .then(data => {
+export const updateUserStatus = (status: string) =>
+    async (dispatch: Dispatch<actionsType>) => {
+       let data= await ProfileAPI.updateStatus(status)
                 if(data.resultCode===0){
                 dispatch(setStatus(status))}
-            })
-    }
 }
 
 export default profileReducer
