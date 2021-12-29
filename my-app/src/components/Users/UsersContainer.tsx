@@ -17,9 +17,7 @@ import {compose} from "redux";
 class UsersContainer extends React.Component<PropsType> {
 
     componentDidMount() {
-
         this.props.getUsersThunk(this.props.currentPage, this.props.pageSize)
-
     }
 
     ChangePageHandler = (currentPage: number) => {
@@ -27,6 +25,7 @@ class UsersContainer extends React.Component<PropsType> {
     }
 
     render() {
+
         return (
             <>
                 {this.props.isFetching ? <Preloader/> : null}

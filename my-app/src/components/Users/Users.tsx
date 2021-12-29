@@ -2,6 +2,8 @@ import s from "./User.module.css";
 import React from "react";
 import {NavLink} from "react-router-dom";
 import {ItemsUsersResponseType} from "../../api/api";
+import Paginator from "../../common/paginator/Paginator";
+
 
 type UsersPropsType = {
     totalUserCount: number
@@ -15,20 +17,10 @@ type UsersPropsType = {
 }
 
 export const Users = (props: UsersPropsType) => {
-    let pageNumber = Math.ceil(props.totalUserCount / props.pageSize)
-    let pageNumberArr = []
-    for (let i = 1; i <= (pageNumber > 10 ? 10 : pageNumber); i++) {
-        if (pageNumber > 10) {
-            pageNumberArr.push(i)
-        }
-    }
-
     return (
         <div>
-            {pageNumberArr.map(m => <span onClick={() => {
-                props.changePage(m)
-            }
-            } className={props.currentPage === m ? s.currentPage : s.pageNum}>{m}</span>)}
+            <Paginator totalUserCount={props.totalUserCount} pageSize={props.pageSize} currentPage={props.currentPage}
+                       changePageHandler={props.changePage} portionSize={10}/>
 
             {props.items.map(m => <div key={m.id}>
                 <span>

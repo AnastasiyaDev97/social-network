@@ -6,7 +6,7 @@ import {Dispatch} from "redux";
 let initialState = {
     items: [],
     pageSize: 10,
-    totalUserCount: 10,
+    totalUserCount: 0,
     currentPage: 1,
     isFetching: true,
     followingInProgress: [],
@@ -70,24 +70,28 @@ export const unFollowUser = (id: number) => ({
     id,
 }) as const
 
-export const setUsers = (items: Array<ItemsUsersResponseType>) => (
-    {
-        type: 'SET-USERS',
-        payload:{items},
-    }
-) as const
+export const setUsers = (items: Array<ItemsUsersResponseType>) => {
+    return(
+        {
+            type: 'SET-USERS',
+            payload:{items},
+        } as const)
+
+}
 export const changePage = (currentPage: number) => (
     {
         type: 'CHANGE-PAGE',
         payload:{currentPage},
     }
 ) as const
-export const setTotalUsersCount = (totalUsersCount: number) => (
+
+export const setTotalUsersCount = (totalUserCount: number) =>{
+    return(
     {
         type: 'SET-TOTAL-USER-COUNT',
-        payload:{totalUsersCount},
+        payload:{totalUserCount},
     }
-) as const
+) as const}
 export const toggleIsFetching = (isFetching: boolean) => (
     {
         type: 'TOGGLE-IS-FETCHING',
@@ -104,6 +108,7 @@ export const toggleFollowProgress = (isFollowInProgress: boolean, userId: number
 
 export const getUsersThunk = (currentPage: number, pageSize: number) =>
     async (dispatch: Dispatch<actionsType>) => {
+    debugger
         dispatch(toggleIsFetching(true))
         let data = await UsersAPI.getUsers(currentPage, pageSize)
         dispatch(toggleIsFetching(false))

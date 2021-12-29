@@ -1,7 +1,7 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import dialogReducer, {addMessage} from "./reducer/dialog-reducer";
-import { reducer as formReducer } from 'redux-form'
-import profileReducer, {addPost,  setStatus, setUserProfile} from "./reducer/profile-reducer";
+import {reducer as formReducer} from 'redux-form'
+import profileReducer, {addPost, setStatus, setUserProfile} from "./reducer/profile-reducer";
 import sidebarReducer from "./reducer/sidebar-reducer";
 import userReducer, {
     changePage,
@@ -14,20 +14,21 @@ import userReducer, {
 import authReducer, {setAuthUserData, setMyProfileData} from "./reducer/auth-reducer";
 import ThunkMiddleware from 'redux-thunk'
 import appReducer, {setInitialization} from "./reducer/app-reducer";
+import {composeWithDevTools} from 'redux-devtools-extension';
 
-let reducers=combineReducers({
-    DialogsPage:dialogReducer,
-    ProfilePage:profileReducer,
-    sidebarPage:sidebarReducer,
-    UsersPage:userReducer,
-    auth:authReducer,
-    form:formReducer,
-    app:appReducer,
+let reducers = combineReducers({
+    DialogsPage: dialogReducer,
+    ProfilePage: profileReducer,
+    sidebarPage: sidebarReducer,
+    UsersPage: userReducer,
+    auth: authReducer,
+    form: formReducer,
+    app: appReducer,
 })
 
-export type stateType=ReturnType<typeof reducers>
+export type stateType = ReturnType<typeof reducers>
 
-export let store = createStore(reducers,applyMiddleware(ThunkMiddleware) )
+export let store = createStore(reducers, composeWithDevTools(applyMiddleware(ThunkMiddleware)))
 
 export type actionsType =
     ReturnType<typeof addPost>
@@ -46,7 +47,6 @@ export type actionsType =
     | ReturnType<typeof setInitialization>
 
 
-
 /*
 export type storeType = {
     _state: stateType
@@ -57,4 +57,4 @@ export type storeType = {
 }*/
 
 // @ts-ignore
-window.store=store
+window.store = store
