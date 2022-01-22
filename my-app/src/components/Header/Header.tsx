@@ -1,23 +1,31 @@
-import React from 'react';
+import React, {FC, memo} from 'react';
 import {NavLink} from 'react-router-dom';
-import s from './Header.module.css'
+import style from './Header.module.css'
+import {Nullable} from "../../types/Nullable";
+import {PATH} from "../../enums/PATH";
 
 
 type HeaderPropsType = {
-    login: string|null
+    login: Nullable<string>
     isAuth: boolean
-    logoutThunk:()=>any
+    logoutThunk: () => void
 }
-export const Header = (props: HeaderPropsType) => {
+export const Header: FC<HeaderPropsType> = memo(({login, isAuth, logoutThunk}) => {
     return (
 
-        <header className={s.header}>
-            <div className={s.loginBlock}>{props.isAuth ? <div>{props.login}
-            <button onClick={props.logoutThunk}>logout</button></div>
-                : <NavLink to={'/login'}>login</NavLink>}
-               </div>
+        <header className={style.header}>
+            <div className={style.loginBlock}>
 
+                {isAuth
+                    ? <div>{login}
+                        <button onClick={logoutThunk}>logout</button>
+                    </div>
+
+                    : <NavLink to={PATH.LOGIN}>login</NavLink>
+                }
+
+            </div>
         </header>
 
     )
-}
+})

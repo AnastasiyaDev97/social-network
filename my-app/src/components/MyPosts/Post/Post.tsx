@@ -1,22 +1,23 @@
-import React from 'react';
+import React, {FC, memo} from 'react';
 import s from './Post.module.css'
 
 type PostPropsType = {
     message: string
-    likesCount:number
+    likesCount: number
 }
 
-export const Post = (props: PostPropsType) => {
-    return (
-        <div>
-            <div className={s.postItem}>
-                <img src=''/>
-                {props.message}
-            </div>
+export const Post: FC<PostPropsType> = memo(({message,likesCount}) => {
+        return (
             <div>
-                <span>like {props.likesCount}</span>
-            </div>
+                <div className={s.postItem}>
+                    <img src=''/>
+                    {message}
+                </div>
+                <div>
+                    <span>like {likesCount}</span>
+                </div>
 
-        </div>
-    )
-}
+            </div>
+        )
+    }
+)

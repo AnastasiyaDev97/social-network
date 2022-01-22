@@ -21,7 +21,7 @@ export type ItemsUsersResponseType = {
 export type ResponseType<D = {}> = {
     data: D
     messages: string[]
-    fieldsErrors: []
+    fieldsErrors: string[]
     resultCode: number
 }
 export type ResponseLoginType<D = {}> = {
@@ -41,4 +41,11 @@ export type loginAPIDataType = {
     password: string
     rememberMe: boolean
     captcha?: boolean
+}
+
+export type photosType={
+    photos:{
+        large:string
+        small:string
+    }
 }

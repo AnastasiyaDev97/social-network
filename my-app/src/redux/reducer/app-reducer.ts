@@ -1,40 +1,50 @@
-import {actionsType, stateType} from "../redux-store";
-
+import {actionsType, ThunkType} from "../redux-store";
 import {getAuthDataThunk} from "./auth-reducer";
-import {ThunkAction} from "redux-thunk";
 
+export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 let initialState = {
     isInitialization: false,
+    RequestStatus: 'idle' as RequestStatusType
 };
 
 type initialStateAppType = {
     isInitialization: boolean
+    RequestStatus: RequestStatusType
 }
 
 export const appReducer = (state: initialStateAppType = initialState, action: actionsType) => {
 
     switch (action.type) {
-        case 'SET-INITIALIZATION':
+        case 'APP/SET-INITIALIZATION':
             return {
                 ...state,
                 isInitialization: true
             }
+        case 'APP/SET-STATUS':
+            return {...state, ...action.payload}
         default:
             return state
     }
 }
 
 export const setInitialization = () => ({
-    type: 'SET-INITIALIZATION',
+    type: 'APP/SET-INITIALIZATION',
 }) as const
 
-type ThunkType = ThunkAction<void, stateType, unknown, actionsType>
+export const setAppStatusAC = (status: RequestStatusType) => ({
+    type: 'APP/SET-STATUS',
+    payload: {
+        status,
+    }
+} as const)
 
 export const Initialize = (): ThunkType =>
     async (dispatch) => {
-      await dispatch(getAuthDataThunk())
-            dispatch(setInitialization())
+        dispatch(setAppStatusAC('loading'))
+        await dispatch(getAuthDataThunk())
+        dispatch(setInitialization())
+        dispatch(setAppStatusAC('succeeded'))
     }
 
 export default appReducer

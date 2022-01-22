@@ -1,4 +1,4 @@
-import React from "react"
+import React, {Component} from "react"
 import {Users} from "./Users";
 import Preloader from "../../common/preloader/Preloader";
 import {connect} from "react-redux";
@@ -13,8 +13,7 @@ import {stateType} from "../../redux/redux-store";
 import {compose} from "redux";
 import {ItemsUsersResponseType} from "../../api/types";
 
-
-class UsersContainer extends React.Component<PropsType> {
+class UsersContainer extends Component<PropsType> {
 
     componentDidMount() {
         this.props.getUsersThunk(this.props.currentPage, this.props.pageSize)
@@ -25,10 +24,11 @@ class UsersContainer extends React.Component<PropsType> {
     }
 
     render() {
-
+        if (this.props.isFetching) {
+            return <Preloader/>
+        }
         return (
             <>
-                {this.props.isFetching ? <Preloader/> : null}
                 <Users {...this.props} changePage={this.ChangePageHandler}
                 />
             </>
@@ -37,10 +37,10 @@ class UsersContainer extends React.Component<PropsType> {
 }
 
 type mapDispatchToPropsType = {
-    getUsersThunk: (currentPage: number, pageSize: number) => any
-    changePageThunk: (currentPage: number, pageSize: number) => any
-    followThunk: (id: number) => any
-    unfollowThunk: (id: number) => any
+    getUsersThunk: (currentPage: number, pageSize: number) => void
+    changePageThunk: (currentPage: number, pageSize: number) => void
+    followThunk: (id: number) => void
+    unfollowThunk: (id: number) => void
 
 }
 type mapStateToPropsType = {

@@ -1,32 +1,41 @@
 import React from 'react';
-import s from './NavBar.module.css'
+import style from './NavBar.module.css'
 import {NavLink} from 'react-router-dom'
 import {connect} from "react-redux";
 import {stateType} from "../../redux/redux-store";
+import {PATH} from "../../enums/PATH";
+import {Nullable} from "../../types/Nullable";
+
 
 type NavBarPropsType = mapStateToPropsType
-const NavBar = (props:NavBarPropsType)=>{
-    if(props.authId){
+const NavBar = (props: NavBarPropsType) => {
+    if (props.authId) {
 
     }
     return (
 
-            <nav className={s.navBar}>
-                <div className={s.item}><NavLink activeClassName={s.active} to='/profile'>Profile</NavLink></div>
-                <div className={s.item}><NavLink activeClassName={s.active} to='/dialogs'>Dialogs</NavLink></div>
-                <div className={s.item}><NavLink activeClassName={s.active} to='/users'>Users</NavLink></div>
-                <div className={s.item}><NavLink activeClassName={s.active} to='/news'>News</NavLink></div>
-                <div className={s.item}><NavLink activeClassName={s.active} to='/music'>Music</NavLink></div>
-                <div className={s.item}><NavLink activeClassName={s.active} to='/settings'>Settings</NavLink></div>
-            </nav>
+        <nav className={style.navBar}>
+            <div className={style.item}>
+                <NavLink activeClassName={style.active} to={PATH.PROFILE}>Profile</NavLink></div>
+            <div className={style.item}>
+                <NavLink activeClassName={style.active} to={PATH.DIALOGS}>Dialogs</NavLink></div>
+            <div className={style.item}>
+                <NavLink activeClassName={style.active} to={PATH.USERS}>Users</NavLink></div>
+            <div className={style.item}>
+                <NavLink activeClassName={style.active} to={PATH.NEWS}>News</NavLink></div>
+            <div className={style.item}>
+                <NavLink activeClassName={style.active} to={PATH.MUSIC}>Music</NavLink></div>
+            <div className={style.item}>
+                <NavLink activeClassName={style.active} to={PATH.SETTINGS}>Settings</NavLink></div>
+        </nav>
 
     )
 }
-type mapStateToPropsType={
-    authId:number | null
+type mapStateToPropsType = {
+    authId: Nullable<number>
 }
-let mapStateToProps=(state:stateType)=>({
-    authId:state.auth.data.id
+let mapStateToProps = (state: stateType) => ({
+    authId: state.auth.data.id
 })
 
-export default connect (mapStateToProps,{})(NavBar)
+export default connect(mapStateToProps, {})(NavBar)

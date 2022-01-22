@@ -1,5 +1,5 @@
-import s from "./Message.module.css"
-import React from "react"
+import style from "./Message.module.css"
+import React, {FC, memo} from "react"
 
 
 type MessageItemType = {
@@ -7,9 +7,9 @@ type MessageItemType = {
 }
 
 
-export const MessageItem = (props: MessageItemType) => {
-    return (
-        <div className={s.message}>{props.textMessage}</div>
-    )
-}
-
+export const MessageItem: FC<MessageItemType> = memo(({textMessage}) => {
+        return (
+            <div className={style.message}>{textMessage}</div>
+        )
+    }
+)

@@ -1,58 +1,54 @@
-import s from "./Dialogs.module.css"
-import React from "react"
+import style from "./Dialogs.module.css"
+import React, {FC, memo} from "react"
 import {DialogItem} from "./Dialog/DialogItem";
 import {MessageItem} from "./Message/Message";
 import {dialogsDataType, messageDataType} from "../../redux/reducer/dialog-reducer";
-import  {Field,InjectedFormProps, reduxForm} from "redux-form";
-import {maxLengthCreator, required} from "../../common/utils/validators";
-import { Textarea} from "../FormsControl/FormsControl";
-
+import {EMPTY_STRING} from "../../const";
+import {useFormik} from "formik";
 
 type DialogsPropsType = {
     dialogs: Array<dialogsDataType>
     messages: Array<messageDataType>
     addMessage: (newMessage: string) => void
-    isAuth: boolean
+
 }
 
-export const Dialogs = (props: DialogsPropsType) => {
+export const Dialogs: FC<DialogsPropsType> = memo(({dialogs, messages, addMessage}) => {
 
-    let dialogsElements = props.dialogs.map(m => <DialogItem key={m.id} number={m.id} user={m.user}/>)
-    let messagesElements = props.messages.map(m => <MessageItem key={m.id} textMessage={m.textMessage}/>)
+    let dialogsElements = dialogs.map(({id, user}) => <DialogItem key={id} number={id} user={user}/>)
+    let messagesElements = messages.map(({id, textMessage}) => <MessageItem key={id} textMessage={textMessage}/>)
 
+    const formik = useFormik({
+        initialValues: {
+            message: EMPTY_STRING
+        },
 
-    const onSubmit=(formData:FormDataType)=>{
-        props.addMessage(formData.message)
-        formData.message=''
-    }
+        onSubmit: values => {
+                addMessage(values.message)
+                formik.resetForm()
+        },
+    })
+
     return (
         <div>
-            <div className={s.dialogs}>
-                <div className={s.dialogsItems}>
+            <div className={style.dialogs}>
+                <div className={style.dialogsItems}>
                     {dialogsElements}
                 </div>
 
-                <div className={s.messages}>
+                <div className={style.messages}>
                     {messagesElements}
                 </div>
             </div>
-            <div className={s.addMessageWrapper}>
-                <DialogReduxForm onSubmit={onSubmit}/>
+            <div className={style.addMessageWrapper}>
+                <form onSubmit={formik.handleSubmit}>
+                    <textarea placeholder={'add message'}
+                              {...formik.getFieldProps('message')}/>
+                    <button>Send message</button>
+                </form>
             </div>
         </div>
     )
-}
+})
 
-type FormDataType={
-    message:string
-}
-const maxLength100=maxLengthCreator(100)
-export const DialogForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
-    return (
-        <form onSubmit={props.handleSubmit}>
-            <Field component={Textarea} type={'textarea'} name={'message'} placeholder={'add message'} validate={[required,maxLength100]}/>
-            <button>Send message</button>
-        </form>
-    )
-}
-const DialogReduxForm=reduxForm<FormDataType>({form:'dialogs'})(DialogForm)
+

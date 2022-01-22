@@ -2,15 +2,12 @@ import {addPost} from "../../redux/reducer/profile-reducer";
 import {MyPosts} from "./MyPosts";
 import {connect} from "react-redux";
 import {stateType} from "../../redux/redux-store";
-import {withRedirect} from "../../hoc/withRedirect";
 import {compose} from "redux";
+import {ComponentType} from "react";
 
-let mapStateToProps = (state: stateType) => {
-    return {
+let mapStateToProps = (state: stateType) => ({
         posts: state.ProfilePage.postsData,
-    }
-}
+})
 
-export default compose<React.ComponentType>(
-    connect(mapStateToProps, {addPost}),
-    withRedirect)(MyPosts)
+export default compose<ComponentType>(
+    connect(mapStateToProps, {addPost}))(MyPosts)

@@ -1,48 +1,69 @@
-import {Field, InjectedFormProps, reduxForm} from "redux-form";
-import React from "react";
-import {Textarea} from "../FormsControl/FormsControl";
-import {maxLengthCreator, required} from "../../common/utils/validators";
+import React, {FC, memo} from "react";
 import {Redirect} from "react-router-dom";
 import {loginAPIDataType} from "../../api/types";
+import {useFormik} from "formik";
+import {EMPTY_STRING} from "../../const";
+import {PATH} from "../../enums/PATH";
+import {FormikErrorType, validateLoginForm} from "../../utils/validators";
 
-type LoginPropsType={
-    loginThunk:(loginData:loginAPIDataType)=>void
-    isAuth:boolean
-    userId:number|undefined
+type LoginPropsType = {
+    loginThunk: (loginData: loginAPIDataType) => void
+    isAuth: boolean
 }
 
-type FormDataType = {
+export type FormDataType = {
     email: string
     password: string
     rememberMe: boolean
 }
 
 
-export const Login = (props:LoginPropsType) => {
-    const onSubmit = (formData: FormDataType) => {
-        props.loginThunk(formData)
+export const Login: FC<LoginPropsType> = memo(({loginThunk, isAuth}) => {
+
+        const formik = useFormik({
+            initialValues: {
+                email: EMPTY_STRING,
+                password: EMPTY_STRING,
+                rememberMe: false
+            },
+
+            validate: (values) => {
+                const errors: FormikErrorType = {};
+                validateLoginForm(values, errors)
+                return errors;
+            },
+
+            onSubmit: values => {
+                loginThunk(values)
+                formik.resetForm()
+            },
+        })
+
+        if (isAuth) {
+            return <Redirect to={PATH.PROFILE}/>
+        }
+
+        return (
+            <div>
+                <h4>login</h4>
+                <form onSubmit={formik.handleSubmit}>
+                    <div>
+                        <input placeholder={'email'} {...formik.getFieldProps('email')}/>
+                    </div>
+                    {(formik.touched.email && formik.errors.email) && <div>{formik.errors.email}</div>}
+
+                    <div>
+                        <input placeholder={'password'} {...formik.getFieldProps('password')}/>
+                    </div>
+                    {(formik.touched.password && formik.errors.password) && <div>{formik.errors.password}</div>}
+
+                    <div>
+                        <input type={'checkbox'} {...formik.getFieldProps('rememberMe')}/>
+                        remember me
+                    </div>
+                    <button>Login</button>
+                </form>
+            </div>
+        )
     }
-    if(props.isAuth ) return <Redirect to={'/profile'}/>
-
-    return (
-        <div>
-            <h4>login</h4>
-            <LoginReduxForm onSubmit={onSubmit}/>
-        </div>
-    )
-}
-
-const maxLength30=maxLengthCreator(30)
-export const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
-    return (
-        <form onSubmit={props.handleSubmit}>
-            <div><Field validate={[required,maxLength30]} component={Textarea} type={'input'} placeholder={'login'} name={'email'}/></div>
-            <div><Field validate={[required,maxLength30]} component={Textarea} type={'input'} placeholder={'password'} name={'password'}/></div>
-            <div><Field  component={'input'} type={'checkbox'} name={'rememberMe'}/>remember me</div>
-            {props.error&&<div>{props.error}</div>}
-            <button>Login</button>
-        </form>
-    )
-}
-
-const LoginReduxForm = reduxForm<FormDataType>({form: 'login'})(LoginForm)
+)

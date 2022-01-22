@@ -1,42 +1,48 @@
-import React, {ChangeEvent, KeyboardEvent, useEffect, useState} from "react";
+import React, {ChangeEvent, FC, KeyboardEvent, memo, useEffect, useState} from "react";
 
 
 type ProfileStatusPropsType = {
     status: string
-    updateUserStatus: (status: string) => any
+    updateUserStatus: (status: string) => void
 }
 
-export const ProfileStatusWithHooks=(props:ProfileStatusPropsType)=> {
+export const ProfileStatusWithHooks: FC<ProfileStatusPropsType> = memo(({
+                                                                            status,
+                                                                            updateUserStatus
+                                                                        }) => {
+        let [editMode, setEditMode] = useState(false)
+        let [newStatus, setStatus] = useState(status)
 
-    let [editMode,setEditMode]=useState(false)
-    let [status,setStatus]=useState(props.status)
-    const activateInputHandler = () => {
-        setEditMode(true)
-    }
-   const activateSpanHandler = () => {
-       setEditMode(false)
-        props.updateUserStatus(status)
-    }
-    const onKeyPressActivateSpan = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.code === "Enter") {
-            activateSpanHandler()
+        useEffect(() => {
+            setStatus(status)
+        }, [status])
+
+        const onActivateInputDblClick = () => {
+            setEditMode(true)
         }
-    }
-    const updateStatus = (e: ChangeEvent<HTMLInputElement>) => {
-        setStatus( e.currentTarget.value)
-    }
 
-    useEffect(()=>{
-       setStatus(props.status)
-    },[props.status])
+        const onActivateSpanBlur = () => {
+            setEditMode(false)
+            updateUserStatus(status)
+        }
+        const onActivateSpanKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+            if (e.code === "Enter") {
+                onActivateSpanBlur()
+            }
+        }
 
-            return (
+        const updateStatus = (e: ChangeEvent<HTMLInputElement>) => {
+            setStatus(e.currentTarget.value)
+        }
+
+        return (
             <div>
                 {editMode
-                    ? <input value={status} autoFocus onBlur={activateSpanHandler}
-                             onChange={updateStatus} onKeyPress={onKeyPressActivateSpan}/>
-                    : <span onDoubleClick={activateInputHandler}>{status || '----'}</span>}
+                    ? <input value={newStatus} autoFocus onBlur={onActivateSpanBlur}
+                             onChange={updateStatus} onKeyPress={onActivateSpanKeyPress}/>
+                    : <span onDoubleClick={onActivateInputDblClick}>{newStatus || '----'}</span>}
 
             </div>
         )
     }
+)

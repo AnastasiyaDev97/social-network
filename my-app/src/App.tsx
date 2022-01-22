@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import './App.css';
 
 import {News} from "./components/News/News";
@@ -16,12 +16,11 @@ import {stateType} from "./redux/redux-store";
 import {Initialize} from "./redux/reducer/app-reducer";
 import Preloader from "./common/preloader/Preloader";
 import NavBar from "./components/NavBar/NavBar";
+import {PATH} from "./enums/PATH";
 
 type AppPropsType = mapStateToPropsType & mapDispatchToPropsType
 
-
-
-class App extends React.Component<AppPropsType> {
+class App extends PureComponent<AppPropsType> {
 
     componentDidMount() {
         this.props.Initialize()
@@ -39,12 +38,12 @@ class App extends React.Component<AppPropsType> {
                 <div className='appWrapperContent'>
                     <Route path='/profile/:userId?'
                            render={() => <ProfileContainer/>}/>
-                    <Route path='/dialogs' render={() => <DialogsContainer/>}/>
-                    <Route path='/news' render={() => <News/>}/>
-                    <Route path='/users' render={() => <UsersContainer/>}/>
-                    <Route path='/music' render={() => <Music/>}/>
-                    <Route path='/settings' render={() => <Settings/>}/>
-                    <Route path='/login' render={() => <LoginContainer/>}/>
+                    <Route path={PATH.DIALOGS} render={() => <DialogsContainer/>}/>
+                    <Route path={PATH.NEWS} render={() => <News/>}/>
+                    <Route path={PATH.USERS} render={() => <UsersContainer/>}/>
+                    <Route path={PATH.MUSIC} render={() => <Music/>}/>
+                    <Route path={PATH.SETTINGS} render={() => <Settings/>}/>
+                    <Route path={PATH.LOGIN} render={() => <LoginContainer/>}/>
                 </div>
             </div>
         );

@@ -1,7 +1,6 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import dialogReducer, {addMessage} from "./reducer/dialog-reducer";
-import {reducer as formReducer} from 'redux-form'
-import profileReducer, {addPost, setStatus, setUserProfile} from "./reducer/profile-reducer";
+import profileReducer, {addPost, setAvatar, setStatus, setUserProfile} from "./reducer/profile-reducer";
 import sidebarReducer from "./reducer/sidebar-reducer";
 import userReducer, {
     changePage,
@@ -12,8 +11,8 @@ import userReducer, {
     unFollowUser
 } from "./reducer/user-reducer";
 import authReducer, {setAuthUserData, setMyProfileData} from "./reducer/auth-reducer";
-import ThunkMiddleware from 'redux-thunk'
-import appReducer, {setInitialization} from "./reducer/app-reducer";
+import ThunkMiddleware, {ThunkAction} from 'redux-thunk'
+import appReducer, {setAppStatusAC, setInitialization} from "./reducer/app-reducer";
 import {composeWithDevTools} from 'redux-devtools-extension';
 
 let reducers = combineReducers({
@@ -22,7 +21,6 @@ let reducers = combineReducers({
     sidebarPage: sidebarReducer,
     UsersPage: userReducer,
     auth: authReducer,
-    form: formReducer,
     app: appReducer,
 })
 
@@ -45,7 +43,10 @@ export type actionsType =
     | ReturnType<typeof setMyProfileData>
     | ReturnType<typeof setStatus>
     | ReturnType<typeof setInitialization>
+    | ReturnType<typeof setAvatar>
+    | ReturnType<typeof setAppStatusAC>
 
+export type ThunkType = ThunkAction<void, stateType, unknown, actionsType>
 
 /*
 export type storeType = {

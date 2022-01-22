@@ -1,6 +1,7 @@
 import s from "./Dialog.module.css"
-import React from "react"
+import React, {FC, memo} from "react"
 import {NavLink} from "react-router-dom";
+import {PATH} from "../../../enums/PATH";
 
 
 type DialogItemType = {
@@ -9,11 +10,12 @@ type DialogItemType = {
 }
 
 
-export const DialogItem = (props: DialogItemType) => {
+export const DialogItem: FC<DialogItemType> = memo(({number, user}) => {
     return (
         <div>
-            <NavLink to={'/dialogs/' + props.number} className={s.dialog}
-                     activeClassName={s.active}>{props.user}</NavLink>
+            <NavLink to={PATH.DIALOGS+'/' + number} className={s.dialog}
+                     activeClassName={s.active}>{user}</NavLink>
         </div>
     )
-}
+})
+
