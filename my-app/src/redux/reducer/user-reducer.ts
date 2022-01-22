@@ -1,6 +1,7 @@
 import {actionsType} from "../redux-store";
-import {followUserAPI, ItemsUsersResponseType, unfollowUserAPI, UsersAPI} from "../../api/api";
+import {followUserAPI, unfollowUserAPI, UsersAPI} from "../../api/api";
 import {Dispatch} from "redux";
+import {ItemsUsersResponseType} from "../../api/types";
 
 
 let initialState = {
@@ -108,7 +109,6 @@ export const toggleFollowProgress = (isFollowInProgress: boolean, userId: number
 
 export const getUsersThunk = (currentPage: number, pageSize: number) =>
     async (dispatch: Dispatch<actionsType>) => {
-    debugger
         dispatch(toggleIsFetching(true))
         let data = await UsersAPI.getUsers(currentPage, pageSize)
         dispatch(toggleIsFetching(false))

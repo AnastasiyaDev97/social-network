@@ -19,6 +19,8 @@ import NavBar from "./components/NavBar/NavBar";
 
 type AppPropsType = mapStateToPropsType & mapDispatchToPropsType
 
+
+
 class App extends React.Component<AppPropsType> {
 
     componentDidMount() {
@@ -29,6 +31,7 @@ class App extends React.Component<AppPropsType> {
         if (!this.props.isInitialization) {
             return <Preloader/>
         }
+
         return (
             <div className='appWrapper'>
                 <HeaderContainer/>

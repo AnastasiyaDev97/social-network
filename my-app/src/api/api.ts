@@ -1,12 +1,8 @@
-import axios from "axios";
 import {profileDataUserType} from "../redux/reducer/profile-reducer";
 import {authDataType} from "../redux/reducer/auth-reducer";
+import {instance} from "./apiConfig";
+import {getUsersResponse, loginAPIDataType, ResponseLoginType, UpdateStatusResponseType, ResponseType} from "./types";
 
-let instance = axios.create({
-    baseURL: 'https://social-network.samuraijs.com/api/1.0/',
-    withCredentials: true,
-    headers: {"API-KEY": "78ba9efb-88a6-4c7f-b505-5ad3ba5a9466"}
-})
 
 export const UsersAPI = {
     getUsers: (currentPage: number, pageSize: number) => {
@@ -38,12 +34,7 @@ export const ProfileAPI = {
             })
     },
 }
-export type loginAPIDataType = {
-    email: string
-    password: string
-    rememberMe: boolean
-    captcha?: boolean
-}
+
 export const LoginAPI = {
     login: (loginData: loginAPIDataType) => {
         let {email, password, rememberMe, captcha} = loginData
@@ -65,7 +56,6 @@ export const LoginAPI = {
 }
 
 export const getAuthUserData = () => {
-
     return instance.get<ResponseType<authDataType>>(`auth/me`)
         .then(response => {
             return response.data
@@ -83,38 +73,4 @@ export const unfollowUserAPI = (id: number) => {
     })
 }
 
-type getUsersResponse = {
-    items: Array<ItemsUsersResponseType>
-    totalCount: number
-    error: null | string
-}
-export type ItemsUsersResponseType = {
-    name: string
-    id: number
-    uniqueUrlName: null
-    photos: {
-        small: null | string
-        large: null | string
-    }
-    status: null | string
-    followed: boolean
-}
 
-
-type ResponseType<D = {}> = {
-    data: D
-    messages: string[]
-    fieldsErrors: []
-    resultCode: number
-}
-type ResponseLoginType<D = {}> = {
-    data: D
-    messages: string[]
-    resultCode: number
-}
-type UpdateStatusResponseType = {
-    resultCode: number
-    messages: string[]
-    data: {}
-    fieldsErrors: []
-}

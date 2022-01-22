@@ -2,12 +2,13 @@ import {v1} from "uuid";
 import {actionsType} from "../redux-store";
 import {Dispatch} from "redux";
 import { ProfileAPI} from "../../api/api";
+import {Nullable} from "../../types/Nullable";
 
 let initialState = {
     postsData: [
         {id: v1(), message: 'it is my first post', likes: 30},
         {id: v1(), message: 'it-kamasutra', likes: 10}],
-    profile: null as profileDataUserType,
+    profile: null /*as profileDataUserType*/,
     status:'',
 }
 export type postsDataType = {
@@ -22,7 +23,7 @@ export type ProfilePageType = {
     profile: profileDataUserType
     status:string
 }
-export type profileDataUserType = null | {
+export type profileDataUserType = Nullable< {
     aboutMe: string
     contacts: ContactsType
     lookingForAJob: boolean
@@ -30,7 +31,7 @@ export type profileDataUserType = null | {
     fullName: string
     userId: number
     photos: PhotosType
-}
+}>
 export type ContactsType = {
     facebook: string
     website: string

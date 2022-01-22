@@ -10,8 +10,8 @@ import {
 } from "../../redux/reducer/user-reducer";
 
 import {stateType} from "../../redux/redux-store";
-import {ItemsUsersResponseType} from "../../api/api";
 import {compose} from "redux";
+import {ItemsUsersResponseType} from "../../api/types";
 
 
 class UsersContainer extends React.Component<PropsType> {

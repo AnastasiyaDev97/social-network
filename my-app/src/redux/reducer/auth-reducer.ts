@@ -1,9 +1,11 @@
 import {actionsType, stateType} from "../redux-store";
 import {profileDataUserType} from "./profile-reducer";
 import {Dispatch} from "redux";
-import {getAuthUserData, LoginAPI, loginAPIDataType} from "../../api/api";
+import {getAuthUserData, LoginAPI} from "../../api/api";
 import {ThunkAction} from "redux-thunk";
 import {stopSubmit} from "redux-form";
+import {Nullable} from "../../types/Nullable";
+import {loginAPIDataType} from "../../api/types";
 
 
 let initialState = {
@@ -13,19 +15,19 @@ let initialState = {
         login: '',
     },
     isAuth: false,
-    profile: null as profileDataUserType
+    profile: null
 };
 
 export type authType = {
     data: authDataType
     isAuth: boolean
-    profile: profileDataUserType
+    profile: Nullable<profileDataUserType>
 }
 
 export type authDataType = {
-    id: number | null
-    login: string | null
-    email: string | null
+    id: Nullable<number>
+    login: Nullable<string>
+    email: Nullable<string>
 }
 
 export const authReducer = (state: authType = initialState, action: actionsType) => {

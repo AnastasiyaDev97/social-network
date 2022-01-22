@@ -2,8 +2,9 @@ import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import React from "react";
 import {Textarea} from "../FormsControl/FormsControl";
 import {maxLengthCreator, required} from "../../common/utils/validators";
-import {loginAPIDataType} from "../../api/api";
 import {Redirect} from "react-router-dom";
+import {loginAPIDataType} from "../../api/types";
+
 type LoginPropsType={
     loginThunk:(loginData:loginAPIDataType)=>void
     isAuth:boolean
