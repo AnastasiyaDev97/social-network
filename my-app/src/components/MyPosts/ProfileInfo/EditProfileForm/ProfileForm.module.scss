@@ -1,0 +1,43 @@
+@import '../../../../styles/scss/variables';
+@import "../../../../styles/scss/mixins";
+
+.userForm {
+  padding: 1rem;
+
+  .aboutMe {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0;
+  }
+
+  .contacts {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    margin-top: 0;
+
+  }
+
+  .following {
+    display: flex;
+
+    .followingTitle {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+      .followingIconsBlock {
+        display: flex;
+
+        .followingPhoto {
+          height: 25px;
+          border: 2px solid $activeFieldBackgr;
+          margin: 0 -6px 0 0px;
+          border-radius: 50%;
+          max-width: 100%;
+          vertical-align: middle;
+          cursor: pointer;
+        }
+      }
+    }
+
+}

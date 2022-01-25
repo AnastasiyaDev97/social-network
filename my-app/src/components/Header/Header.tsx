@@ -11,6 +11,7 @@ type HeaderPropsType = {
     logoutThunk: () => void
 }
 export const Header: FC<HeaderPropsType> = memo(({login, isAuth, logoutThunk}) => {
+
     return (
 
         <header className={style.header}>

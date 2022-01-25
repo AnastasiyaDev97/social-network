@@ -6,25 +6,30 @@ import {EMPTY_STRING} from "../../const";
 import {PATH} from "../../enums/PATH";
 import {FormikErrorType, validateLoginForm} from "../../utils/validators";
 
+
 type LoginPropsType = {
     loginThunk: (loginData: loginAPIDataType) => void
     isAuth: boolean
+    captchaUrl: string
 }
 
 export type FormDataType = {
     email: string
     password: string
     rememberMe: boolean
+    captcha: string
 }
 
 
-export const Login: FC<LoginPropsType> = memo(({loginThunk, isAuth}) => {
+export const Login: FC<LoginPropsType> = memo(({loginThunk, isAuth, captchaUrl}) => {
+
 
         const formik = useFormik({
             initialValues: {
                 email: EMPTY_STRING,
                 password: EMPTY_STRING,
-                rememberMe: false
+                rememberMe: false,
+                captcha: EMPTY_STRING,
             },
 
             validate: (values) => {
@@ -44,6 +49,7 @@ export const Login: FC<LoginPropsType> = memo(({loginThunk, isAuth}) => {
         }
 
         return (
+
             <div>
                 <h4>login</h4>
                 <form onSubmit={formik.handleSubmit}>
@@ -61,6 +67,13 @@ export const Login: FC<LoginPropsType> = memo(({loginThunk, isAuth}) => {
                         <input type={'checkbox'} {...formik.getFieldProps('rememberMe')}/>
                         remember me
                     </div>
+                    {captchaUrl &&
+                    <div>
+                        <img src={captchaUrl} alt='captcha'/>
+                        <input placeholder='add captcha' {...formik.getFieldProps('captcha')}/>
+                    </div>}
+
+
                     <button>Login</button>
                 </form>
             </div>

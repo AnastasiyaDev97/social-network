@@ -1,9 +1,12 @@
-import React, {ChangeEvent, FC, memo} from 'react';
-import s from './ProfileInfo.module.css'
+import React, {ChangeEvent, FC, memo, useCallback, useRef} from 'react';
+import style from './ProfileInfo.module.scss'
 import Preloader from "../../../common/preloader/Preloader";
-import {profileDataUserType} from "../../../redux/reducer/profile-reducer";
-import {ProfileStatusWithHooks} from "./ProfileStatus/ProfileStatusWithHooks";
+import {profileDataUserType, updateProfileThunkT} from "../../../redux/reducer/profile-reducer";
 import {Nullable} from "../../../types/Nullable";
+import {EditableSpan} from "../../EditableSpan/EditableSpan";
+import {ProfileForm} from "./EditProfileForm/ProfileForm";
+import {initialUserAvatar} from "../../../const";
+import {ItemsUsersResponseType} from "../../../api/types";
 
 type ProfileInfoPropsType = {
     profile: profileDataUserType
@@ -11,15 +14,20 @@ type ProfileInfoPropsType = {
     status: string
     saveProfileAvatar: (newAvatar: File) => void
     userIdAuth: Nullable<number>
+    updateProfile: (updateProfile: updateProfileThunkT) => void
+    followingUsers:Array<ItemsUsersResponseType>
 }
 
 export const ProfileInfo: FC<ProfileInfoPropsType> = memo(({
                                                                profile, updateUserStatus, status, saveProfileAvatar,
-                                                               userIdAuth
+                                                               userIdAuth, updateProfile,followingUsers
                                                            }) => {
+    const inRef = useRef<HTMLInputElement>(null);
 
-    const initialUserAvatar = 'http://pm1.narvii.com/7812/ed9961348bc94cd31227151dd9aa1f918c40cff5r1-869-968v2_uhq.jpg'
-    const conditionForShowChangePhotoInput=userIdAuth === profile.userId
+    const isOwner = userIdAuth === profile.userId;
+
+
+
 
     const onInputChooseAvatarChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -27,27 +35,40 @@ export const ProfileInfo: FC<ProfileInfoPropsType> = memo(({
         }
     }
 
+    const handleEditableSpanClick = useCallback((newTitle: string) => {
+        if (newTitle !== profile.fullName) {
+            updateProfile({fullName: newTitle})
+        }
+    }, [profile.fullName,updateProfile])
+
     if (Object.keys(profile).length === 0) {
         return <Preloader/>
     }
 
     return (
-        <div>
-            <div className={s.container}>
-                {profile.fullName}
-                <div><img className={s.profilePhoto}
-                          src={profile.photos.small || initialUserAvatar}
-                          alt={'profile avatar'}/></div>
-                {conditionForShowChangePhotoInput && <input type='file' onChange={onInputChooseAvatarChange}/>}
+        <div className={style.profileInfoWrapper}>
+            <div className={style.headerBlock}>
 
-                <div className={s.userForm}><span>About me:{profile.aboutMe}</span>
-                    <span>My contacts: {profile.contacts.vk}</span>
+                <p className={style.imgWrapper} onClick={() => inRef && inRef.current && inRef.current.click()}>
+                    <img className={style.profilePhoto}
+                         src={profile.photos.small || initialUserAvatar}
+                         alt={'profile avatar'}
+                    />
+                </p>
+
+                {isOwner && <input type='file' onChange={onInputChooseAvatarChange}
+                                                          ref={inRef} style={{display: 'none'}}/>}
+
+                <div className={style.nameBlock}>
+                    <EditableSpan title={profile.fullName} updateTitle={handleEditableSpanClick}
+                                  myStyle={style.name}/>
+                    <EditableSpan title={status} updateTitle={updateUserStatus}
+                                  myStyle={style.status}/>
                 </div>
-            </div>
 
-            <div className={s.statusBlock}>
-                <ProfileStatusWithHooks status={status} updateUserStatus={updateUserStatus}/>
             </div>
+            <ProfileForm contacts={profile.contacts} aboutMe={profile.aboutMe} isOwner={isOwner}
+                         updateProfile={updateProfile} followingUsers={followingUsers}/>
         </div>
     )
 })

@@ -1,4 +1,5 @@
 import {Nullable} from "../../types/Nullable";
+import {ContactsType} from "../../redux/reducer/profile-reducer";
 
 export type getUsersResponse = {
     items: Array<ItemsUsersResponseType>
@@ -24,23 +25,13 @@ export type ResponseType<D = {}> = {
     fieldsErrors: string[]
     resultCode: number
 }
-export type ResponseLoginType<D = {}> = {
-    data: D
-    messages: string[]
-    resultCode: number
-}
-export type UpdateStatusResponseType = {
-    resultCode: number
-    messages: string[]
-    data: {}
-    fieldsErrors: []
-}
+
 
 export type loginAPIDataType = {
     email: string
     password: string
     rememberMe: boolean
-    captcha?: boolean
+    captcha: string
 }
 
 export type photosType={
@@ -48,4 +39,17 @@ export type photosType={
         large:string
         small:string
     }
+}
+
+export type securityAPIResponseT={
+    url:string
+}
+
+export type updateProfilePayloadT={
+    userId: number
+    lookingForAJob: boolean
+    lookingForAJobDescription: string
+    fullName: string
+    contacts: ContactsType
+    aboutMe:string
 }

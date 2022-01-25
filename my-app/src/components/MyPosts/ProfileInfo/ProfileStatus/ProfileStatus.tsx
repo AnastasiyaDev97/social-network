@@ -3,7 +3,7 @@ import React, {ChangeEvent, Component, KeyboardEvent} from "react";
 
 type ProfileStatusPropsType = {
     status: string
-    updateUserStatus: (status: string) => any
+    updateUserStatus: (status: string) => void
 }
 type localStateType = {
     editMode: boolean

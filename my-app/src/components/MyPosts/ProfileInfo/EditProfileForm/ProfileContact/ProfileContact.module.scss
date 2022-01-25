@@ -1,0 +1,12 @@
+@import '../../../../../styles/scss/variables';
+@import "../../../../../styles/scss/mixins";
+
+.icon {
+  @include icon;
+  font-size: 16px;
+  color: $secondaryTextColor;
+  padding-right: 15px;
+
+
+
+}

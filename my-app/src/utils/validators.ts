@@ -6,6 +6,7 @@ export type FormikErrorType = {
     email?:string
     password?: string
     rememberMe?: boolean
+    captcha?:string
 }
 
 const minPasswordLength=8

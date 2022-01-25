@@ -1,0 +1,17 @@
+@import '../../../styles/scss/variables';
+@import '../../../styles/scss/mixins';
+
+.item{
+  --bs-gutter-x: 1.5rem;
+  a{
+    @include itemList;
+    &.active,&:hover{
+      color: $textColor;
+      background: $activeFieldBackgr;
+      box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)
+    }
+    .icon{
+      @include icon;
+    }
+  }
+}

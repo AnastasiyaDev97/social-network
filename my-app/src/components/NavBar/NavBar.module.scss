@@ -1,0 +1,35 @@
+@import '../../styles/scss/variables';
+@import "../../styles/scss/mixins";
+
+.navBar{
+    grid-area: nav;
+    padding-right: 15px;
+    padding-left: 15px;
+
+    .list{
+        display: flex;
+        flex-direction: column;
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+        font-size: 13px;
+        font-family: $mainFont;
+        color: $secondaryTextColor;
+        flex-grow: 1;
+        .span{
+            cursor: pointer;
+            @include itemList;
+            &:active,&:hover{
+                    color: $textColor;
+                    background: $activeFieldBackgr;
+                    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)
+                }
+            .icon{
+                @include icon;
+            }
+            }
+        }
+    }
+
+
+

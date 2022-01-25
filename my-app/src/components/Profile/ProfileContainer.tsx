@@ -1,15 +1,17 @@
-import React, {PureComponent} from "react";
+import React, {ComponentType, PureComponent} from "react";
 import {connect} from "react-redux";
 import {Profile} from "./Profile";
 import {
     getUserProfile, getUserStatus,
-    profileDataUserType, saveProfileAvatar, updateUserStatus,
+    profileDataUserType, saveProfileAvatar, updateProfile, updateProfileThunkT, updateUserStatus,
 } from "../../redux/reducer/profile-reducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {stateType} from "../../redux/redux-store";
 import {compose} from "redux";
 import {Nullable} from "../../types/Nullable";
 import {PATH} from "../../enums/PATH";
+import {ItemsUsersResponseType} from "../../api/types";
+import {getUsersThunk} from "../../redux/reducer/user-reducer";
 
 type PathParamsType = {
     userId: string
@@ -37,6 +39,8 @@ class ProfileContainer extends PureComponent<ProfilePropsType> {
         }
         this.props.getUserProfile(userId)
         this.props.getUserStatus(userId)
+        this.props.getUsersThunk(5,1,true)
+
     }
 
     render() {
@@ -54,22 +58,29 @@ type mapStateToPropsType = {
     userIdAuth: Nullable<number>
     status: string
     isAuth: boolean
+    users:Array<ItemsUsersResponseType>
 }
 type mapDispatchToPropsType = {
     getUserProfile: (userId: string) => void
     getUserStatus: (userId: string) => void
     updateUserStatus: (status: string) => void
     saveProfileAvatar: (newAvatar: File) => void
+    updateProfile: (updateProfile: updateProfileThunkT) => void
+    getUsersThunk : (currentPage: number, pageSize: number,friend?:boolean)=>void
+
 }
 let mapStateToProps = (state: stateType): mapStateToPropsType => ({
     profile: state.ProfilePage.profile,
     userIdAuth: state.auth.data.id,
     status: state.ProfilePage.status,
     isAuth: state.auth.isAuth,
+    users:state.UsersPage.items,
+
 
 })
-export default compose<React.ComponentType>(
-    connect(mapStateToProps, {getUserProfile, getUserStatus, updateUserStatus, saveProfileAvatar}),
+export default compose<ComponentType>(
+    connect(mapStateToProps, {getUserProfile, getUserStatus, updateUserStatus, saveProfileAvatar,
+        updateProfile,getUsersThunk}),
     withRouter)(ProfileContainer)
 
 

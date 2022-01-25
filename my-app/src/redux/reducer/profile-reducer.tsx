@@ -1,15 +1,17 @@
 import {v1} from "uuid";
-import {actionsType} from "../redux-store";
+import {actionsType, stateType, ThunkType} from "../redux-store";
 import {Dispatch} from "redux";
 import {ProfileAPI} from "../../api/api";
 import {EMPTY_STRING} from "../../const";
 import {setAppStatusAC} from "./app-reducer";
+import {RESULT_CODES} from "../../enums/ResultCode";
+
 
 let initialState = {
     postsData: [
         {id: v1(), message: 'it is my first post', likes: 30},
         {id: v1(), message: 'it-kamasutra', likes: 10}],
-    profile: {} as profileDataUserType,
+    profile: { } as profileDataUserType,
     status: EMPTY_STRING,
 }
 export type postsDataType = {
@@ -95,7 +97,9 @@ export const setAvatar = (photos: PhotosType) => ({
     ) as const
 
 
-export const getUserProfile = (userId: string) =>
+
+
+export const getUserProfile = (userId: number) =>
     async (dispatch: Dispatch<actionsType>) => {
         dispatch(setAppStatusAC('loading'))
         let data = await ProfileAPI.getUserProfileAPI(userId)
@@ -103,7 +107,7 @@ export const getUserProfile = (userId: string) =>
         dispatch(setAppStatusAC('succeeded'))
     }
 
-export const getUserStatus = (userId: string) =>
+export const getUserStatus = (userId: number) =>
     async (dispatch: Dispatch<actionsType>) => {
         dispatch(setAppStatusAC('loading'))
         let data = await ProfileAPI.getStatus(userId)
@@ -115,7 +119,7 @@ export const updateUserStatus = (status: string) =>
     async (dispatch: Dispatch<actionsType>) => {
         dispatch(setAppStatusAC('loading'))
         let data = await ProfileAPI.updateStatus(status)
-        if (data.resultCode === 0) {
+        if (data.resultCode === RESULT_CODES.SUCCESS) {
             dispatch(setStatus(status))
             dispatch(setAppStatusAC('succeeded'))
         }
@@ -125,10 +129,38 @@ export const saveProfileAvatar = (newAvatar: File) =>
     async (dispatch: Dispatch<actionsType>) => {
         dispatch(setAppStatusAC('loading'))
         let data = await ProfileAPI.updateAvatar(newAvatar)
-        if (data.resultCode === 0) {
+        if (data.resultCode === RESULT_CODES.SUCCESS) {
             dispatch(setAvatar(data.data.photos))
             dispatch(setAppStatusAC('succeeded'))
         }
     }
+
+export const updateProfile = (updateProfile: updateProfileThunkT): ThunkType =>
+    async (dispatch
+           ,getState: () => stateType) => {
+        dispatch(setAppStatusAC('loading'))
+
+        let {userId,aboutMe,lookingForAJob,lookingForAJobDescription,fullName,
+            contacts} = getState().ProfilePage.profile
+
+        let profileForUpdate={userId,aboutMe,lookingForAJob,lookingForAJobDescription,fullName,
+            contacts,...updateProfile}
+        let data = await ProfileAPI.updateProfile(profileForUpdate)
+        if (data.resultCode === RESULT_CODES.SUCCESS) {
+            await dispatch(getUserProfile(userId))
+        }
+    }
+
+
+
+
+export type updateProfileThunkT={
+    userId?: number
+    lookingForAJob?: boolean
+    lookingForAJobDescription?: string
+    fullName?: string
+    contacts?: ContactsType
+    aboutMe?:string
+}
 
 export default profileReducer

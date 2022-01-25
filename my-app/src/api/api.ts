@@ -4,35 +4,47 @@ import {instance} from "./apiConfig";
 import {
     getUsersResponse,
     loginAPIDataType,
-    ResponseLoginType,
-    UpdateStatusResponseType,
     ResponseType,
-    photosType
+    photosType, securityAPIResponseT, updateProfilePayloadT
 } from "./types";
 
 
 export const UsersAPI = {
-    getUsers: (currentPage: number, pageSize: number) => {
-        return instance.get<getUsersResponse>(`users?page=${currentPage}&count=${pageSize}`)
-            .then(response =>  response.data)
+    getUsers: (currentPage?: number, pageSize?: number,friend?:boolean) => {
+        if(friend){
+            return instance.get<getUsersResponse>(`users?friend=${friend}`)
+                .then(response => response.data)
+        }
+        return instance.get<getUsersResponse>(`users?page=${currentPage}&count=${pageSize}&friend=${friend}`)
+            .then(response => response.data)
+    },
+
+    followUserAPI: (id: number) => {
+        return instance.post<ResponseType>(`follow/${id}`)
+            .then(response => response.data)
+    },
+
+    unfollowUserAPI: (id: number) => {
+        return instance.delete<ResponseType>(`follow/${id}`)
+            .then(response => response.data)
     }
 }
 
 export const ProfileAPI = {
-    getUserProfileAPI: (id: string) => {
+    getUserProfileAPI: (id: number) => {
         return instance.get<profileDataUserType>(`profile/${id}`)
             .then(response => response.data
             )
     },
 
-    getStatus: (id: string) => {
+    getStatus: (id: number) => {
         return instance.get<string>(`/profile/status/${id}`)
             .then(response => response.data)
     },
 
     updateStatus: (status: string) => {
-        return instance.put<UpdateStatusResponseType>(`/profile/status`, {status})
-            .then(response =>  response.data)
+        return instance.put<ResponseType>(`/profile/status`, {status})
+            .then(response => response.data)
     },
 
     updateAvatar: (photoFile: File) => {
@@ -43,41 +55,43 @@ export const ProfileAPI = {
                 'Content-Type': 'multipart/form-data'
             }
         })
-            .then(response =>  response.data)
+            .then(response => response.data)
+    },
+
+    updateProfile:(updateProfile:updateProfilePayloadT)=>{
+        return instance.put<ResponseType>(`/profile`, updateProfile)
+            .then(response => {
+                return response.data})
     }
 }
 
 export const LoginAPI = {
     login: (loginData: loginAPIDataType) => {
         let {email, password, rememberMe, captcha} = loginData
-        return instance.post<ResponseLoginType<{ userId: number }>>('/auth/login', {
+        return instance.post<ResponseType<{ userId: number }>>('/auth/login', {
             email,
             password,
             rememberMe,
             captcha
         })
-            .then(response =>  response.data)
+            .then(response => response.data)
     },
 
     logout: () => {
-        return instance.delete<ResponseLoginType>('/auth/login')
-            .then(response =>  response.data)
-    }
+        return instance.delete<ResponseType>('/auth/login')
+            .then(response => response.data)
+    },
+
+    getAuthUserData: () => {
+        return instance.get<ResponseType<authDataType>>(`auth/me`)
+            .then(response => response.data)
+    },
 }
 
-export const getAuthUserData = () => {
-    return instance.get<ResponseType<authDataType>>(`auth/me`)
-        .then(response =>  response.data)
-}
 
-export const followUserAPI = (id: number) => {
-    return instance.post<ResponseType>(`follow/${id}`)
+export const securityAPI = () => {
+    return instance.get<securityAPIResponseT>(`security/get-captcha-url`)
         .then(response => response.data)
-}
-
-export const unfollowUserAPI = (id: number) => {
-    return instance.delete<ResponseType>(`follow/${id}`)
-        .then(response =>  response.data)
 }
 
 

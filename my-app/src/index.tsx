@@ -10,8 +10,7 @@ import { Provider } from 'react-redux';
         <HashRouter>
             <Provider store={store}>
                 <App/>
-            </Provider>,
-
+            </Provider>
         </HashRouter>, document.getElementById('root')
     );
 

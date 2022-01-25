@@ -1,0 +1,20 @@
+@import '../../styles/scss/variables';
+
+.myPosts {
+  border-radius: 14px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+  background: $activeFieldBackgr;
+  display: flex;
+  .avatar{
+    height: 50px;
+    border-radius: 50%;
+    max-width: 100%;
+    vertical-align: middle;
+    cursor: pointer;
+  }
+  .postBlock{
+
+  }
+}

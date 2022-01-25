@@ -1,5 +1,6 @@
 import {v1} from "uuid";
 import {actionsType} from "../redux-store";
+import {EMPTY_STRING} from "../../const";
 
 
 let initialState = {
@@ -29,12 +30,12 @@ export type DialogsPageType = {
 const dialogReducer = (state: DialogsPageType = initialState, action: actionsType) => {
 
     switch (action.type) {
-        case 'ADD-MESSAGE':
+        case 'DIALOGS/ADD-MESSAGE':
             let newMessage: messageDataType = {id: v1(), textMessage: action.messageText}
             return {
                 ...state,
                 messageData: [...state.messageData, newMessage],
-                newMessageText: ''
+                newMessageText: EMPTY_STRING
             }
         default:
             return state
@@ -42,7 +43,7 @@ const dialogReducer = (state: DialogsPageType = initialState, action: actionsTyp
 }
 
 export const addMessage = (messageText: string) => ({
-    type: 'ADD-MESSAGE',
+    type: 'DIALOGS/ADD-MESSAGE',
     messageText: messageText
 }) as const
 

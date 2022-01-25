@@ -32,10 +32,10 @@ export const setInitialization = () => ({
     type: 'APP/SET-INITIALIZATION',
 }) as const
 
-export const setAppStatusAC = (status: RequestStatusType) => ({
+export const setAppStatusAC = (RequestStatus: RequestStatusType) => ({
     type: 'APP/SET-STATUS',
     payload: {
-        status,
+        RequestStatus,
     }
 } as const)
 

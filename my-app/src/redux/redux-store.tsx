@@ -10,12 +10,12 @@ import userReducer, {
     toggleIsFetching,
     unFollowUser
 } from "./reducer/user-reducer";
-import authReducer, {setAuthUserData, setMyProfileData} from "./reducer/auth-reducer";
+import authReducer, {setCaptchaSuccess, setAuthUserData, setMyProfileData} from "./reducer/auth-reducer";
 import ThunkMiddleware, {ThunkAction} from 'redux-thunk'
 import appReducer, {setAppStatusAC, setInitialization} from "./reducer/app-reducer";
 import {composeWithDevTools} from 'redux-devtools-extension';
 
-let reducers = combineReducers({
+let rootReducer = combineReducers({
     DialogsPage: dialogReducer,
     ProfilePage: profileReducer,
     sidebarPage: sidebarReducer,
@@ -24,9 +24,9 @@ let reducers = combineReducers({
     app: appReducer,
 })
 
-export type stateType = ReturnType<typeof reducers>
+export type stateType = ReturnType<typeof rootReducer>
 
-export let store = createStore(reducers, composeWithDevTools(applyMiddleware(ThunkMiddleware)))
+export let store = createStore(rootReducer, composeWithDevTools(applyMiddleware(ThunkMiddleware)))
 
 export type actionsType =
     ReturnType<typeof addPost>
@@ -45,6 +45,7 @@ export type actionsType =
     | ReturnType<typeof setInitialization>
     | ReturnType<typeof setAvatar>
     | ReturnType<typeof setAppStatusAC>
+    | ReturnType<typeof setCaptchaSuccess>
 
 export type ThunkType = ThunkAction<void, stateType, unknown, actionsType>
 
