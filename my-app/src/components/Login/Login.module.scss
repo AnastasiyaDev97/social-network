@@ -1,0 +1,46 @@
+@import '../../styles/scss/variables';
+
+.loginWrapper {
+  border-radius: 14px;
+  padding: 3rem 5rem;
+  box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+  background: $activeFieldBackgr;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: $mainFont;
+
+  .title {
+    font-family: $titleFont;
+    margin-top: 0;
+    color:$textColor;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+
+    .relativeInputBlock {
+      position: relative;
+      width: 100%;
+
+      .input {
+        margin-bottom: 35px;
+        width: 100%;
+      }
+
+      .error {
+        position: absolute;
+        top: 3rem;
+        left: 10px;
+        color:$errorColorText;
+      }
+    }
+    .btnMargin{
+      margin-top: 15px;
+    }
+  }
+
+}

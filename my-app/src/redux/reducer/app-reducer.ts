@@ -47,4 +47,6 @@ export const Initialize = (): ThunkType =>
         dispatch(setAppStatusAC('succeeded'))
     }
 
+
+
 export default appReducer

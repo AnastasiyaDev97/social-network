@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {FC, memo} from 'react';
 import style from './NavBar.module.scss'
-import { Redirect} from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 import {connect} from "react-redux";
 import {stateType} from "../../redux/redux-store";
 import {PATH} from "../../enums/PATH";
@@ -18,7 +18,8 @@ import {faSignOutAlt} from "@fortawesome/free-solid-svg-icons/faSignOutAlt";
 
 type NavBarPropsType = mapStateToPropsType & mapDispatchToPropsType
 
-const NavBar = (props: NavBarPropsType) => {
+const NavBar: FC<NavBarPropsType> = memo(({isAuth, logoutThunk}) => {
+
 
     const listArray = [
         {path: PATH.PROFILE, title: 'PROFILE', icon: faUser},
@@ -30,40 +31,41 @@ const NavBar = (props: NavBarPropsType) => {
     ]
 
     const onLogoutSpanClick = () => {
-        props.logoutThunk()
+        logoutThunk()
         return <Redirect to={PATH.LOGIN}/>
     }
 
-    if (props.authId) {
 
-    }
     return (
 
         <nav className={style.navBar}>
             <ul className={style.list}>
                 {listArray.map((item, i) => <ItemList key={i} path={item.path}
                                                       title={item.title} icon={item.icon}/>)}
-                <li className={style.item}>
+                {isAuth && <li className={style.item}>
                     <span className={style.span} onClick={onLogoutSpanClick}>
                         <span className={style.icon}>
                         <FontAwesomeIcon icon={faSignOutAlt}/></span>
-                        <span>LOGOUT</span>
+                         <span>LOGOUT</span>
                     </span>
-                </li>
+                </li>}
             </ul>
         </nav>
 
     )
-}
+})
+
 type mapStateToPropsType = {
     authId: Nullable<number>
+    isAuth: boolean
 }
 type mapDispatchToPropsType = {
     logoutThunk: () => void
 }
 
 let mapStateToProps = (state: stateType) => ({
-    authId: state.auth.data.id
+    authId: state.auth.data.id,
+    isAuth: state.auth.isAuth
 })
 
 

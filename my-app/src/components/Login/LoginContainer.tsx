@@ -14,11 +14,13 @@ type mapStateToPropsType = {
     captchaUrl:string
 }
 
-const mapStateToProps = (state: stateType): mapStateToPropsType => ({
-    isAuth: state.auth.isAuth,
-    userId: state.ProfilePage.profile.userId,
-    captchaUrl:state.auth.captchaUrl,
-})
+const mapStateToProps = (state: stateType): mapStateToPropsType => {
+    return({
+        isAuth: state.auth.isAuth,
+        userId: state.ProfilePage.profile.userId,
+        captchaUrl: state.auth.captchaUrl,
+    })
+}
 
 export default connect<mapStateToPropsType, mapDispatchToPropsType, {}, stateType>(mapStateToProps
     , {loginThunk})(Login)

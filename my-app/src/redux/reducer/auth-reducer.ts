@@ -18,7 +18,7 @@ let initialState = {
     },
     isAuth: false,
     profile: null,
-    captchaUrl: EMPTY_STRING
+    captchaUrl: EMPTY_STRING,
 };
 
 export type authType = {
@@ -42,19 +42,25 @@ export const authReducer = (state: authType = initialState, action: actionsType)
                 ...state,
                 data: {...action.data}, isAuth: action.isAuth
             }
+        case 'AUTH/TOGGLE-IS-LOGGED-IN':
+
+            return {...state, ...action.payload}
         case 'AUTH/SET-MY-PROFILE-DATA':
         case 'AUTH/SET-CAPTCHA':
+
             return {...state, ...action.payload}
         default:
             return state
     }
 }
 
-export const setAuthUserData = (data: authDataType, isAuth: boolean) => ({
-    type: 'AUTH/SET-AUTH-USER-DATA',
-    data,
-    isAuth,
-}) as const
+export const setAuthUserData = (data: authDataType, isAuth: boolean) => {
+    return({
+        type: 'AUTH/SET-AUTH-USER-DATA',
+        data,
+        isAuth,
+    }) as const
+}
 
 export const setMyProfileData = (profile: profileDataUserType) => ({
     type: 'AUTH/SET-MY-PROFILE-DATA',
@@ -64,6 +70,11 @@ export const setMyProfileData = (profile: profileDataUserType) => ({
 export const setCaptchaSuccess = (captchaUrl: string) => ({
     type: 'AUTH/SET-CAPTCHA',
     payload: {captchaUrl},
+}) as const
+
+export const toggleIsLoggedIn = (isLoggedIn: boolean) => ({
+    type: 'AUTH/TOGGLE-IS-LOGGED-IN',
+    payload: {isLoggedIn},
 }) as const
 
 
@@ -104,7 +115,6 @@ export const logoutThunk = () =>
             dispatch(setAppStatusAC('succeeded'))
         }
     }
-
 export const getCaptcha = () =>
     async (dispatch: Dispatch<actionsType>) => {
         dispatch(setAppStatusAC('loading'))

@@ -83,8 +83,12 @@ export const LoginAPI = {
     },
 
     getAuthUserData: () => {
+
         return instance.get<ResponseType<authDataType>>(`auth/me`)
-            .then(response => response.data)
+            .then(response => {
+
+                return response.data
+            })
     },
 }
 

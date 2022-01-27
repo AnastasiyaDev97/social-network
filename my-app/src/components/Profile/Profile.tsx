@@ -8,28 +8,35 @@ import {ItemsUsersResponseType} from "../../api/types";
 
 
 type ProfilePropsType = {
-    profile:profileDataUserType
-    updateUserStatus:(status: string) => void
-    status:string
-    saveProfileAvatar:(newAvatar:File)=>void
+    profile: profileDataUserType
+    updateUserStatus: (status: string) => void
+    status: string
+    saveProfileAvatar: (newAvatar: File) => void
     userIdAuth: Nullable<number>
     updateProfile: (updateProfile: updateProfileThunkT) => void
-    users:Array<ItemsUsersResponseType>
+    users: Array<ItemsUsersResponseType>
+    isAuth: boolean
+    toggleUsersType:(usersType: string)=>void
 
 }
 
-export const Profile:FC<ProfilePropsType> = memo(({profile,updateUserStatus,status,
-                                                      saveProfileAvatar,userIdAuth,updateProfile,users
-                                                      }) => {
+export const Profile: FC<ProfilePropsType> = memo(({
+                                                       profile, updateUserStatus, status,
+                                                       saveProfileAvatar, userIdAuth, updateProfile, users,
+                                                       isAuth,toggleUsersType
+                                                   }) => {
 
-const followingUsers= useMemo(()=>{return users.filter(user=>user.followed)},[users])
+    const followingUsers = useMemo(() => {
+        return users.filter(user => user.followed)
+    }, [users])
 
     return (
         <div className={style.profileWrapper}>
             <ProfileInfo profile={profile} updateUserStatus={updateUserStatus} status={status}
                          saveProfileAvatar={saveProfileAvatar} userIdAuth={userIdAuth}
-                         updateProfile={updateProfile} followingUsers={followingUsers}/>
-            <MyPostsContainer /*photo={profile.photos.small} name={profile.fullName}*//>
+                         updateProfile={updateProfile} followingUsers={followingUsers}
+                         toggleUsersType={toggleUsersType}/>
+            {isAuth && <MyPostsContainer /*photo={profile.photos.small} name={profile.fullName}*//>}
         </div>
 
     )

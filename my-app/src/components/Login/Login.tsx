@@ -5,6 +5,11 @@ import {useFormik} from "formik";
 import {EMPTY_STRING} from "../../const";
 import {PATH} from "../../enums/PATH";
 import {FormikErrorType, validateLoginForm} from "../../utils/validators";
+import style from './Login.module.scss'
+import SuperButton from "../SuperButton/SuperButton";
+
+import SuperInputText from "../SuperInput/SuperInputText";
+import SuperCheckBox from "../SuperCheckBox/SuperCheckBox";
 
 
 type LoginPropsType = {
@@ -22,7 +27,6 @@ export type FormDataType = {
 
 
 export const Login: FC<LoginPropsType> = memo(({loginThunk, isAuth, captchaUrl}) => {
-
 
         const formik = useFormik({
             initialValues: {
@@ -44,37 +48,45 @@ export const Login: FC<LoginPropsType> = memo(({loginThunk, isAuth, captchaUrl})
             },
         })
 
-        if (isAuth) {
-            return <Redirect to={PATH.PROFILE}/>
-        }
+    const fieldsWithValidation=[
+        {name:'email',touched:formik.touched.email,error:formik.errors.email},
+        {name:'password',touched:formik.touched.password,error:formik.errors.password},
+    ]
+
+
+    if (isAuth) {
+        return <Redirect to={PATH.PROFILE}/>
+    }
+
 
         return (
 
-            <div>
-                <h4>login</h4>
-                <form onSubmit={formik.handleSubmit}>
-                    <div>
-                        <input placeholder={'email'} {...formik.getFieldProps('email')}/>
-                    </div>
-                    {(formik.touched.email && formik.errors.email) && <div>{formik.errors.email}</div>}
+            <div className={style.loginWrapper}>
+                <h2 className={style.title}>Login</h2>
+                <form onSubmit={formik.handleSubmit} className={style.form}>
 
-                    <div>
-                        <input placeholder={'password'} {...formik.getFieldProps('password')}/>
-                    </div>
-                    {(formik.touched.password && formik.errors.password) && <div>{formik.errors.password}</div>}
+                    {fieldsWithValidation.map((field,i)=>{
+                        return <div key={i} className={style.relativeInputBlock}>
+                            <SuperInputText placeholder={field.name}
+                                            {...formik.getFieldProps(field.name)}
+                                            className={style.input}/>
+                            {(field.touched && field.error) && <div
+                                className={style.error}>{field.error}</div>}
+                        </div>
+                    })}
 
-                    <div>
-                        <input type={'checkbox'} {...formik.getFieldProps('rememberMe')}/>
+                    <SuperCheckBox type={'checkbox'} {...formik.getFieldProps('rememberMe')}
+                                   className={style.padding}>
                         remember me
-                    </div>
+                    </SuperCheckBox>
+
                     {captchaUrl &&
                     <div>
                         <img src={captchaUrl} alt='captcha'/>
                         <input placeholder='add captcha' {...formik.getFieldProps('captcha')}/>
                     </div>}
 
-
-                    <button>Login</button>
+                    <SuperButton className={style.btnMargin}>Login</SuperButton>
                 </form>
             </div>
         )

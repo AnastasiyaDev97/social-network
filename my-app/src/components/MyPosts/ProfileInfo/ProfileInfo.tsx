@@ -8,6 +8,7 @@ import {ProfileForm} from "./EditProfileForm/ProfileForm";
 import {initialUserAvatar} from "../../../const";
 import {ItemsUsersResponseType} from "../../../api/types";
 
+
 type ProfileInfoPropsType = {
     profile: profileDataUserType
     updateUserStatus: (status: string) => void
@@ -15,18 +16,19 @@ type ProfileInfoPropsType = {
     saveProfileAvatar: (newAvatar: File) => void
     userIdAuth: Nullable<number>
     updateProfile: (updateProfile: updateProfileThunkT) => void
-    followingUsers:Array<ItemsUsersResponseType>
+    followingUsers: Array<ItemsUsersResponseType>
+    toggleUsersType:(usersType: string)=>void
 }
 
 export const ProfileInfo: FC<ProfileInfoPropsType> = memo(({
                                                                profile, updateUserStatus, status, saveProfileAvatar,
-                                                               userIdAuth, updateProfile,followingUsers
+                                                               userIdAuth, updateProfile, followingUsers,
+                                                               toggleUsersType
                                                            }) => {
     const inRef = useRef<HTMLInputElement>(null);
 
     const isOwner = userIdAuth === profile.userId;
-
-
+    /*const statusText = status || '----'*/
 
 
     const onInputChooseAvatarChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +41,7 @@ export const ProfileInfo: FC<ProfileInfoPropsType> = memo(({
         if (newTitle !== profile.fullName) {
             updateProfile({fullName: newTitle})
         }
-    }, [profile.fullName,updateProfile])
+    }, [profile.fullName, updateProfile])
 
     if (Object.keys(profile).length === 0) {
         return <Preloader/>
@@ -57,7 +59,7 @@ export const ProfileInfo: FC<ProfileInfoPropsType> = memo(({
                 </p>
 
                 {isOwner && <input type='file' onChange={onInputChooseAvatarChange}
-                                                          ref={inRef} style={{display: 'none'}}/>}
+                                   ref={inRef} style={{display: 'none'}}/>}
 
                 <div className={style.nameBlock}>
                     <EditableSpan title={profile.fullName} updateTitle={handleEditableSpanClick}
@@ -68,7 +70,8 @@ export const ProfileInfo: FC<ProfileInfoPropsType> = memo(({
 
             </div>
             <ProfileForm contacts={profile.contacts} aboutMe={profile.aboutMe} isOwner={isOwner}
-                         updateProfile={updateProfile} followingUsers={followingUsers}/>
+                         updateProfile={updateProfile} followingUsers={followingUsers}
+                         toggleUsersType={toggleUsersType}/>
         </div>
     )
 })

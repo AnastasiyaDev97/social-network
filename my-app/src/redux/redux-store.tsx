@@ -7,10 +7,15 @@ import userReducer, {
     followUser,
     setTotalUsersCount,
     setUsers, toggleFollowProgress,
-    toggleIsFetching,
+    toggleIsFetching, toggleUsersType,
     unFollowUser
 } from "./reducer/user-reducer";
-import authReducer, {setCaptchaSuccess, setAuthUserData, setMyProfileData} from "./reducer/auth-reducer";
+import authReducer, {
+    setCaptchaSuccess,
+    setAuthUserData,
+    setMyProfileData,
+    toggleIsLoggedIn
+} from "./reducer/auth-reducer";
 import ThunkMiddleware, {ThunkAction} from 'redux-thunk'
 import appReducer, {setAppStatusAC, setInitialization} from "./reducer/app-reducer";
 import {composeWithDevTools} from 'redux-devtools-extension';
@@ -46,6 +51,8 @@ export type actionsType =
     | ReturnType<typeof setAvatar>
     | ReturnType<typeof setAppStatusAC>
     | ReturnType<typeof setCaptchaSuccess>
+    | ReturnType<typeof toggleIsLoggedIn>
+    | ReturnType<typeof toggleUsersType>
 
 export type ThunkType = ThunkAction<void, stateType, unknown, actionsType>
 

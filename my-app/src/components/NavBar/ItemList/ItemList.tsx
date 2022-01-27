@@ -5,14 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
 
 
-
-//solid - заполненн
-//regular - Пустая
-
 type ItemListT = {
     path: string
     title: string
-    icon:IconProp
+    icon: IconProp
 }
 
 export const ItemList: FC<ItemListT> = memo(({path, title,icon}) => {

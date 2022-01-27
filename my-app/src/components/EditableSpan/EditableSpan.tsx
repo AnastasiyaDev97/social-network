@@ -1,4 +1,6 @@
 import {ChangeEvent, FC, KeyboardEvent, memo, useState} from "react";
+import SuperInputText from "../SuperInput/SuperInputText";
+import style from './EditableSpan.module.scss'
 
 type EditableSpanT = {
     title: string
@@ -12,6 +14,9 @@ export const EditableSpan: FC<EditableSpanT> = memo(({title, updateTitle, myStyl
 
     const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setText(e.currentTarget.value)
+        if(e.currentTarget.value===''){
+            setText('----')
+        }
     }
 
     const activateInputMode = () => {
@@ -32,7 +37,7 @@ export const EditableSpan: FC<EditableSpanT> = memo(({title, updateTitle, myStyl
     return (
         edit ?
             <span onDoubleClick={activateInputMode} className={myStyle}>{title}</span>
-            : <input value={text} onBlur={activateSpanMode} autoFocus onChange={onInputChange}
-                     onKeyPress={onActivateSpanKeyPress}/>
+            : <SuperInputText value={text} onBlur={activateSpanMode} autoFocus onChange={onInputChange}
+                     onKeyPress={onActivateSpanKeyPress} className={style.input}/>
     )
 })

@@ -1,4 +1,4 @@
-import React, {FC, memo} from "react";
+import React, {FC, memo, useCallback} from "react";
 import {ContactsType, updateProfileThunkT} from "../../../../redux/reducer/profile-reducer";
 import style from './ProfileForm.module.scss'
 import {faVk} from "@fortawesome/free-brands-svg-icons/faVk";
@@ -10,9 +10,7 @@ import {faInstagram} from "@fortawesome/free-brands-svg-icons/faInstagram";
 import {faTwitter} from "@fortawesome/free-brands-svg-icons/faTwitter";
 import {faFacebook} from "@fortawesome/free-brands-svg-icons/faFacebook";
 import {ItemsUsersResponseType} from "../../../../api/types";
-import {initialUserAvatar} from "../../../../const";
-import { NavLink } from "react-router-dom";
-import {PATH} from "../../../../enums/PATH";
+import {FriendsIcons} from "./FriendsIcons/FriendsIcons";
 
 export type UpdateContactsType = {
     facebook?: string
@@ -31,11 +29,12 @@ type ProfileFormT = {
     aboutMe: string
     updateProfile: (updateProfile: updateProfileThunkT) => void
     followingUsers: Array<ItemsUsersResponseType>
+    toggleUsersType:(usersType: string)=>void
 }
 
 export const ProfileForm: FC<ProfileFormT> = memo(({
                                                        contacts, isOwner, aboutMe, updateProfile,
-                                                       followingUsers
+                                                       followingUsers,toggleUsersType
                                                    }) => {
 
     const contactsArr = [
@@ -47,11 +46,11 @@ export const ProfileForm: FC<ProfileFormT> = memo(({
         {name: 'github', link: contacts.github, icon: faGithub},
         {name: 'website', link: contacts.website, icon: faLinkedinIn},
     ]
-    const maxCountFollowingIcons=6
 
-    const handleIconUpdateLinkClick = (updateContact: UpdateContactsType) => {
+
+    const handleIconUpdateLinkClick = useCallback((updateContact: UpdateContactsType) => {
         updateProfile({contacts: {...contacts, ...updateContact}})
-    }
+    },[contacts])
 
     return (
         <div className={style.userForm}>
@@ -63,21 +62,7 @@ export const ProfileForm: FC<ProfileFormT> = memo(({
                                     updateProfile={handleIconUpdateLinkClick} isOwner={isOwner}
                                     name={contact.name}/>)}
             </p>
-            <div className={style.following}>
-                <div>
-                    <p className={style.followingTitle}>Following</p>
-                    <NavLink to={PATH.FRIENDS} className={style.followingIconsBlock}>
-                        {followingUsers.map((user, i) => {
-                                if (i < maxCountFollowingIcons)
-                                    return <img key={i} src={user.photos.small || initialUserAvatar}
-                                                alt='following' className={style.followingPhoto}/>
-                                if(!user)
-                                return <NavLink to={PATH.USERS}>add following</NavLink>
-                                }
-                        )}
-                    </NavLink>
-                </div>
-            </div>
+            <FriendsIcons followingUsers={followingUsers} toggleUsersType={toggleUsersType}/>
         </div>
     )
 })

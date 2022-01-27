@@ -4,7 +4,7 @@ import {Dispatch} from "redux";
 import {ItemsUsersResponseType} from "../../api/types";
 import {setAppStatusAC} from "./app-reducer";
 import {RESULT_CODES} from "../../enums/ResultCode";
-
+import {USERS_TYPE} from "../../enums/UsersType";
 
 
 let initialState = {
@@ -24,6 +24,7 @@ let initialState = {
     currentPage: 1,
     isFetching: true,
     followingInProgress: [],
+    usersType: USERS_TYPE.ALL,
 };
 export type UsersPageType = {
     items: Array<ItemsUsersResponseType>
@@ -32,6 +33,7 @@ export type UsersPageType = {
     currentPage: number
     isFetching: boolean
     followingInProgress: number[]
+    usersType: string
 }
 
 
@@ -51,6 +53,7 @@ export const userReducer = (state: UsersPageType = initialState, action: actions
         case "USER/CHANGE-PAGE":
         case "USER/SET-TOTAL-USER-COUNT":
         case "USER/TOGGLE-IS-FETCHING":
+        case 'USER/TOGGLE-USERS-TYPE':
             return {
                 ...state, ...action.payload
             }
@@ -104,12 +107,20 @@ export const toggleFollowProgress = (isFollowInProgress: boolean, userId: number
     }
 ) as const
 
-export const getUsersThunk = (currentPage?: number, pageSize?: number,friend?:boolean) =>
+export const toggleUsersType = (usersType: string) => ({
+        type: 'USER/TOGGLE-USERS-TYPE',
+        payload: {
+            usersType
+        }
+    }
+) as const
+
+export const getUsersThunk = (currentPage?: number, pageSize?: number, friend?: boolean) =>
     async (dispatch: Dispatch<actionsType>) => {
         dispatch(setAppStatusAC('loading'))
         dispatch(toggleIsFetching(true))
-        let data = await UsersAPI.getUsers(currentPage, pageSize,friend)
-        if(data){
+        let data = await UsersAPI.getUsers(currentPage, pageSize, friend)
+        if (data) {
             dispatch(setUsers(data.items))
             dispatch(setTotalUsersCount(data.totalCount))
         }
@@ -117,13 +128,13 @@ export const getUsersThunk = (currentPage?: number, pageSize?: number,friend?:bo
         dispatch(setAppStatusAC('succeeded'))
     }
 
-export const changePageThunk = (currentPage: number, pageSize: number,friend?:boolean) =>
+export const changePageThunk = (currentPage: number, pageSize: number, friend?: boolean) =>
     async (dispatch: Dispatch<actionsType>) => {
         dispatch(setAppStatusAC('loading'))
         dispatch(toggleIsFetching(true))
         dispatch(changePage(currentPage))
-        let data = await UsersAPI.getUsers(currentPage, pageSize,friend)
-        if(data){
+        let data = await UsersAPI.getUsers(currentPage, pageSize, friend)
+        if (data) {
             dispatch(setUsers(data.items))
         }
         dispatch(toggleIsFetching(false))

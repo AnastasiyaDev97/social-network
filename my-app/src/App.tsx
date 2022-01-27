@@ -4,7 +4,6 @@ import {News} from "./components/News/News";
 import {Music} from './components/Music/Music';
 import {Settings} from './components/Settings/Settings';
 import {Redirect, Route, Switch} from 'react-router-dom';
-
 import UsersContainer from "./components/Users/UsersContainer";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
@@ -19,6 +18,7 @@ import {NotFound} from "./components/NotFound/NotFound";
 import style from './App.module.scss'
 
 
+
 type AppPropsType = mapStateToPropsType & mapDispatchToPropsType
 
 class App extends PureComponent<AppPropsType> {
@@ -28,7 +28,6 @@ class App extends PureComponent<AppPropsType> {
     }
 
 
-
     render() {
         if (!this.props.isInitialization) {
             return <Preloader/>
@@ -36,9 +35,8 @@ class App extends PureComponent<AppPropsType> {
 
         return (
             <div className={style.appContainer}>
-                <div className={this.props.isAuth? style.appWrapperAuth : style.appWrapper}>
-                    {/* <HeaderContainer/>*/}
-                    {this.props.isAuth && <NavBar />}
+                <div className={/*{this.props.isAuth? */style.appWrapperAuth /*: style.appWrapper*/}>
+                    <NavBar />
                     <div className={style.appWrapperContent}>
                         {this.props.RequestStatus === 'loading' && <Preloader/>}
                         <Switch>
@@ -48,8 +46,7 @@ class App extends PureComponent<AppPropsType> {
                                    render={() => <ProfileContainer/>}/>
                             <Route path={PATH.DIALOGS} render={() => <DialogsContainer/>}/>
                             <Route path={PATH.NEWS} render={() => <News/>}/>
-                            <Route path={PATH.USERS} render={() => <UsersContainer /*category="users"*//>}/>
-                            <Route path={PATH.FRIENDS} render={() => <UsersContainer /*category="friends"*//>}/>
+                            <Route path={PATH.USERS} render={() => <UsersContainer/>}/>
                             <Route path={PATH.MUSIC} render={() => <Music/>}/>
                             <Route path={PATH.SETTINGS} render={() => <Settings/>}/>
                             <Route path={PATH.LOGIN} render={() => <LoginContainer/>}/>
@@ -75,9 +72,10 @@ type mapStateToPropsType = {
     isInitialization: boolean
     RequestStatus: RequestStatusType
     isAuth: boolean
+
 }
 type mapDispatchToPropsType = {
-    Initialize: () => void
+    Initialize:()=>void
 
 }
 

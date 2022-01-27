@@ -54,6 +54,8 @@
 
   .nameBlock {
     margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
 
     .name {
       font-weight: 700;
