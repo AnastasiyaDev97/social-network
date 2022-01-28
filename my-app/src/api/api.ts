@@ -11,10 +11,6 @@ import {
 
 export const UsersAPI = {
     getUsers: (currentPage?: number, pageSize?: number,friend?:boolean) => {
-        if(friend){
-            return instance.get<getUsersResponse>(`users?friend=${friend}`)
-                .then(response => response.data)
-        }
         return instance.get<getUsersResponse>(`users?page=${currentPage}&count=${pageSize}&friend=${friend}`)
             .then(response => response.data)
     },
@@ -83,10 +79,8 @@ export const LoginAPI = {
     },
 
     getAuthUserData: () => {
-
         return instance.get<ResponseType<authDataType>>(`auth/me`)
             .then(response => {
-
                 return response.data
             })
     },

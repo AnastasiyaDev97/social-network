@@ -16,6 +16,7 @@ import NavBar from "./components/NavBar/NavBar";
 import {PATH} from "./enums/PATH";
 import {NotFound} from "./components/NotFound/NotFound";
 import style from './App.module.scss'
+import FriendsContainer from "./components/Friends/FriendsContainer";
 
 
 
@@ -47,6 +48,7 @@ class App extends PureComponent<AppPropsType> {
                             <Route path={PATH.DIALOGS} render={() => <DialogsContainer/>}/>
                             <Route path={PATH.NEWS} render={() => <News/>}/>
                             <Route path={PATH.USERS} render={() => <UsersContainer/>}/>
+                            <Route path={PATH.FRIENDS} render={() => <FriendsContainer/>}/>
                             <Route path={PATH.MUSIC} render={() => <Music/>}/>
                             <Route path={PATH.SETTINGS} render={() => <Settings/>}/>
                             <Route path={PATH.LOGIN} render={() => <LoginContainer/>}/>

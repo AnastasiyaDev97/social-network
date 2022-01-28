@@ -7,7 +7,7 @@ import userReducer, {
     followUser,
     setTotalUsersCount,
     setUsers, toggleFollowProgress,
-    toggleIsFetching, toggleUsersType,
+    toggleIsFetching, toggleItemsType,
     unFollowUser
 } from "./reducer/user-reducer";
 import authReducer, {
@@ -52,7 +52,8 @@ export type actionsType =
     | ReturnType<typeof setAppStatusAC>
     | ReturnType<typeof setCaptchaSuccess>
     | ReturnType<typeof toggleIsLoggedIn>
-    | ReturnType<typeof toggleUsersType>
+    | ReturnType<typeof toggleItemsType>
+
 
 export type ThunkType = ThunkAction<void, stateType, unknown, actionsType>
 

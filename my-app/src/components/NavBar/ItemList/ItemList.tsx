@@ -12,6 +12,11 @@ type ItemListT = {
 }
 
 export const ItemList: FC<ItemListT> = memo(({path, title,icon}) => {
+
+   /* const onUsersItemClick=()=>{
+
+    }*/
+
     return (
         <li className={style.item}>
             <NavLink activeClassName={style.active} to={path}>

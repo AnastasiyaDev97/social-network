@@ -2,16 +2,20 @@ import React, {ComponentType, PureComponent} from "react";
 import {connect} from "react-redux";
 import {Profile} from "./Profile";
 import {
-    getUserProfile, getUserStatus,
-    profileDataUserType, saveProfileAvatar, updateProfile, updateProfileThunkT, updateUserStatus,
+    getUserProfile,
+    getUserStatus,
+    profileDataUserType,
+    saveProfileAvatar,
+    updateProfile,
+    updateUserStatus,
 } from "../../redux/reducer/profile-reducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {stateType} from "../../redux/redux-store";
 import {compose} from "redux";
 import {Nullable} from "../../types/Nullable";
 import {PATH} from "../../enums/PATH";
-import {ItemsUsersResponseType} from "../../api/types";
-import {getUsersThunk, toggleUsersType} from "../../redux/reducer/user-reducer";
+import { getUsersThunk} from "../../redux/reducer/user-reducer";
+import {PAGE_SIZE} from "../../const";
 
 type PathParamsType = {
     userId: string
@@ -33,22 +37,19 @@ class ProfileContainer extends PureComponent<ProfilePropsType> {
     refresh = () => {
         let userId = this.props.match.params.userId
         if (!userId && this.props.isAuth && this.props.userIdAuth) {
-
             userId = this.props.userIdAuth.toString()
-
         }
         if (!userId && !this.props.isAuth) {
             this.props.history.push(PATH.LOGIN)
         }
         this.props.getUserProfile(userId)
         this.props.getUserStatus(userId)
-        this.props.getUsersThunk(5, 1, true)
-
+        this.props.getUsersThunk(1,PAGE_SIZE,true)
     }
 
     render() {
         return (
-            <Profile {...this.props}/>
+            <Profile  profile={this.props.profile} userId={this.props.match.params.userId}/>
         );
     }
 }
@@ -56,37 +57,26 @@ class ProfileContainer extends PureComponent<ProfilePropsType> {
 type ProfilePropsType = OwnProfilePropsType & RouteComponentProps<PathParamsType>
 type OwnProfilePropsType = mapStateToPropsType & mapDispatchToPropsType
 type mapStateToPropsType = {
-
-    profile: profileDataUserType
-    userIdAuth: Nullable<number>
-    status: string
     isAuth: boolean
-    users: Array<ItemsUsersResponseType>
+    userIdAuth: Nullable<number>
+    profile: profileDataUserType
 }
 type mapDispatchToPropsType = {
     getUserProfile: (userId: string) => void
     getUserStatus: (userId: string) => void
-    updateUserStatus: (status: string) => void
-    saveProfileAvatar: (newAvatar: File) => void
-    updateProfile: (updateProfile: updateProfileThunkT) => void
-    getUsersThunk: (currentPage: number, pageSize: number, friend?: boolean) => void
-    toggleUsersType:(usersType: string)=>void
+    getUsersThunk: (currentPage:number, pageSize: number,friend?:boolean) => void
 
 }
-let mapStateToProps = (state: stateType): mapStateToPropsType => {
-    return ({
-        profile: state.ProfilePage.profile,
-        userIdAuth: state.auth.data.id,
-        status: state.ProfilePage.status,
-        isAuth: state.auth.isAuth,
-        users: state.UsersPage.items,
+let mapStateToProps = (state: stateType): mapStateToPropsType => ({
+    userIdAuth: state.auth.data.id,
+    isAuth: state.auth.isAuth,
+    profile: state.ProfilePage.profile,
+})
 
-    })
-}
 export default compose<ComponentType>(
     connect(mapStateToProps, {
         getUserProfile, getUserStatus, updateUserStatus, saveProfileAvatar,
-        updateProfile, getUsersThunk,toggleUsersType
+        updateProfile, getUsersThunk
     }),
     withRouter)(ProfileContainer)
 

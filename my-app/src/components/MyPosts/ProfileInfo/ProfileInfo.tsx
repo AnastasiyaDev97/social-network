@@ -1,35 +1,20 @@
 import React, {ChangeEvent, FC, memo, useCallback, useRef} from 'react';
 import style from './ProfileInfo.module.scss'
-import Preloader from "../../../common/preloader/Preloader";
-import {profileDataUserType, updateProfileThunkT} from "../../../redux/reducer/profile-reducer";
-import {Nullable} from "../../../types/Nullable";
 import {EditableSpan} from "../../EditableSpan/EditableSpan";
 import {ProfileForm} from "./EditProfileForm/ProfileForm";
 import {initialUserAvatar} from "../../../const";
-import {ItemsUsersResponseType} from "../../../api/types";
+import {ProfileInfoPropsType} from "./ProfileInfoContainer";
 
-
-type ProfileInfoPropsType = {
-    profile: profileDataUserType
-    updateUserStatus: (status: string) => void
-    status: string
-    saveProfileAvatar: (newAvatar: File) => void
-    userIdAuth: Nullable<number>
-    updateProfile: (updateProfile: updateProfileThunkT) => void
-    followingUsers: Array<ItemsUsersResponseType>
-    toggleUsersType:(usersType: string)=>void
-}
 
 export const ProfileInfo: FC<ProfileInfoPropsType> = memo(({
                                                                profile, updateUserStatus, status, saveProfileAvatar,
-                                                               userIdAuth, updateProfile, followingUsers,
-                                                               toggleUsersType
+                                                               userIdAuth, updateProfile,
+                                                               totalUserCount, users
                                                            }) => {
+
     const inRef = useRef<HTMLInputElement>(null);
 
     const isOwner = userIdAuth === profile.userId;
-    /*const statusText = status || '----'*/
-
 
     const onInputChooseAvatarChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -43,9 +28,6 @@ export const ProfileInfo: FC<ProfileInfoPropsType> = memo(({
         }
     }, [profile.fullName, updateProfile])
 
-    if (Object.keys(profile).length === 0) {
-        return <Preloader/>
-    }
 
     return (
         <div className={style.profileInfoWrapper}>
@@ -70,8 +52,10 @@ export const ProfileInfo: FC<ProfileInfoPropsType> = memo(({
 
             </div>
             <ProfileForm contacts={profile.contacts} aboutMe={profile.aboutMe} isOwner={isOwner}
-                         updateProfile={updateProfile} followingUsers={followingUsers}
-                         toggleUsersType={toggleUsersType}/>
+                         updateProfile={updateProfile} followingUsers={users}
+                         totalUserCount={totalUserCount}/>
         </div>
     )
 })
+
+

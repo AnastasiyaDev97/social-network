@@ -29,12 +29,12 @@ type ProfileFormT = {
     aboutMe: string
     updateProfile: (updateProfile: updateProfileThunkT) => void
     followingUsers: Array<ItemsUsersResponseType>
-    toggleUsersType:(usersType: string)=>void
+    totalUserCount: number
 }
 
 export const ProfileForm: FC<ProfileFormT> = memo(({
                                                        contacts, isOwner, aboutMe, updateProfile,
-                                                       followingUsers,toggleUsersType
+                                                       followingUsers, totalUserCount
                                                    }) => {
 
     const contactsArr = [
@@ -50,7 +50,7 @@ export const ProfileForm: FC<ProfileFormT> = memo(({
 
     const handleIconUpdateLinkClick = useCallback((updateContact: UpdateContactsType) => {
         updateProfile({contacts: {...contacts, ...updateContact}})
-    },[contacts])
+    }, [contacts, updateProfile])
 
     return (
         <div className={style.userForm}>
@@ -62,7 +62,9 @@ export const ProfileForm: FC<ProfileFormT> = memo(({
                                     updateProfile={handleIconUpdateLinkClick} isOwner={isOwner}
                                     name={contact.name}/>)}
             </p>
-            <FriendsIcons followingUsers={followingUsers} toggleUsersType={toggleUsersType}/>
+
+            {isOwner && <FriendsIcons followingUsers={followingUsers}
+                                      totalUserCount={totalUserCount}/>}
         </div>
     )
 })

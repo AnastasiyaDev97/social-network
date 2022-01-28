@@ -1,33 +1,38 @@
 import s from "./User.module.css";
-import React, {FC, memo} from "react";
+import React, {FC, memo, useCallback} from "react";
 import {NavLink} from "react-router-dom";
 import Paginator from "../../common/paginator/Paginator";
 import {ItemsUsersResponseType} from "../../api/types";
 import {PATH} from "../../enums/PATH";
+import {stateType} from "../../redux/redux-store";
+import {compose} from "redux";
+import {connect} from "react-redux";
+import {changePageThunk, followThunk, itemsT, unfollowThunk} from "../../redux/reducer/user-reducer";
+import {initialUserAvatar} from "../../const";
+import Preloader from "../../common/preloader/Preloader";
 
 
-type UsersPropsType = {
-    totalUserCount: number
-    pageSize: number
-    changePage: (currentPage: number) => void
-    items: Array<ItemsUsersResponseType>
-    followingInProgress: number[]
-    followThunk: (id: number) => void
-    unfollowThunk: (id: number) => void
-}
+const Users: FC<UsersPropsType> = memo(({
+                                            items, pageSize, totalUserCount,isFetching,
+                                            followingInProgress, followThunk, unfollowThunk, changePageThunk,
+                                            isAuth,currentPage,itemsType,
+                                        }) => {
 
-export const Users: FC<UsersPropsType> = memo(({
-                                                   totalUserCount, pageSize, changePage,
-                                                   items, followingInProgress, followThunk, unfollowThunk
-                                               }) => {
     const portionSize = 10
-    const initialUserAvatar = 'https://cdn.iconscout.com/icon/free/png-256/laptop-user-1-1179329.png'
 
+    const handleChangePageClick = useCallback((currentPage: number) => {
+        let friend
+        if(itemsType==='friends'){
+            friend=true
+        }
+        changePageThunk(currentPage, pageSize,friend)
+    },[pageSize,itemsType,changePageThunk])
 
+        if (isFetching) {
+            return <Preloader/>
+        }
     return (
         <div>
-            <Paginator totalUserCount={totalUserCount} pageSize={pageSize}
-                       changePageHandler={changePage} portionSize={portionSize}/>
 
             {items.map(item => {
 
@@ -51,10 +56,11 @@ export const Users: FC<UsersPropsType> = memo(({
                             className={s.userPhoto} alt={'profile avatar'}/></NavLink></div>
 
                     <div>
+                        {isAuth &&
                         <button disabled={conditionForDisabledButton}
                                 onClick={item.followed ? onUnfollowButtonClick : onFollowButtonClick}>
                             {item.followed ? 'Unfollow' : 'Follow'}</button>
-
+                        }
                        </div>
 
                 </span>
@@ -66,10 +72,53 @@ export const Users: FC<UsersPropsType> = memo(({
                     <div>item.location.country</div>
                     <div>item.location.city</div>
                 </span>
-                        </div>)
+                        </div>
+                    )
                 }
             )
             }
+            <Paginator totalUserCount={totalUserCount} pageSize={pageSize}
+                       onChangePageClick={handleChangePageClick} portionSize={portionSize}
+                       currentPage={currentPage}/>
         </div>
     )
+
+}
+)
+
+
+type MapStatePropsType = {
+    isAuth:boolean
+    items: Array<ItemsUsersResponseType>
+    pageSize: number
+    totalUserCount: number
+    currentPage: number
+    followingInProgress: number[]
+    isFetching: boolean
+    itemsType:itemsT
+}
+
+type MapDispatchPropsType = {
+    followThunk: (id: number) => void
+    unfollowThunk: (id: number) => void
+    changePageThunk: (currentPage: number, pageSize: number,friends?:boolean) => void
+}
+
+type UsersPropsType = MapDispatchPropsType & MapStatePropsType
+
+
+let mapStateToProps = (state: stateType): MapStatePropsType => ({
+    isAuth:state.auth.isAuth,
+    items: state.UsersPage.items,
+    pageSize: state.UsersPage.pageSize,
+    totalUserCount: state.UsersPage.totalUserCount,
+    currentPage: state.UsersPage.currentPage,
+    isFetching: state.UsersPage.isFetching,
+    followingInProgress: state.UsersPage.followingInProgress,
+    itemsType:state.UsersPage.itemsType,
 })
+
+
+export default compose(
+    connect<MapStatePropsType, MapDispatchPropsType,{} , stateType>
+    (mapStateToProps, {followThunk, unfollowThunk, changePageThunk}))(Users)

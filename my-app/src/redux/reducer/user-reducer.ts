@@ -4,8 +4,9 @@ import {Dispatch} from "redux";
 import {ItemsUsersResponseType} from "../../api/types";
 import {setAppStatusAC} from "./app-reducer";
 import {RESULT_CODES} from "../../enums/ResultCode";
-import {USERS_TYPE} from "../../enums/UsersType";
+import {PAGE_SIZE} from "../../const";
 
+export type itemsT='users'|'friends'
 
 let initialState = {
     items: [
@@ -19,12 +20,12 @@ let initialState = {
   status: Nullable<string>
   followed: boolean}*/
     ],
-    pageSize: 10,
+    pageSize: PAGE_SIZE,
     totalUserCount: 0,
     currentPage: 1,
     isFetching: true,
     followingInProgress: [],
-    usersType: USERS_TYPE.ALL,
+    itemsType:'friends' as itemsT
 };
 export type UsersPageType = {
     items: Array<ItemsUsersResponseType>
@@ -33,12 +34,13 @@ export type UsersPageType = {
     currentPage: number
     isFetching: boolean
     followingInProgress: number[]
-    usersType: string
+    itemsType:itemsT
 }
 
 
 export const userReducer = (state: UsersPageType = initialState, action: actionsType) => {
     switch (action.type) {
+
         case "USER/FOLLOW-USER":
             return {
                 ...state,
@@ -53,7 +55,7 @@ export const userReducer = (state: UsersPageType = initialState, action: actions
         case "USER/CHANGE-PAGE":
         case "USER/SET-TOTAL-USER-COUNT":
         case "USER/TOGGLE-IS-FETCHING":
-        case 'USER/TOGGLE-USERS-TYPE':
+        case 'USER/TOGGLE-ITEMS-TYPE':
             return {
                 ...state, ...action.payload
             }
@@ -94,6 +96,7 @@ export const setTotalUsersCount = (totalUserCount: number) => ({
     }
 ) as const
 
+
 export const toggleIsFetching = (isFetching: boolean) => ({
         type: 'USER/TOGGLE-IS-FETCHING',
         payload: {isFetching},
@@ -107,19 +110,17 @@ export const toggleFollowProgress = (isFollowInProgress: boolean, userId: number
     }
 ) as const
 
-export const toggleUsersType = (usersType: string) => ({
-        type: 'USER/TOGGLE-USERS-TYPE',
-        payload: {
-            usersType
-        }
+export const toggleItemsType = (itemsType:itemsT) => ({
+        type: 'USER/TOGGLE-ITEMS-TYPE',
+        payload:{itemsType}
     }
 ) as const
 
-export const getUsersThunk = (currentPage?: number, pageSize?: number, friend?: boolean) =>
+export const getUsersThunk = (currentPage:number=1, pageSize: number=PAGE_SIZE,friend?:boolean) =>
     async (dispatch: Dispatch<actionsType>) => {
         dispatch(setAppStatusAC('loading'))
         dispatch(toggleIsFetching(true))
-        let data = await UsersAPI.getUsers(currentPage, pageSize, friend)
+        let data = await UsersAPI.getUsers(currentPage, pageSize,friend)
         if (data) {
             dispatch(setUsers(data.items))
             dispatch(setTotalUsersCount(data.totalCount))
@@ -128,16 +129,17 @@ export const getUsersThunk = (currentPage?: number, pageSize?: number, friend?: 
         dispatch(setAppStatusAC('succeeded'))
     }
 
-export const changePageThunk = (currentPage: number, pageSize: number, friend?: boolean) =>
+
+
+
+export const changePageThunk = (currentPage: number, pageSize: number,friends?:boolean) =>
     async (dispatch: Dispatch<actionsType>) => {
         dispatch(setAppStatusAC('loading'))
-        dispatch(toggleIsFetching(true))
         dispatch(changePage(currentPage))
-        let data = await UsersAPI.getUsers(currentPage, pageSize, friend)
+        let data = await UsersAPI.getUsers(currentPage, pageSize,friends)
         if (data) {
             dispatch(setUsers(data.items))
         }
-        dispatch(toggleIsFetching(false))
         dispatch(setAppStatusAC('succeeded'))
     }
 

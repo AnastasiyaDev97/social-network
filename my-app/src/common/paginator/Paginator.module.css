@@ -1,7 +1,9 @@
 .currentPage{
     font-weight: bold;
     padding: 5px;
+    cursor: pointer;
 }
 .pageNum{
     padding: 5px;
+    cursor: pointer;
 }

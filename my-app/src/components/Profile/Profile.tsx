@@ -1,42 +1,27 @@
-import React, {FC, memo, useMemo} from 'react';
-import {ProfileInfo} from "../MyPosts/ProfileInfo/ProfileInfo";
-import {profileDataUserType, updateProfileThunkT} from "../../redux/reducer/profile-reducer";
+import React, {FC, memo} from 'react';
 import MyPostsContainer from "../MyPosts/MyPostsContainer";
-import {Nullable} from "../../types/Nullable";
 import style from './Profile.module.scss'
-import {ItemsUsersResponseType} from "../../api/types";
+import ProfileInfoContainer from '../MyPosts/ProfileInfo/ProfileInfoContainer';
+import Preloader from "../../common/preloader/Preloader";
+import {profileDataUserType} from "../../redux/reducer/profile-reducer";
 
 
 type ProfilePropsType = {
-    profile: profileDataUserType
-    updateUserStatus: (status: string) => void
-    status: string
-    saveProfileAvatar: (newAvatar: File) => void
-    userIdAuth: Nullable<number>
-    updateProfile: (updateProfile: updateProfileThunkT) => void
-    users: Array<ItemsUsersResponseType>
-    isAuth: boolean
-    toggleUsersType:(usersType: string)=>void
 
+    profile: profileDataUserType
+    userId:string
 }
 
-export const Profile: FC<ProfilePropsType> = memo(({
-                                                       profile, updateUserStatus, status,
-                                                       saveProfileAvatar, userIdAuth, updateProfile, users,
-                                                       isAuth,toggleUsersType
-                                                   }) => {
+export const Profile: FC<ProfilePropsType> = memo(({ profile,userId}) => {
 
-    const followingUsers = useMemo(() => {
-        return users.filter(user => user.followed)
-    }, [users])
+    if (Object.keys(profile).length === 0) {
+        return <Preloader/>
+    }
 
     return (
         <div className={style.profileWrapper}>
-            <ProfileInfo profile={profile} updateUserStatus={updateUserStatus} status={status}
-                         saveProfileAvatar={saveProfileAvatar} userIdAuth={userIdAuth}
-                         updateProfile={updateProfile} followingUsers={followingUsers}
-                         toggleUsersType={toggleUsersType}/>
-            {isAuth && <MyPostsContainer /*photo={profile.photos.small} name={profile.fullName}*//>}
+            <ProfileInfoContainer/>
+            {/*isAuth*/ !userId && <MyPostsContainer /*photo={profile.photos.small} name={profile.fullName}*//>}
         </div>
 
     )

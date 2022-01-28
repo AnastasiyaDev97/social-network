@@ -1,16 +1,18 @@
 import React, {FC, memo, useState} from "react";
 import styles from './Paginator.module.css'
+import SuperButton from "../../components/SuperButton/SuperButton";
 
 type PaginatorPropsType = {
     totalUserCount: number
     pageSize: number
-    changePageHandler: (currentPage: number) => void
+    onChangePageClick: (currentPage: number) => void
     portionSize: number
+    currentPage:number
 }
 
 const Paginator: FC<PaginatorPropsType> = memo(({
                                                     totalUserCount, pageSize,
-                                                    changePageHandler, portionSize
+                                                    onChangePageClick, portionSize,currentPage
                                                 }) => {
 
     let [portionNumber, setPortionNumber] = useState(1);
@@ -35,27 +37,27 @@ const Paginator: FC<PaginatorPropsType> = memo(({
         setPortionNumber(portionNumber + 1)
     }
 
-
     return (
         <div className={styles.paginator}>
             {conditionForShowPrevButton &&
-            <button onClick={onPrevButtonClick}>PREV</button>}
+            <SuperButton onClick={onPrevButtonClick}>PREV</SuperButton>}
 
             {pages
                 .filter(page => page >= leftPortionPageNumber && page <= rightPortionPageNumber)
                 .map((page) => {
 
                     const onPageClick = () => {
-                        changePageHandler(page)
+                        onChangePageClick(page)
+                        window.scrollTo(0,0);
                     }
 
                     return <span key={page}
-                                 className={styles.pageNum}
+                                 className={page===currentPage?styles.currentPage:styles.pageNum}
                                  onClick={onPageClick}>{page}</span>
                 })}
 
             {conditionForShowNextButton &&
-            <button onClick={onNextButtonClick}>NEXT</button>}
+            <SuperButton onClick={onNextButtonClick}>NEXT</SuperButton>}
         </div>
     )
 })
