@@ -8,10 +8,10 @@
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
   display: grid;
-  max-width: 1140px;
+  max-width: 1000px;
   margin: 0 auto;
   /*grid-template-rows: 60px 1fr;*/
-  grid-template-columns:3fr 10fr;
+  grid-template-columns:3.5fr 9fr;
   grid-template-areas:
          /* 'h h'*/
           'nav c';
@@ -20,7 +20,7 @@
 
 .appWrapperContent {
   grid-area: c;
-  padding: 20px;
+  padding: 10px;
 
 }
 

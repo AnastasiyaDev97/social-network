@@ -1,0 +1,19 @@
+@import '../../styles/scss/variables';
+
+.textarea {
+  width:100%;
+  resize: vertical;
+  padding:15px;
+  border-radius:15px;
+  border:none;
+  box-shadow:4px 4px 10px black;
+  height:150px;
+
+}
+/*.textarea:hover,*/.textarea:focus{
+  box-shadow:0 0 4px rgba(0,0,0,0.5);
+  outline:none;
+}
+/*.textarea:focus{
+  outline:none;
+}*/

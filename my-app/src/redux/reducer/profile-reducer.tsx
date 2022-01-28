@@ -1,4 +1,3 @@
-import {v1} from "uuid";
 import {actionsType, stateType, ThunkType} from "../redux-store";
 import {Dispatch} from "redux";
 import {ProfileAPI} from "../../api/api";
@@ -8,20 +7,11 @@ import {RESULT_CODES} from "../../enums/ResultCode";
 
 
 let initialState = {
-    postsData: [
-        {id: v1(), message: 'it is my first post', likes: 30},
-        {id: v1(), message: 'it-kamasutra', likes: 10}],
-    profile: { } as profileDataUserType,
+    profile: {} as profileDataUserType,
     status: EMPTY_STRING,
-}
-export type postsDataType = {
-    id: string
-    message: string
-    likes: number
 }
 
 export type ProfilePageType = {
-    postsData: Array<postsDataType>
     profile: profileDataUserType
     status: string
 }
@@ -53,13 +43,6 @@ type PhotosType = {
 
 export const profileReducer = (state: ProfilePageType = initialState, action: actionsType) => {
     switch (action.type) {
-        case 'PROFILE/ADD-POST':
-            let newPost: postsDataType = {id: v1(), message: action.postText, likes: 0}
-            return {
-                ...state,
-                postsData: [...state.postsData, newPost],
-                newPostText: ''
-            }
         case "PROFILE/SET-STATUS":
         case "PROFILE/SET-USER-PROFILE":
             return {
@@ -67,7 +50,7 @@ export const profileReducer = (state: ProfilePageType = initialState, action: ac
             }
         case 'PROFILE/SET_PHOTOS':
             return {
-                ...state, profile:{...state.profile,photos:{...action.payload}}
+                ...state, profile: {...state.profile, photos: {...action.payload}}
             }
 
         default:
@@ -75,15 +58,11 @@ export const profileReducer = (state: ProfilePageType = initialState, action: ac
     }
 }
 
-export const addPost = (postText: string) => ({
-    type: 'PROFILE/ADD-POST',
-    postText: postText
-}) as const
 
 export const setUserProfile = (profile: profileDataUserType) => ({
-        type: 'PROFILE/SET-USER-PROFILE',
-        payload: {profile},
-    }) as const
+    type: 'PROFILE/SET-USER-PROFILE',
+    payload: {profile},
+}) as const
 
 export const setStatus = (status: string) => ({
     type: 'PROFILE/SET-STATUS',
@@ -91,12 +70,10 @@ export const setStatus = (status: string) => ({
 }) as const
 
 export const setAvatar = (photos: PhotosType) => ({
-            type: 'PROFILE/SET_PHOTOS',
-            payload: photos
-        }
-    ) as const
-
-
+        type: 'PROFILE/SET_PHOTOS',
+        payload: photos
+    }
+) as const
 
 
 export const getUserProfile = (userId: number) =>
@@ -137,14 +114,18 @@ export const saveProfileAvatar = (newAvatar: File) =>
 
 export const updateProfile = (updateProfile: updateProfileThunkT): ThunkType =>
     async (dispatch
-           ,getState: () => stateType) => {
+        , getState: () => stateType) => {
         dispatch(setAppStatusAC('loading'))
 
-        let {userId,aboutMe,lookingForAJob,lookingForAJobDescription,fullName,
-            contacts} = getState().ProfilePage.profile
+        let {
+            userId, aboutMe, lookingForAJob, lookingForAJobDescription, fullName,
+            contacts
+        } = getState().ProfilePage.profile
 
-        let profileForUpdate={userId,aboutMe,lookingForAJob,lookingForAJobDescription,fullName,
-            contacts,...updateProfile}
+        let profileForUpdate = {
+            userId, aboutMe, lookingForAJob, lookingForAJobDescription, fullName,
+            contacts, ...updateProfile
+        }
         let data = await ProfileAPI.updateProfile(profileForUpdate)
         if (data.resultCode === RESULT_CODES.SUCCESS) {
             await dispatch(getUserProfile(userId))
@@ -152,15 +133,13 @@ export const updateProfile = (updateProfile: updateProfileThunkT): ThunkType =>
     }
 
 
-
-
-export type updateProfileThunkT={
+export type updateProfileThunkT = {
     userId?: number
     lookingForAJob?: boolean
     lookingForAJobDescription?: string
     fullName?: string
     contacts?: ContactsType
-    aboutMe?:string
+    aboutMe?: string
 }
 
 export default profileReducer

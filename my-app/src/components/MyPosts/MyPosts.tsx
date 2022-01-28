@@ -1,18 +1,28 @@
 import React, {FC, memo} from 'react';
-import style from './MyPosts.module.scss'
 import {Post} from "./Post/Post";
 import {useFormik} from "formik";
-import {EMPTY_STRING, initialUserAvatar} from "../../const";
-
-import {PATH} from "../../enums/PATH";
-import {NavLink} from 'react-router-dom';
+import {EMPTY_STRING} from "../../const";
 import {MyPostsPropsT} from "./MyPostsContainer";
+import style from './MyPosts.module.scss'
+import SuperButton from "../SuperButton/SuperButton";
+import SuperTextarea from "../SuperTextarea/SuperTextarea";
 
 
-export const MyPosts:FC<MyPostsPropsT> = memo(({posts,addPost,profile}) => {
+export const MyPosts: FC<MyPostsPropsT> = memo(({
+                                                    postsData, addPost, profile, email, deletePost, likePost,
+                                                    dislikePost
+                                                }) => {
 
-    let postsElements = posts.map(({message,likes}) => <Post message={message} likesCount={likes}/>)
-    const srcForAvatar=profile.photos.small||initialUserAvatar
+    let postsElements = postsData.map(({message, likes, date, id, isLiked}) => <Post key={id} message={message}
+                                                                                     likesCount={likes}
+                                                                                     date={date}
+                                                                                     fullName={profile.fullName}
+                                                                                     email={email}
+                                                                                     photo={profile.photos.small}
+                                                                                     id={id} deletePost={deletePost}
+                                                                                     likePost={likePost}
+                                                                                     isLiked={isLiked}
+                                                                                     dislikePost={dislikePost}/>)
 
 
     const formik = useFormik({
@@ -27,24 +37,17 @@ export const MyPosts:FC<MyPostsPropsT> = memo(({posts,addPost,profile}) => {
     })
 
     return (
-        <div className={style.myPosts}>
-            <NavLink to={PATH.PROFILE}>
-            <img src={srcForAvatar} alt='avatar' className={style.avatar} />
-            </NavLink>
-            <div className={style.postBlock}/>
-            <h3>My posts</h3>
-
-            <form onSubmit={formik.handleSubmit}>
-                <div>
-                    <textarea placeholder={'add post'} {...formik.getFieldProps('newPost')}/>
-                </div>
-                <div>
-                    <button >Add post</button>
-                </div>
+        <div className={style.myPostsContainer}>
+            {postsElements}
+            <form className={style.addPostForm} onSubmit={formik.handleSubmit}>
+                <SuperTextarea placeholder={'add post'} {...formik.getFieldProps('newPost')}
+                               className={style.fieldAddPost}/>
+                <SuperButton>Add post</SuperButton>
             </form>
 
-            {postsElements}
         </div>
+
+
     )
 })
 

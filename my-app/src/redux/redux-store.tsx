@@ -1,6 +1,11 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import dialogReducer, {addMessage} from "./reducer/dialog-reducer";
-import profileReducer, {addPost, setAvatar, setStatus, setUserProfile} from "./reducer/profile-reducer";
+import profileReducer, {
+
+    setAvatar,
+    setStatus,
+    setUserProfile
+} from "./reducer/profile-reducer";
 import sidebarReducer from "./reducer/sidebar-reducer";
 import userReducer, {
     changePage,
@@ -19,6 +24,7 @@ import authReducer, {
 import ThunkMiddleware, {ThunkAction} from 'redux-thunk'
 import appReducer, {setAppStatusAC, setInitialization} from "./reducer/app-reducer";
 import {composeWithDevTools} from 'redux-devtools-extension';
+import postsReducer, {addPost, deletePost, dislikePost, likePost} from "./reducer/posts-reducer";
 
 let rootReducer = combineReducers({
     DialogsPage: dialogReducer,
@@ -27,6 +33,7 @@ let rootReducer = combineReducers({
     UsersPage: userReducer,
     auth: authReducer,
     app: appReducer,
+    posts:postsReducer,
 })
 
 export type stateType = ReturnType<typeof rootReducer>
@@ -53,6 +60,9 @@ export type actionsType =
     | ReturnType<typeof setCaptchaSuccess>
     | ReturnType<typeof toggleIsLoggedIn>
     | ReturnType<typeof toggleItemsType>
+    | ReturnType<typeof deletePost>
+    | ReturnType<typeof likePost>
+    | ReturnType<typeof dislikePost>
 
 
 export type ThunkType = ThunkAction<void, stateType, unknown, actionsType>
