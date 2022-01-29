@@ -1,12 +1,13 @@
-import {actionsType} from "../redux-store";
+import {actionsType, stateType} from "../redux-store";
 import {UsersAPI} from "../../api/api";
 import {Dispatch} from "redux";
 import {ItemsUsersResponseType} from "../../api/types";
 import {setAppStatusAC} from "./app-reducer";
 import {RESULT_CODES} from "../../enums/ResultCode";
 import {PAGE_SIZE} from "../../const";
+import {Nullable} from "../../types/Nullable";
 
-export type itemsT='users'|'friends'
+export type itemsT = 'users' | 'friends'
 
 let initialState = {
     items: [
@@ -25,7 +26,8 @@ let initialState = {
     currentPage: 1,
     isFetching: true,
     followingInProgress: [],
-    itemsType:'friends' as itemsT
+    itemsType: 'friends' as itemsT,
+    term: null
 };
 export type UsersPageType = {
     items: Array<ItemsUsersResponseType>
@@ -34,7 +36,8 @@ export type UsersPageType = {
     currentPage: number
     isFetching: boolean
     followingInProgress: number[]
-    itemsType:itemsT
+    itemsType: itemsT
+    term: Nullable<string>
 }
 
 
@@ -83,18 +86,17 @@ export const setUsers = (items: Array<ItemsUsersResponseType>) => ({
     payload: {items},
 } as const)
 
-export const changePage = (currentPage: number) => (
-    {
+export const changePage = (currentPage: number) => ({
         type: 'USER/CHANGE-PAGE',
         payload: {currentPage},
-    }
-) as const
+    }as const
+)
 
 export const setTotalUsersCount = (totalUserCount: number) => ({
         type: 'USER/SET-TOTAL-USER-COUNT',
         payload: {totalUserCount},
-    }
-) as const
+    }as const
+)
 
 
 export const toggleIsFetching = (isFetching: boolean) => ({
@@ -110,17 +112,24 @@ export const toggleFollowProgress = (isFollowInProgress: boolean, userId: number
     }
 ) as const
 
-export const toggleItemsType = (itemsType:itemsT) => ({
+export const toggleItemsType = (itemsType: itemsT) => ({
         type: 'USER/TOGGLE-ITEMS-TYPE',
-        payload:{itemsType}
+        payload: {itemsType}
     }
 ) as const
 
-export const getUsersThunk = (currentPage:number=1, pageSize: number=PAGE_SIZE,friend?:boolean) =>
-    async (dispatch: Dispatch<actionsType>) => {
+export const getUsersThunk = () =>
+    async (dispatch: Dispatch<actionsType>, getState: () => stateType) => {
         dispatch(setAppStatusAC('loading'))
         dispatch(toggleIsFetching(true))
-        let data = await UsersAPI.getUsers(currentPage, pageSize,friend)
+        const {currentPage, pageSize, itemsType, term} = getState().UsersPage
+        const paramsForQuery = {
+            count:pageSize,
+            page: currentPage,
+            term,
+            friend: itemsType === 'friends'
+        }
+        let data = await UsersAPI.getUsers(paramsForQuery)
         if (data) {
             dispatch(setUsers(data.items))
             dispatch(setTotalUsersCount(data.totalCount))
@@ -130,18 +139,18 @@ export const getUsersThunk = (currentPage:number=1, pageSize: number=PAGE_SIZE,f
     }
 
 
-
-
-export const changePageThunk = (currentPage: number, pageSize: number,friends?:boolean) =>
+/*
+export const changePageThunk = (currentPage: number, pageSize: number, friends?: boolean) =>
     async (dispatch: Dispatch<actionsType>) => {
         dispatch(setAppStatusAC('loading'))
         dispatch(changePage(currentPage))
-        let data = await UsersAPI.getUsers(currentPage, pageSize,friends)
+        let data = await UsersAPI.getUsers(currentPage, pageSize)
         if (data) {
             dispatch(setUsers(data.items))
         }
         dispatch(setAppStatusAC('succeeded'))
     }
+*/
 
 export const followThunk = (id: number) =>
     async (dispatch: Dispatch<actionsType>) => {

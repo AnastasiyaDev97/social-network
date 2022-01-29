@@ -2,16 +2,20 @@ import {profileDataUserType} from "../redux/reducer/profile-reducer";
 import {authDataType} from "../redux/reducer/auth-reducer";
 import {instance} from "./apiConfig";
 import {
+    getUsersQueryParamsType,
     getUsersResponse,
     loginAPIDataType,
+    photosType,
     ResponseType,
-    photosType, securityAPIResponseT, updateProfilePayloadT
+    securityAPIResponseT,
+    updateProfilePayloadT
 } from "./types";
 
 
 export const UsersAPI = {
-    getUsers: (currentPage?: number, pageSize?: number,friend?:boolean) => {
-        return instance.get<getUsersResponse>(`users?page=${currentPage}&count=${pageSize}&friend=${friend}`)
+    getUsers: (getUsersQueryParams?:getUsersQueryParamsType) => {
+
+        return instance.get<getUsersResponse>(`users`,{params:getUsersQueryParams})
             .then(response => response.data)
     },
 

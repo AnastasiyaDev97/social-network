@@ -11,6 +11,7 @@ import {faTwitter} from "@fortawesome/free-brands-svg-icons/faTwitter";
 import {faFacebook} from "@fortawesome/free-brands-svg-icons/faFacebook";
 import {ItemsUsersResponseType} from "../../../../api/types";
 import {FriendsIcons} from "./FriendsIcons/FriendsIcons";
+import {itemsT} from "../../../../redux/reducer/user-reducer";
 
 export type UpdateContactsType = {
     facebook?: string
@@ -30,11 +31,12 @@ type ProfileFormT = {
     updateProfile: (updateProfile: updateProfileThunkT) => void
     followingUsers: Array<ItemsUsersResponseType>
     totalUserCount: number
+    toggleItemsType : (itemsType: itemsT)=>void
 }
 
 export const ProfileForm: FC<ProfileFormT> = memo(({
                                                        contacts, isOwner, aboutMe, updateProfile,
-                                                       followingUsers, totalUserCount
+                                                       followingUsers, totalUserCount,toggleItemsType
                                                    }) => {
 
     const contactsArr = [
@@ -64,7 +66,7 @@ export const ProfileForm: FC<ProfileFormT> = memo(({
             </p>
 
             {isOwner && <FriendsIcons followingUsers={followingUsers}
-                                      totalUserCount={totalUserCount}/>}
+                                      totalUserCount={totalUserCount} toggleItemsType={toggleItemsType}/>}
         </div>
     )
 })

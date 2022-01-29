@@ -14,8 +14,7 @@ import {stateType} from "../../redux/redux-store";
 import {compose} from "redux";
 import {Nullable} from "../../types/Nullable";
 import {PATH} from "../../enums/PATH";
-import { getUsersThunk} from "../../redux/reducer/user-reducer";
-import {PAGE_SIZE} from "../../const";
+import {getUsersThunk, itemsT, toggleItemsType} from "../../redux/reducer/user-reducer";
 
 type PathParamsType = {
     userId: string
@@ -38,13 +37,15 @@ class ProfileContainer extends PureComponent<ProfilePropsType> {
         let userId = this.props.match.params.userId
         if (!userId && this.props.isAuth && this.props.userIdAuth) {
             userId = this.props.userIdAuth.toString()
+            this.props.toggleItemsType('friends')
+            this.props.getUsersThunk(/*1,PAGE_SIZE,true*/)
         }
         if (!userId && !this.props.isAuth) {
             this.props.history.push(PATH.LOGIN)
         }
         this.props.getUserProfile(userId)
         this.props.getUserStatus(userId)
-        this.props.getUsersThunk(1,PAGE_SIZE,true)
+
     }
 
     render() {
@@ -64,7 +65,8 @@ type mapStateToPropsType = {
 type mapDispatchToPropsType = {
     getUserProfile: (userId: string) => void
     getUserStatus: (userId: string) => void
-    getUsersThunk: (currentPage:number, pageSize: number,friend?:boolean) => void
+    getUsersThunk: (/*currentPage:number, pageSize: number,friend?:boolean*/) => void
+    toggleItemsType : (itemsType: itemsT)=>void
 
 }
 let mapStateToProps = (state: stateType): mapStateToPropsType => ({
@@ -76,7 +78,7 @@ let mapStateToProps = (state: stateType): mapStateToPropsType => ({
 export default compose<ComponentType>(
     connect(mapStateToProps, {
         getUserProfile, getUserStatus, updateUserStatus, saveProfileAvatar,
-        updateProfile, getUsersThunk
+        updateProfile, getUsersThunk,toggleItemsType
     }),
     withRouter)(ProfileContainer)
 

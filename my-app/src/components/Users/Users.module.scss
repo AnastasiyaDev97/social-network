@@ -1,0 +1,77 @@
+@import '../../styles/scss/variables';
+
+.userContainer {
+
+  .navBar {
+    position: sticky;
+    top: 20px;
+    border-radius: 14px;
+    background: $activeFieldBackgr;
+    margin-bottom: 1.5rem;
+    justify-content: center;
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+
+    li {
+      flex-basis: 0;
+      flex-grow: 1;
+      text-align: center;
+
+      a {
+        width: 100%;
+        letter-spacing: 1px;
+        border: 0;
+        border-radius: 0.25rem;
+        padding: 1rem;
+        text-decoration: none;
+        cursor: pointer;
+        display: block;
+        transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
+        color: $secondaryTextColor;
+
+        &.activeLink {
+          background-color: $backgroundColor;
+          border-bottom: 2px solid $buttonBackgr;
+          border-radius: 0;
+          color: $textColor;
+        }
+      }
+    }
+  }
+
+  .usersBlock {
+    transition: opacity .15s linear;
+
+    .titleWithSearchInput {
+      display: flex;
+      justify-content: space-between;
+
+      .usersBlockTitle {
+        color: $textColor;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        font-size: 14px;
+        font-family: $titleFont;
+        margin-top: 0;
+        line-height: 1.2;
+      }
+    }
+
+    .users {
+      border-radius: 14px;
+      background: $activeFieldBackgr;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+      overflow: hidden;
+    }
+  }
+}
+
+
+
+
+
+

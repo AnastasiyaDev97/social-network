@@ -1,124 +1,112 @@
-import s from "./User.module.css";
-import React, {FC, memo, useCallback} from "react";
-import {NavLink} from "react-router-dom";
+import style from "./Users.module.scss";
+import React, {ChangeEvent,KeyboardEvent, FC, memo, useCallback, useState} from "react";
 import Paginator from "../../common/paginator/Paginator";
 import {ItemsUsersResponseType} from "../../api/types";
-import {PATH} from "../../enums/PATH";
 import {stateType} from "../../redux/redux-store";
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {changePageThunk, followThunk, itemsT, unfollowThunk} from "../../redux/reducer/user-reducer";
-import {initialUserAvatar} from "../../const";
+import {changePage,  itemsT} from "../../redux/reducer/user-reducer";
 import Preloader from "../../common/preloader/Preloader";
+import {User} from "./User/User";
+import {PATH} from "../../enums/PATH";
+import {NavLink} from "react-router-dom";
+import SuperInputText from "../SuperInput/SuperInputText";
 
 
 const Users: FC<UsersPropsType> = memo(({
-                                            items, pageSize, totalUserCount,isFetching,
-                                            followingInProgress, followThunk, unfollowThunk, changePageThunk,
-                                            isAuth,currentPage,itemsType,
+                                            items, pageSize, totalUserCount, isFetching/*, changePageThunk*/,
+                                            isAuth, currentPage, itemsType,changePage
                                         }) => {
 
-    const portionSize = 10
+        const [searchValue, setSearchValue] = useState<string>('')
 
-    const handleChangePageClick = useCallback((currentPage: number) => {
-        let friend
-        if(itemsType==='friends'){
-            friend=true
+        const portionSize = 10
+        const titleText = itemsType === 'friends' ? 'Your friends' : 'People you can follow'
+
+        const handleChangePageClick = useCallback((currentPage: number) => {
+            /*let friend = itemsType === 'friends'*/
+            changePage(currentPage)
+            /*changePageThunk(currentPage, pageSize, friend)*/
+        }, [pageSize, itemsType,changePage])
+
+        const onSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+            setSearchValue(e.currentTarget.value)
         }
-        changePageThunk(currentPage, pageSize,friend)
-    },[pageSize,itemsType,changePageThunk])
+
+        const onSearchInputEnterPress=(e: KeyboardEvent<HTMLInputElement>)=>{
+            if ((e.key === 'Enter')&&(searchValue.trim() !== '')){
+
+            }
+        }
 
         if (isFetching) {
             return <Preloader/>
         }
-    return (
-        <div>
+        return (
+            <div className={style.userContainer}>
+                <ul className={style.navBar}>
+                    <li><NavLink to={PATH.USERS}
+                                 activeClassName={style.activeLink}>PEOPLE</NavLink></li>
+                    <li><NavLink to={PATH.FRIENDS} activeClassName={style.activeLink}>
+                        FRIENDS</NavLink></li>
+                </ul>
 
-            {items.map(item => {
-
-                    const conditionForDisabledButton = followingInProgress.some(id => id === item.id)
-
-                    const onUnfollowButtonClick = () => {
-                        unfollowThunk(item.id)
-                    }
-
-                    const onFollowButtonClick = () => {
-                        followThunk(item.id)
-                    }
-
-                    return (
-
-                        <div key={item.id}>
-                <span>
-                    <div>
-                        <NavLink to={PATH.PROFILE + '/' + item.id}><img
-                            src={item.photos.small || initialUserAvatar}
-                            className={s.userPhoto} alt={'profile avatar'}/></NavLink></div>
-
-                    <div>
-                        {isAuth &&
-                        <button disabled={conditionForDisabledButton}
-                                onClick={item.followed ? onUnfollowButtonClick : onFollowButtonClick}>
-                            {item.followed ? 'Unfollow' : 'Follow'}</button>
+                <div className={style.usersBlock}>
+                    <div className={style.titleWithSearchInput}>
+                        <h6 className={style.usersBlockTitle}>
+                            {titleText}
+                        </h6>
+                        <SuperInputText value={searchValue} onChange={onSearchInputChange}
+                                        onKeyPress={onSearchInputEnterPress}/>
+                    </div>
+                    <div className={style.users}>
+                        {
+                            items.map(item => <User item={item} isAuth={isAuth}/>)
                         }
-                       </div>
+                    </div>
 
-                </span>
-                            <span>
-                    <div>{item.name}</div>
-                    <div>{item.status}</div>
-                </span>
-                            <span>
-                    <div>item.location.country</div>
-                    <div>item.location.city</div>
-                </span>
-                        </div>
-                    )
-                }
-            )
-            }
-            <Paginator totalUserCount={totalUserCount} pageSize={pageSize}
-                       onChangePageClick={handleChangePageClick} portionSize={portionSize}
-                       currentPage={currentPage}/>
-        </div>
-    )
+                </div>
 
-}
+
+                <Paginator totalUserCount={totalUserCount} pageSize={pageSize}
+                           onChangePageClick={handleChangePageClick} portionSize={portionSize}
+                           currentPage={currentPage}/>
+            </div>
+        )
+
+    }
 )
 
 
 type MapStatePropsType = {
-    isAuth:boolean
+    isAuth: boolean
     items: Array<ItemsUsersResponseType>
     pageSize: number
     totalUserCount: number
     currentPage: number
-    followingInProgress: number[]
     isFetching: boolean
-    itemsType:itemsT
+    itemsType: itemsT
 }
 
 type MapDispatchPropsType = {
-    followThunk: (id: number) => void
-    unfollowThunk: (id: number) => void
-    changePageThunk: (currentPage: number, pageSize: number,friends?:boolean) => void
+   /* changePageThunk: (currentPage: number, pageSize: number, friends?: boolean) => void*/
+    changePage : (currentPage: number)=>void
 }
 
 type UsersPropsType = MapDispatchPropsType & MapStatePropsType
 
 
 let mapStateToProps = (state: stateType): MapStatePropsType => ({
-    isAuth:state.auth.isAuth,
+    isAuth: state.auth.isAuth,
     items: state.UsersPage.items,
     pageSize: state.UsersPage.pageSize,
     totalUserCount: state.UsersPage.totalUserCount,
     currentPage: state.UsersPage.currentPage,
     isFetching: state.UsersPage.isFetching,
-    followingInProgress: state.UsersPage.followingInProgress,
-    itemsType:state.UsersPage.itemsType,
+    itemsType: state.UsersPage.itemsType,
 })
 
 
 export default compose(
-    connect<MapStatePropsType, MapDispatchPropsType,{} , stateType>
-    (mapStateToProps, {followThunk, unfollowThunk, changePageThunk}))(Users)
+    connect<MapStatePropsType, MapDispatchPropsType, {}, stateType>
+    (mapStateToProps, {changePage}))(Users)

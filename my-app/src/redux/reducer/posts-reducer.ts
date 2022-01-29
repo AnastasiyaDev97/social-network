@@ -1,5 +1,6 @@
 import {v1} from "uuid";
 import {actionsType} from "../redux-store";
+import {currentDate} from "../../const";
 
 
 let initialState = {
@@ -27,16 +28,19 @@ export const postsReducer = (state: PostsType = initialState, action: actionsTyp
         case 'POSTS/DELETE-POST':
             let deletedPost = state.postsData.filter(post => post.id !== action.id)
             return {...state, postsData: deletedPost}
+
         case 'POSTS/LIKE-POST':
             return {...state,postsData:state.postsData.map(post=>
                     post.id===action.id?{...post,likes:post.likes+1,isLiked:true}:post)}
+
         case 'POSTS/DISLIKE-POST':
             return {...state,postsData:state.postsData.map(post=>
                     post.id===action.id?{...post,likes:post.likes-1,isLiked:false}:post)}
 
         case 'POSTS/ADD-POST':
             let newPost: postsDataType = {id: v1(), message: action.postText, likes: 0,
-                date: new Date().getDate(),isLiked:false}
+                date: currentDate,isLiked:false}
+
             return {
                 ...state,
                 postsData: [...state.postsData, newPost],

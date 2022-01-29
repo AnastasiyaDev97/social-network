@@ -1,16 +1,21 @@
 import React, {Component, ComponentType} from "react"
 import {connect} from "react-redux";
-import {getUsersThunk, itemsT, toggleItemsType,} from "../../redux/reducer/user-reducer";
+import {changePage, getUsersThunk, itemsT, toggleItemsType,} from "../../redux/reducer/user-reducer";
 import {stateType} from "../../redux/redux-store";
 import {compose} from "redux";
 import Users from "./Users";
+import {Nullable} from "../../types/Nullable";
 
 
 class UsersContainer extends Component<PropsType> {
 
     componentDidMount() {
-        this.props.toggleItemsType('users')
-        this.props.getUsersThunk(1)
+        this.props.getUsersThunk()
+    }
+    componentDidUpdate({currentPage,term,itemsType}: Readonly<PropsType>) {
+        if((currentPage!==this.props.currentPage)||(term!==this.props.term)||(itemsType!==this.props.itemsType)){
+            this.props.getUsersThunk()
+        }
     }
 
     render() {
@@ -19,14 +24,24 @@ class UsersContainer extends Component<PropsType> {
 }
 
 type mapDispatchToPropsType = {
-    getUsersThunk: (currentPage:number) => void
+    getUsersThunk: () => void
     toggleItemsType : (itemsType:itemsT)=>void
+    changePage:(currentPage: number)=>void
+}
+type mapStateType={
+    currentPage:number
+    itemsType: itemsT
+    term: Nullable<string>
 }
 
-export type PropsType = mapDispatchToPropsType
+export type PropsType = mapDispatchToPropsType&mapStateType
 
-let mapStateToProps;
+let mapStateToProps=(state:stateType)=>({
+    currentPage: state.UsersPage.currentPage,
+    itemsType: state.UsersPage.itemsType,
+    term:state.UsersPage.term,
+})
 
 export default compose<ComponentType>(
-    connect<{}, mapDispatchToPropsType, {}, stateType>
-    (mapStateToProps, {getUsersThunk,toggleItemsType}))(UsersContainer)
+    connect<mapStateType, mapDispatchToPropsType, {}, stateType>
+    (mapStateToProps, {getUsersThunk,toggleItemsType,changePage}))(UsersContainer)

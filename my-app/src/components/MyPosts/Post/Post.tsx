@@ -1,4 +1,4 @@
-import React, {FC, memo, useState} from 'react';
+import React, {FC, memo} from 'react';
 import style from './Post.module.scss'
 import {NavLink} from "react-router-dom";
 import {PATH} from "../../../enums/PATH";
@@ -25,19 +25,15 @@ export const Post: FC<PostPropsType> = memo(({
                                                  email, photo, id, deletePost,likePost,isLiked,dislikePost
                                              }) => {
 
-        const [isSettingsShow, setIsSettingsShow] = useState(false)
+        /*const [isSettingsShow, setIsSettingsShow] = useState(false)*/
 
         const srcForAvatar = photo || initialUserAvatar
 
-        const onSettingsBtnClick = () => {
+       /* const onSettingsBtnClick = () => {
             setIsSettingsShow(true)
         }
 
-        const onSettingsMouseLeave = () => setIsSettingsShow(false)
-
-        /* const onEditLiClick = () => {
-
-         }*/
+        const onSettingsMouseLeave = () => setIsSettingsShow(false)*/
 
         const onDeleteLiClick = () => {
             deletePost(id)
@@ -65,13 +61,13 @@ export const Post: FC<PostPropsType> = memo(({
 
                     <div className={style.dateSettingsBlock}>
                         <p className={style.date}>{date}</p>
-                        <div className={style.settingsBtn} onClick={onSettingsBtnClick}>
-                            {isSettingsShow && <ul className={style.settingsBlock}
+                        <div className={style.settingsBtn} onClick={onDeleteLiClick}>
+                           {/* {isSettingsShow && <ul className={style.settingsBlock}
                                                    onMouseLeave={onSettingsMouseLeave}>
-                                {/*  <li onClick={onEditLiClick}>Edit Post</li>*/}
+                                  <li onClick={onEditLiClick}>Edit Post</li>
                                 <li onClick={onDeleteLiClick}>Delete Post</li>
                             </ul>
-                            }
+                            }*/}
                         </div>
                     </div>
                 </div>

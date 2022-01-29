@@ -4,17 +4,20 @@ import {EditableSpan} from "../../EditableSpan/EditableSpan";
 import {ProfileForm} from "./EditProfileForm/ProfileForm";
 import {initialUserAvatar} from "../../../const";
 import {ProfileInfoPropsType} from "./ProfileInfoContainer";
+import FollowUnfollowBtn from "../../FollowUnfollowBtn/FollowUnfollowBtn";
 
 
 export const ProfileInfo: FC<ProfileInfoPropsType> = memo(({
                                                                profile, updateUserStatus, status, saveProfileAvatar,
                                                                userIdAuth, updateProfile,
-                                                               totalUserCount, users
+                                                               totalUserCount, users,toggleItemsType
                                                            }) => {
 
     const inRef = useRef<HTMLInputElement>(null);
 
     const isOwner = userIdAuth === profile.userId;
+
+    const currentUser = users.find(user => user.id === profile.userId)
 
     const onInputChooseAvatarChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -28,12 +31,17 @@ export const ProfileInfo: FC<ProfileInfoPropsType> = memo(({
         }
     }, [profile.fullName, updateProfile])
 
+    const onImgClick=()=>{
+        inRef && inRef.current && inRef.current.click()
+    }
+
 
     return (
         <div className={style.profileInfoWrapper}>
             <div className={style.headerBlock}>
 
-                <p className={style.imgWrapper} onClick={() => inRef && inRef.current && inRef.current.click()}>
+                <p className={isOwner?style.imgWrappOwner:style.imgWrapp}
+                   onClick={onImgClick}>
                     <img className={style.profilePhoto}
                          src={profile.photos.small || initialUserAvatar}
                          alt={'profile avatar'}
@@ -49,11 +57,14 @@ export const ProfileInfo: FC<ProfileInfoPropsType> = memo(({
                     <EditableSpan title={status} updateTitle={updateUserStatus}
                                   myStyle={style.status}/>
                 </div>
-
+                {(!isOwner && currentUser) && <div className={style.followBtnWrapper}>
+                    <FollowUnfollowBtn item={currentUser}/>
+                </div>
+                }
             </div>
             <ProfileForm contacts={profile.contacts} aboutMe={profile.aboutMe} isOwner={isOwner}
                          updateProfile={updateProfile} followingUsers={users}
-                         totalUserCount={totalUserCount}/>
+                         totalUserCount={totalUserCount} toggleItemsType={toggleItemsType}/>
         </div>
     )
 })

@@ -4,15 +4,16 @@ import style from "../ProfileForm.module.scss";
 import {ItemsUsersResponseType} from "../../../../../api/types";
 import {NavLink,  useHistory} from "react-router-dom";
 import {PATH} from "../../../../../enums/PATH";
+import {itemsT} from "../../../../../redux/reducer/user-reducer";
 
 
 type FriendsIconsT = {
     followingUsers: Array<ItemsUsersResponseType>
-  /*  toggleUsersType:(usersType: string)=>void*/
     totalUserCount:number
+    toggleItemsType : (itemsType: itemsT)=>void
 }
 
-export const FriendsIcons: FC<FriendsIconsT> = memo(({followingUsers,totalUserCount}) => {
+export const FriendsIcons: FC<FriendsIconsT> = memo(({followingUsers,totalUserCount,toggleItemsType}) => {
 
     let history = useHistory();
 
@@ -20,7 +21,8 @@ export const FriendsIcons: FC<FriendsIconsT> = memo(({followingUsers,totalUserCo
     const followingCount=totalUserCount
 
     const onFriendBlockClick=()=>{
-        history.push(PATH.FRIENDS)
+        toggleItemsType('friends')
+        history.push(PATH.USERS)
     }
 
     return (

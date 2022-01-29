@@ -9,6 +9,7 @@ import {Nullable} from "../../../types/Nullable";
 import {ItemsUsersResponseType} from "../../../api/types";
 import {connect} from "react-redux";
 import {ProfileInfo} from "./ProfileInfo";
+import {itemsT, toggleItemsType} from "../../../redux/reducer/user-reducer";
 
 export type ProfileInfoPropsType = mapStateToPropsType & mapDispatchToPropsType
 
@@ -32,7 +33,8 @@ type mapDispatchToPropsType = {
     updateUserStatus: (status: string) => void
     saveProfileAvatar: (newAvatar: File) => void
     updateProfile: (updateProfile: updateProfileThunkT) => void
+    toggleItemsType : (itemsType: itemsT)=>void
 }
 
 export default connect<mapStateToPropsType, mapDispatchToPropsType, {}, stateType>
-(mapStateToProps, {updateUserStatus,  saveProfileAvatar, updateProfile})(ProfileInfo);
+(mapStateToProps, {updateUserStatus,  saveProfileAvatar, updateProfile,toggleItemsType})(ProfileInfo);

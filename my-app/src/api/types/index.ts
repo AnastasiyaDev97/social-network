@@ -1,5 +1,7 @@
 import {Nullable} from "../../types/Nullable";
 import {ContactsType} from "../../redux/reducer/profile-reducer";
+import {types} from "sass";
+
 
 export type getUsersResponse = {
     items: Array<ItemsUsersResponseType>
@@ -52,4 +54,11 @@ export type updateProfilePayloadT={
     fullName: string
     contacts: ContactsType
     aboutMe:string
+}
+
+export type getUsersQueryParamsType={
+    page?:number
+    term?:Nullable<string>
+    friend?:boolean
+    count?:number
 }
