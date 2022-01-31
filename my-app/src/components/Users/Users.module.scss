@@ -20,19 +20,18 @@
       flex-grow: 1;
       text-align: center;
 
-      a {
+      .link {
         width: 100%;
         letter-spacing: 1px;
         border: 0;
         border-radius: 0.25rem;
         padding: 1rem;
-        text-decoration: none;
         cursor: pointer;
         display: block;
         transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
         color: $secondaryTextColor;
 
-        &.activeLink {
+        &:active {
           background-color: $backgroundColor;
           border-bottom: 2px solid $buttonBackgr;
           border-radius: 0;
@@ -42,21 +41,44 @@
     }
   }
 
+  .activeLink {
+    background-color: $backgroundColor;
+    border-bottom: 2px solid $buttonBackgr;
+    border-radius: 0;
+    color: $textColor;
+    width: 100%;
+    letter-spacing: 1px;
+    padding: 1rem;
+    cursor: pointer;
+    display: block;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
+
+  }
+
   .usersBlock {
     transition: opacity .15s linear;
 
     .titleWithSearchInput {
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+
 
       .usersBlockTitle {
         color: $textColor;
         font-weight: 700;
-        margin-bottom: 1rem;
+        margin-bottom: 0;
+        margin-top: 0;
         font-size: 14px;
         font-family: $titleFont;
-        margin-top: 0;
+
         line-height: 1.2;
+      }
+
+      .inputSearch {
+        padding: .2rem 1rem;
+
       }
     }
 

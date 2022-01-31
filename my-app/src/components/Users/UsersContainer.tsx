@@ -1,6 +1,6 @@
 import React, {Component, ComponentType} from "react"
 import {connect} from "react-redux";
-import {changePage, getUsersThunk, itemsT, toggleItemsType,} from "../../redux/reducer/user-reducer";
+import {getUsersThunk, itemsT,} from "../../redux/reducer/user-reducer";
 import {stateType} from "../../redux/redux-store";
 import {compose} from "redux";
 import Users from "./Users";
@@ -25,8 +25,6 @@ class UsersContainer extends Component<PropsType> {
 
 type mapDispatchToPropsType = {
     getUsersThunk: () => void
-    toggleItemsType : (itemsType:itemsT)=>void
-    changePage:(currentPage: number)=>void
 }
 type mapStateType={
     currentPage:number
@@ -44,4 +42,4 @@ let mapStateToProps=(state:stateType)=>({
 
 export default compose<ComponentType>(
     connect<mapStateType, mapDispatchToPropsType, {}, stateType>
-    (mapStateToProps, {getUsersThunk,toggleItemsType,changePage}))(UsersContainer)
+    (mapStateToProps, {getUsersThunk}))(UsersContainer)

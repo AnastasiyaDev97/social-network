@@ -9,7 +9,7 @@ import profileReducer, {
 import sidebarReducer from "./reducer/sidebar-reducer";
 import userReducer, {
     changePage,
-    followUser,
+    followUser, setTerm,
     setTotalUsersCount,
     setUsers, toggleFollowProgress,
     toggleIsFetching, toggleItemsType,
@@ -63,6 +63,7 @@ export type actionsType =
     | ReturnType<typeof deletePost>
     | ReturnType<typeof likePost>
     | ReturnType<typeof dislikePost>
+    | ReturnType<typeof setTerm>
 
 
 export type ThunkType = ThunkAction<void, stateType, unknown, actionsType>

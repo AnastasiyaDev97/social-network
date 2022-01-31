@@ -1,42 +1,66 @@
 import style from "./Users.module.scss";
-import React, {ChangeEvent,KeyboardEvent, FC, memo, useCallback, useState} from "react";
+import React, {ChangeEvent, FC, KeyboardEvent, memo, useCallback, useEffect, useState} from "react";
 import Paginator from "../../common/paginator/Paginator";
 import {ItemsUsersResponseType} from "../../api/types";
 import {stateType} from "../../redux/redux-store";
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {changePage,  itemsT} from "../../redux/reducer/user-reducer";
+import {changePage, itemsT, setTerm, toggleItemsType} from "../../redux/reducer/user-reducer";
 import Preloader from "../../common/preloader/Preloader";
 import {User} from "./User/User";
-import {PATH} from "../../enums/PATH";
-import {NavLink} from "react-router-dom";
 import SuperInputText from "../SuperInput/SuperInputText";
+import {EMPTY_STRING} from "../../const";
+import {Nullable} from "../../types/Nullable";
 
 
 const Users: FC<UsersPropsType> = memo(({
-                                            items, pageSize, totalUserCount, isFetching/*, changePageThunk*/,
-                                            isAuth, currentPage, itemsType,changePage
+                                            items, pageSize, totalUserCount, isFetching,
+                                            isAuth, currentPage, itemsType, changePage, toggleItemsType,
+                                            setTerm
                                         }) => {
 
-        const [searchValue, setSearchValue] = useState<string>('')
+        const [searchValue, setSearchValue] = useState<string>(EMPTY_STRING)
 
         const portionSize = 10
         const titleText = itemsType === 'friends' ? 'Your friends' : 'People you can follow'
+        const itemsArr = [
+            {
+                name: 'PEOPLE', callback: onPeopleLinkClick,
+                styleName: itemsType === 'users' ? style.activeLink : style.link
+            },
+            {
+                name: 'FRIENDS', callback: onFriendsLinkClick,
+                styleName: itemsType === 'friends' ? style.activeLink : style.link
+            },
+        ]
+
+        useEffect(() => {
+            let idOfTimeout =setTimeout(() => {
+            setTerm(searchValue)}, 500)
+
+            return () => {
+                clearTimeout(idOfTimeout)
+        }}, [searchValue])
 
         const handleChangePageClick = useCallback((currentPage: number) => {
-            /*let friend = itemsType === 'friends'*/
             changePage(currentPage)
-            /*changePageThunk(currentPage, pageSize, friend)*/
-        }, [pageSize, itemsType,changePage])
+        }, [pageSize, itemsType, changePage])
 
         const onSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
             setSearchValue(e.currentTarget.value)
         }
 
-        const onSearchInputEnterPress=(e: KeyboardEvent<HTMLInputElement>)=>{
-            if ((e.key === 'Enter')&&(searchValue.trim() !== '')){
-
+        const onSearchInputEnterPress = (e: KeyboardEvent<HTMLInputElement>) => {
+            if ((e.key === 'Enter') && (searchValue.trim() !== EMPTY_STRING)) {
             }
+        }
+
+        function onPeopleLinkClick() {
+            toggleItemsType('users')
+        }
+
+        function onFriendsLinkClick() {
+            toggleItemsType('friends')
         }
 
         if (isFetching) {
@@ -45,20 +69,22 @@ const Users: FC<UsersPropsType> = memo(({
         return (
             <div className={style.userContainer}>
                 <ul className={style.navBar}>
-                    <li><NavLink to={PATH.USERS}
-                                 activeClassName={style.activeLink}>PEOPLE</NavLink></li>
-                    <li><NavLink to={PATH.FRIENDS} activeClassName={style.activeLink}>
-                        FRIENDS</NavLink></li>
+                    {itemsArr.map((item, i) =>
+                        <li key={i}><span className={item.styleName}
+                                          onClick={item.callback}>
+                        {item.name}</span></li>)}
                 </ul>
 
                 <div className={style.usersBlock}>
+
                     <div className={style.titleWithSearchInput}>
                         <h6 className={style.usersBlockTitle}>
                             {titleText}
                         </h6>
                         <SuperInputText value={searchValue} onChange={onSearchInputChange}
-                                        onKeyPress={onSearchInputEnterPress}/>
+                                        onKeyPress={onSearchInputEnterPress} className={style.inputSearch}/>
                     </div>
+
                     <div className={style.users}>
                         {
                             items.map(item => <User item={item} isAuth={isAuth}/>)
@@ -89,8 +115,9 @@ type MapStatePropsType = {
 }
 
 type MapDispatchPropsType = {
-   /* changePageThunk: (currentPage: number, pageSize: number, friends?: boolean) => void*/
-    changePage : (currentPage: number)=>void
+    changePage: (currentPage: number) => void
+    toggleItemsType: (itemsType: itemsT) => void
+    setTerm: (term: Nullable<string>) => void
 }
 
 type UsersPropsType = MapDispatchPropsType & MapStatePropsType
@@ -109,4 +136,4 @@ let mapStateToProps = (state: stateType): MapStatePropsType => ({
 
 export default compose(
     connect<MapStatePropsType, MapDispatchPropsType, {}, stateType>
-    (mapStateToProps, {changePage}))(Users)
+    (mapStateToProps, {changePage, toggleItemsType,setTerm}))(Users)

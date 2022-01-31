@@ -59,6 +59,7 @@ export const userReducer = (state: UsersPageType = initialState, action: actions
         case "USER/SET-TOTAL-USER-COUNT":
         case "USER/TOGGLE-IS-FETCHING":
         case 'USER/TOGGLE-ITEMS-TYPE':
+        case 'USER/SET-TERM':
             return {
                 ...state, ...action.payload
             }
@@ -118,6 +119,12 @@ export const toggleItemsType = (itemsType: itemsT) => ({
     }
 ) as const
 
+export const setTerm = (term: Nullable<string>) => ({
+        type: 'USER/SET-TERM',
+        payload: {term}
+    }
+) as const
+
 export const getUsersThunk = () =>
     async (dispatch: Dispatch<actionsType>, getState: () => stateType) => {
         dispatch(setAppStatusAC('loading'))
@@ -139,18 +146,6 @@ export const getUsersThunk = () =>
     }
 
 
-/*
-export const changePageThunk = (currentPage: number, pageSize: number, friends?: boolean) =>
-    async (dispatch: Dispatch<actionsType>) => {
-        dispatch(setAppStatusAC('loading'))
-        dispatch(changePage(currentPage))
-        let data = await UsersAPI.getUsers(currentPage, pageSize)
-        if (data) {
-            dispatch(setUsers(data.items))
-        }
-        dispatch(setAppStatusAC('succeeded'))
-    }
-*/
 
 export const followThunk = (id: number) =>
     async (dispatch: Dispatch<actionsType>) => {
