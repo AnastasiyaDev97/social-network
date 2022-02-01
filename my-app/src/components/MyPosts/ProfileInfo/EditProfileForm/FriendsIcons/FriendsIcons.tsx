@@ -4,7 +4,7 @@ import style from "../ProfileForm.module.scss";
 import {ItemsUsersResponseType} from "../../../../../api/types";
 import {NavLink,  useHistory} from "react-router-dom";
 import {PATH} from "../../../../../enums/PATH";
-import {itemsT} from "../../../../../redux/reducer/user-reducer";
+import {itemsT} from "../../../../../redux/reducer/users/user-reducer";
 
 
 type FriendsIconsT = {

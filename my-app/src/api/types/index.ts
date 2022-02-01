@@ -1,6 +1,5 @@
 import {Nullable} from "../../types/Nullable";
-import {ContactsType} from "../../redux/reducer/profile-reducer";
-import {types} from "sass";
+import {ContactsType} from "../../redux/reducer/profile/profile-reducer";
 
 
 export type getUsersResponse = {

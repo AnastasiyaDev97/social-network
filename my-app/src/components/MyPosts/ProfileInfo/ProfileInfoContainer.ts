@@ -1,15 +1,19 @@
 import {stateType} from "../../../redux/redux-store";
 import {
     profileDataUserType,
-    saveProfileAvatar, updateProfile,
-    updateProfileThunkT,
-    updateUserStatus
-} from "../../../redux/reducer/profile-reducer";
+
+} from "../../../redux/reducer/profile/profile-reducer";
 import {Nullable} from "../../../types/Nullable";
 import {ItemsUsersResponseType} from "../../../api/types";
 import {connect} from "react-redux";
 import {ProfileInfo} from "./ProfileInfo";
-import {itemsT, toggleItemsType} from "../../../redux/reducer/user-reducer";
+import {itemsT, toggleItemsType} from "../../../redux/reducer/users/user-reducer";
+import {
+    saveProfileAvatar,
+    updateProfile,
+    updateProfileThunkT,
+    updateUserStatus
+} from "../../../redux/reducer/profile/thunk";
 
 export type ProfileInfoPropsType = mapStateToPropsType & mapDispatchToPropsType
 

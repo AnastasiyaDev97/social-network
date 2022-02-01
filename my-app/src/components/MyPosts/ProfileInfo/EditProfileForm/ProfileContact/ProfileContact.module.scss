@@ -6,7 +6,18 @@
   font-size: 16px;
   color: $secondaryTextColor;
   padding-right: 15px;
+  z-index: 0;
 
+}
 
+.emptyLink {
+  opacity: .5;
+}
+
+.input {
+  position: absolute;
+  padding-right: 8px;
+  z-index: 4;
+  width: 300px;
 
 }

@@ -2,19 +2,23 @@ import React, {ComponentType, PureComponent} from "react";
 import {connect} from "react-redux";
 import {Profile} from "./Profile";
 import {
-    getUserProfile,
-    getUserStatus,
     profileDataUserType,
-    saveProfileAvatar,
-    updateProfile,
-    updateUserStatus,
-} from "../../redux/reducer/profile-reducer";
+
+} from "../../redux/reducer/profile/profile-reducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {stateType} from "../../redux/redux-store";
 import {compose} from "redux";
 import {Nullable} from "../../types/Nullable";
 import {PATH} from "../../enums/PATH";
-import {getUsersThunk, itemsT, toggleItemsType} from "../../redux/reducer/user-reducer";
+import {itemsT, toggleItemsType} from "../../redux/reducer/users/user-reducer";
+import {
+    getUserProfile,
+    getUserStatus,
+    saveProfileAvatar,
+    updateProfile,
+    updateUserStatus
+} from "../../redux/reducer/profile/thunk";
+import {getUsersThunk} from "../../redux/reducer/users/thunk";
 
 type PathParamsType = {
     userId: string

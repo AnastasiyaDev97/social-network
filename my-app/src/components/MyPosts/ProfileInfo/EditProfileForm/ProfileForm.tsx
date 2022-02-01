@@ -1,5 +1,5 @@
-import React, {FC, memo, useCallback} from "react";
-import {ContactsType, updateProfileThunkT} from "../../../../redux/reducer/profile-reducer";
+import React, {FC, memo, useCallback, useState} from "react";
+import {ContactsType} from "../../../../redux/reducer/profile/profile-reducer";
 import style from './ProfileForm.module.scss'
 import {faVk} from "@fortawesome/free-brands-svg-icons/faVk";
 import {ProfileContact} from "./ProfileContact/ProfileContact";
@@ -11,7 +11,10 @@ import {faTwitter} from "@fortawesome/free-brands-svg-icons/faTwitter";
 import {faFacebook} from "@fortawesome/free-brands-svg-icons/faFacebook";
 import {ItemsUsersResponseType} from "../../../../api/types";
 import {FriendsIcons} from "./FriendsIcons/FriendsIcons";
-import {itemsT} from "../../../../redux/reducer/user-reducer";
+import {itemsT} from "../../../../redux/reducer/users/user-reducer";
+import {updateProfileThunkT} from "../../../../redux/reducer/profile/thunk";
+import {faTelegramPlane} from "@fortawesome/free-brands-svg-icons/faTelegramPlane";
+import {Modal} from "../../../Modal/Modal";
 
 export type UpdateContactsType = {
     facebook?: string
@@ -31,38 +34,48 @@ type ProfileFormT = {
     updateProfile: (updateProfile: updateProfileThunkT) => void
     followingUsers: Array<ItemsUsersResponseType>
     totalUserCount: number
-    toggleItemsType : (itemsType: itemsT)=>void
+    toggleItemsType: (itemsType: itemsT) => void
 }
 
 export const ProfileForm: FC<ProfileFormT> = memo(({
                                                        contacts, isOwner, aboutMe, updateProfile,
-                                                       followingUsers, totalUserCount,toggleItemsType
+                                                       followingUsers, totalUserCount, toggleItemsType
                                                    }) => {
 
+    const [isContactEditFormShown, setIsContactEditFormShown] = useState(true)
+
     const contactsArr = [
-        {name: 'vk', link: contacts.vk, icon: faVk},
-        {name: 'facebook', link: contacts.facebook, icon: faFacebook},
-        {name: 'twitter', link: contacts.twitter, icon: faTwitter},
-        {name: 'instagram', link: contacts.instagram, icon: faInstagram},
-        {name: 'youtube', link: contacts.youtube, icon: faYoutube},
-        {name: 'github', link: contacts.github, icon: faGithub},
-        {name: 'website', link: contacts.website, icon: faLinkedinIn},
+        {initialValueTitle: 'vk', initialValue: contacts.vk, icon: faVk},
+        {initialValueTitle: 'facebook', initialValue: contacts.facebook, icon: faFacebook},
+        {initialValueTitle: 'twitter', initialValue: contacts.twitter, icon: faTwitter},
+        {initialValueTitle: 'instagram', initialValue: contacts.instagram, icon: faInstagram},
+        {initialValueTitle: 'youtube', initialValue: contacts.youtube, icon: faYoutube},
+        {initialValueTitle: 'github', initialValue: contacts.github, icon: faGithub},
+        {initialValueTitle: 'website', initialValue: contacts.website, icon: faLinkedinIn},
+        {initialValueTitle: 'mainLink', initialValue: contacts.mainLink, icon: faTelegramPlane},
     ]
 
 
-    const handleIconUpdateLinkClick = useCallback((updateContact: UpdateContactsType) => {
+    const handleIconUpdateLinkClick = useCallback((updateContact: updateProfileThunkT) => {
         updateProfile({contacts: {...contacts, ...updateContact}})
     }, [contacts, updateProfile])
 
+    const onContactsClick = () => {
+        setIsContactEditFormShown(true)
+    }
+ //добавить кнопку для вызова модалки изменения ссылок
     return (
         <div className={style.userForm}>
             <p className={style.aboutMe}>{aboutMe}</p>
-            <p className={style.contacts}>
-                {contactsArr.map((contact, i) =>
-                    contact.link &&
-                    <ProfileContact key={i} link={contact.link} icon={contact.icon}
-                                    updateProfile={handleIconUpdateLinkClick} isOwner={isOwner}
-                                    name={contact.name}/>)}
+            <p className={style.contacts} >
+                {isContactEditFormShown ?
+                    <Modal itemsForForm={contactsArr}
+                           onSubmitBtnClick={handleIconUpdateLinkClick}
+                           setIsModalShown={setIsContactEditFormShown}/>
+                    : contactsArr.map((contact, i) =>
+                        <ProfileContact key={i} link={contact.initialValue} icon={contact.icon}
+                                        updateProfile={handleIconUpdateLinkClick} isOwner={isOwner}
+                                        name={contact.initialValueTitle}/>)}
             </p>
 
             {isOwner && <FriendsIcons followingUsers={followingUsers}

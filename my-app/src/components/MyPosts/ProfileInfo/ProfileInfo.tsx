@@ -1,29 +1,42 @@
-import React, {ChangeEvent, FC, memo, useCallback, useRef} from 'react';
+import React, {FC, memo, useCallback, useState} from 'react';
 import style from './ProfileInfo.module.scss'
 import {EditableSpan} from "../../EditableSpan/EditableSpan";
 import {ProfileForm} from "./EditProfileForm/ProfileForm";
-import {initialUserAvatar} from "../../../const";
 import {ProfileInfoPropsType} from "./ProfileInfoContainer";
 import FollowUnfollowBtn from "../../FollowUnfollowBtn/FollowUnfollowBtn";
+import {ProfileAvatar} from "./ProfileAvatar/ProfileAvatar";
+import {Modal} from "../../Modal/Modal";
 
 
 export const ProfileInfo: FC<ProfileInfoPropsType> = memo(({
                                                                profile, updateUserStatus, status, saveProfileAvatar,
                                                                userIdAuth, updateProfile,
-                                                               totalUserCount, users,toggleItemsType
+                                                               totalUserCount, users, toggleItemsType
                                                            }) => {
 
-    const inRef = useRef<HTMLInputElement>(null);
+    const [isModalShown, setIsModalShown] = useState(false)
 
     const isOwner = userIdAuth === profile.userId;
 
     const currentUser = users.find(user => user.id === profile.userId)
 
-    const onInputChooseAvatarChange = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            saveProfileAvatar(e.target.files[0])
-        }
-    }
+    const valuesForUpdateProfile = [
+        {title: 'About me', type: 'textarea', initialValueTitle: 'aboutMe', initialValue: profile.aboutMe},
+        {title: 'Full name', type: 'input', initialValueTitle: 'fullName', initialValue: profile.fullName},
+        {
+            title: 'Looking for a job?',
+            type: 'checkbox',
+            initialValueTitle: 'lookingForAJob',
+            initialValue: profile.lookingForAJob
+        },
+        {
+            title: 'Describe your job',
+            type: 'input',
+            initialValueTitle: 'lookingForAJobDescription',
+            initialValue: profile.lookingForAJobDescription
+        },
+
+    ]
 
     const handleEditableSpanClick = useCallback((newTitle: string) => {
         if (newTitle !== profile.fullName) {
@@ -31,36 +44,32 @@ export const ProfileInfo: FC<ProfileInfoPropsType> = memo(({
         }
     }, [profile.fullName, updateProfile])
 
-    const onImgClick=()=>{
-        inRef && inRef.current && inRef.current.click()
+    const onEditProfileClick = () => {
+        setIsModalShown(true)
     }
 
 
     return (
         <div className={style.profileInfoWrapper}>
+            {isModalShown && <Modal itemsForForm={valuesForUpdateProfile} onSubmitBtnClick={updateProfile}
+                                    setIsModalShown={setIsModalShown}/>}
             <div className={style.headerBlock}>
+                <div className={style.flexCont}>
+                    <ProfileAvatar isOwner={isOwner} photo={profile.photos.small}
+                                   saveProfileAvatar={saveProfileAvatar}/>
 
-                <p className={isOwner?style.imgWrappOwner:style.imgWrapp}
-                   onClick={onImgClick}>
-                    <img className={style.profilePhoto}
-                         src={profile.photos.small || initialUserAvatar}
-                         alt={'profile avatar'}
-                    />
-                </p>
-
-                {isOwner && <input type='file' onChange={onInputChooseAvatarChange}
-                                   ref={inRef} style={{display: 'none'}}/>}
-
-                <div className={style.nameBlock}>
-                    <EditableSpan title={profile.fullName} updateTitle={handleEditableSpanClick}
-                                  myStyle={style.name}/>
-                    <EditableSpan title={status} updateTitle={updateUserStatus}
-                                  myStyle={style.status}/>
+                    <div className={style.nameBlock}>
+                        <EditableSpan title={profile.fullName} updateTitle={handleEditableSpanClick}
+                                      myStyle={style.name}/>
+                        <EditableSpan title={status} updateTitle={updateUserStatus}
+                                      myStyle={style.status}/>
+                    </div>
                 </div>
-                {(!isOwner && currentUser) && <div className={style.followBtnWrapper}>
-                    <FollowUnfollowBtn item={currentUser}/>
-                </div>
-                }
+
+                {(!isOwner && currentUser) && <FollowUnfollowBtn item={currentUser}/>}
+
+                {isOwner && <div className={style.settingsBtn} onClick={onEditProfileClick}/>}
+
             </div>
             <ProfileForm contacts={profile.contacts} aboutMe={profile.aboutMe} isOwner={isOwner}
                          updateProfile={updateProfile} followingUsers={users}

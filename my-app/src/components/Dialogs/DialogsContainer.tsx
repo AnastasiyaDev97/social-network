@@ -1,4 +1,4 @@
-import {addMessage,  dialogsDataType, messageDataType} from "../../redux/reducer/dialog-reducer";
+import {addMessage,  dialogsDataType, messageDataType} from "../../redux/reducer/dialogs/dialog-reducer";
 import {Dialogs} from "./Dialogs";
 import {connect} from "react-redux";
 import {stateType} from "../../redux/redux-store";

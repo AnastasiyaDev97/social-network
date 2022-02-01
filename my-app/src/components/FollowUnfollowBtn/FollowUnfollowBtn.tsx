@@ -1,11 +1,9 @@
 import SuperButton from "../SuperButton/SuperButton";
 import React, {FC, memo} from "react";
 import {ItemsUsersResponseType} from "../../api/types";
-
 import {connect} from "react-redux";
-
 import {stateType} from "../../redux/redux-store";
-import {followThunk, unfollowThunk} from "../../redux/reducer/user-reducer";
+import {followThunk, unfollowThunk} from "../../redux/reducer/users/thunk";
 
 
 const FollowUnfollowBtn: FC<FollowUnfollowBtnPropsType> = memo(({

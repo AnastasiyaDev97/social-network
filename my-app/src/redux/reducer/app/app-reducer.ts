@@ -1,5 +1,4 @@
-import {actionsType, ThunkType} from "../redux-store";
-import {getAuthDataThunk} from "./auth-reducer";
+import {actionsType} from "../../redux-store";
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
@@ -39,13 +38,7 @@ export const setAppStatusAC = (RequestStatus: RequestStatusType) => ({
     }
 } as const)
 
-export const Initialize = (): ThunkType =>
-    async (dispatch) => {
-        dispatch(setAppStatusAC('loading'))
-        await dispatch(getAuthDataThunk())
-        dispatch(setInitialization())
-        dispatch(setAppStatusAC('succeeded'))
-    }
+
 
 
 

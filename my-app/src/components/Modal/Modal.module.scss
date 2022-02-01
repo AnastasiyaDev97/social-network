@@ -1,0 +1,54 @@
+@import '../../styles/scss/variables';
+
+.modalContainer {
+  position: fixed;
+  min-width: 100vw;
+  min-height: 100vh;
+  background: $backgrForModal;
+  top: 0;
+  left: 0;
+  z-index: 5;
+
+  .modalBlock {
+    position: absolute;
+    padding: 20px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(to bottom, #99ff99 0%, #ffffcc 100%);
+    align-items: center;
+    width: 40%;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+
+    .form{
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      & div{
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        & p{
+          flex:0 0 25%;
+          margin-right: 10px;
+          font-family: $mainFont;
+          font-weight: bold;
+        }
+      }
+
+    }
+  }
+}
+
+.form input,textarea{
+  flex-basis: 70%;
+}
+
+.btnSave{
+  align-self: center;
+  margin-top: 15px;
+}

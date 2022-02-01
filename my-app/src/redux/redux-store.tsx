@@ -1,12 +1,11 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
-import dialogReducer, {addMessage} from "./reducer/dialog-reducer";
+import dialogReducer, {addMessage} from "./reducer/dialogs/dialog-reducer";
 import profileReducer, {
 
     setAvatar,
     setStatus,
     setUserProfile
-} from "./reducer/profile-reducer";
-import sidebarReducer from "./reducer/sidebar-reducer";
+} from "./reducer/profile/profile-reducer";
 import userReducer, {
     changePage,
     followUser, setTerm,
@@ -14,22 +13,21 @@ import userReducer, {
     setUsers, toggleFollowProgress,
     toggleIsFetching, toggleItemsType,
     unFollowUser
-} from "./reducer/user-reducer";
+} from "./reducer/users/user-reducer";
 import authReducer, {
     setCaptchaSuccess,
     setAuthUserData,
     setMyProfileData,
     toggleIsLoggedIn
-} from "./reducer/auth-reducer";
+} from "./reducer/auth/auth-reducer";
 import ThunkMiddleware, {ThunkAction} from 'redux-thunk'
-import appReducer, {setAppStatusAC, setInitialization} from "./reducer/app-reducer";
+import appReducer, {setAppStatusAC, setInitialization} from "./reducer/app/app-reducer";
 import {composeWithDevTools} from 'redux-devtools-extension';
-import postsReducer, {addPost, deletePost, dislikePost, likePost} from "./reducer/posts-reducer";
+import postsReducer, {addPost, deletePost, dislikePost, likePost} from "./reducer/posts/posts-reducer";
 
 let rootReducer = combineReducers({
     DialogsPage: dialogReducer,
     ProfilePage: profileReducer,
-    sidebarPage: sidebarReducer,
     UsersPage: userReducer,
     auth: authReducer,
     app: appReducer,

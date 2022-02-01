@@ -1,10 +1,10 @@
-import { profileDataUserType} from "../../redux/reducer/profile-reducer";
+import { profileDataUserType} from "../../redux/reducer/profile/profile-reducer";
 import {MyPosts} from "./MyPosts";
 import {connect} from "react-redux";
 import {stateType} from "../../redux/redux-store";
 import {compose} from "redux";
 import {ComponentType} from "react";
-import {addPost, deletePost, dislikePost, likePost, postsDataType} from "../../redux/reducer/posts-reducer";
+import {addPost, deletePost, dislikePost, likePost, postsDataType} from "../../redux/reducer/posts/posts-reducer";
 
 
 let mapStateToProps = (state: stateType) => ({

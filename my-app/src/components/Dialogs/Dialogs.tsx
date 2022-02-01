@@ -2,7 +2,7 @@ import style from "./Dialogs.module.css"
 import React, {FC, memo} from "react"
 import {DialogItem} from "./Dialog/DialogItem";
 import {MessageItem} from "./Message/Message";
-import {dialogsDataType, messageDataType} from "../../redux/reducer/dialog-reducer";
+import {dialogsDataType, messageDataType} from "../../redux/reducer/dialogs/dialog-reducer";
 import {EMPTY_STRING} from "../../const";
 import {useFormik} from "formik";
 

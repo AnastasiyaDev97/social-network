@@ -10,12 +10,13 @@ import ProfileContainer from "./components/Profile/ProfileContainer";
 import LoginContainer from "./components/Login/LoginContainer";
 import {connect} from "react-redux";
 import {stateType} from "./redux/redux-store";
-import {Initialize, RequestStatusType} from "./redux/reducer/app-reducer";
+import { RequestStatusType} from "./redux/reducer/app/app-reducer";
 import Preloader from "./common/preloader/Preloader";
 import NavBar from "./components/NavBar/NavBar";
 import {PATH} from "./enums/PATH";
 import {NotFound} from "./components/NotFound/NotFound";
 import style from './App.module.scss'
+import {Initialize} from "./redux/reducer/app/thunk";
 
 
 type AppPropsType = mapStateToPropsType & mapDispatchToPropsType
@@ -46,7 +47,6 @@ class App extends PureComponent<AppPropsType> {
                             <Route path={PATH.DIALOGS} render={() => <DialogsContainer/>}/>
                             <Route path={PATH.NEWS} render={() => <News/>}/>
                             <Route path={PATH.USERS} render={() => <UsersContainer/>}/>
-                          {/*  <Route path={PATH.FRIENDS} render={() => <FriendsContainer/>}/>*/}
                             <Route path={PATH.MUSIC} render={() => <Music/>}/>
                             <Route path={PATH.SETTINGS} render={() => <Settings/>}/>
                             <Route path={PATH.LOGIN} render={() => <LoginContainer/>}/>

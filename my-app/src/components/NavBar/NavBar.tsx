@@ -5,7 +5,6 @@ import {connect} from "react-redux";
 import {stateType} from "../../redux/redux-store";
 import {PATH} from "../../enums/PATH";
 import {Nullable} from "../../types/Nullable";
-import {logoutThunk} from "../../redux/reducer/auth-reducer";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {ItemList} from "./ItemList/ItemList";
 import {faUser} from "@fortawesome/free-regular-svg-icons/faUser";
@@ -15,6 +14,7 @@ import {faRss} from "@fortawesome/free-solid-svg-icons/faRss";
 import {faItunesNote} from "@fortawesome/free-brands-svg-icons/faItunesNote";
 import {faCogs} from "@fortawesome/free-solid-svg-icons/faCogs";
 import {faSignOutAlt} from "@fortawesome/free-solid-svg-icons/faSignOutAlt";
+import {logoutThunk} from "../../redux/reducer/auth/thunk";
 
 type NavBarPropsType = mapStateToPropsType & mapDispatchToPropsType
 

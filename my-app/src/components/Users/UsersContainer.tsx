@@ -1,10 +1,11 @@
 import React, {Component, ComponentType} from "react"
 import {connect} from "react-redux";
-import {getUsersThunk, itemsT,} from "../../redux/reducer/user-reducer";
+import { itemsT} from "../../redux/reducer/users/user-reducer";
 import {stateType} from "../../redux/redux-store";
 import {compose} from "redux";
 import Users from "./Users";
 import {Nullable} from "../../types/Nullable";
+import {getUsersThunk} from "../../redux/reducer/users/thunk";
 
 
 class UsersContainer extends Component<PropsType> {

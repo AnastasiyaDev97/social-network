@@ -1,5 +1,5 @@
-import {profileDataUserType} from "../redux/reducer/profile-reducer";
-import {authDataType} from "../redux/reducer/auth-reducer";
+import {profileDataUserType} from "../redux/reducer/profile/profile-reducer";
+import {authDataType} from "../redux/reducer/auth/auth-reducer";
 import {instance} from "./apiConfig";
 import {
     getUsersQueryParamsType,

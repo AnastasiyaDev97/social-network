@@ -1,6 +1,6 @@
 import {v1} from "uuid";
-import {actionsType} from "../redux-store";
-import {EMPTY_STRING} from "../../const";
+import {actionsType} from "../../redux-store";
+import {EMPTY_STRING} from "../../../const";
 
 
 let initialState = {

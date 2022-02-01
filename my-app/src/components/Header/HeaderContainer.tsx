@@ -1,9 +1,9 @@
 import React from 'react';
 import {Header} from "./Header";
 import {connect} from "react-redux";
-import {logoutThunk} from "../../redux/reducer/auth-reducer";
 import {stateType} from "../../redux/redux-store";
 import {Nullable} from "../../types/Nullable";
+import {logoutThunk} from "../../redux/reducer/auth/thunk";
 
 
 type HeaderPropsType = mapStateToPropsType & mapDispatchToPropsType

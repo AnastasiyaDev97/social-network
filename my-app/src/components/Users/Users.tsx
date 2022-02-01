@@ -5,7 +5,7 @@ import {ItemsUsersResponseType} from "../../api/types";
 import {stateType} from "../../redux/redux-store";
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {changePage, itemsT, setTerm, toggleItemsType} from "../../redux/reducer/user-reducer";
+import {changePage, itemsT, setTerm, toggleItemsType} from "../../redux/reducer/users/user-reducer";
 import Preloader from "../../common/preloader/Preloader";
 import {User} from "./User/User";
 import SuperInputText from "../SuperInput/SuperInputText";
@@ -36,7 +36,7 @@ const Users: FC<UsersPropsType> = memo(({
 
         useEffect(() => {
             let idOfTimeout =setTimeout(() => {
-            setTerm(searchValue)}, 500)
+            setTerm(searchValue)}, 1000)
 
             return () => {
                 clearTimeout(idOfTimeout)

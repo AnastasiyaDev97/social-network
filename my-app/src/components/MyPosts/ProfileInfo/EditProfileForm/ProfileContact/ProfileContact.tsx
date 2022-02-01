@@ -1,25 +1,26 @@
-import React, {ChangeEvent, FC, memo, useState} from "react";
+import React, {ChangeEvent, FC, memo, MouseEvent, useState} from "react";
 import style from "./ProfileContact.module.scss";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
-import {UpdateContactsType} from "../ProfileForm";
-
+import SuperInputText from "../../../../SuperInput/SuperInputText";
+import {updateProfileThunkT} from "../../../../../redux/reducer/profile/thunk";
 
 
 type ProfileContactT = {
     link: string
     icon: IconProp
-    updateProfile: (updateContact:UpdateContactsType) => void
+    updateProfile: (updateContact: updateProfileThunkT) => void
     isOwner: boolean
-    name:string
+    name: string
 }
 
-export const ProfileContact: FC<ProfileContactT> = memo(({link, icon, updateProfile, isOwner,
-                                                         name}) => {
+export const ProfileContact: FC<ProfileContactT> = memo(({
+                                                             link, icon, updateProfile, isOwner,
+                                                             name
+                                                         }) => {
 
         const [edit, setEdit] = useState(false)
         const [linkURL, setLinkURL] = useState(link)
-
 
 
         const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -27,22 +28,32 @@ export const ProfileContact: FC<ProfileContactT> = memo(({link, icon, updateProf
         }
 
         const onInputBlur = () => {
-            updateProfile({[name]:linkURL})
+            if (linkURL) {
+                updateProfile({[name]: linkURL})
+            }
             setEdit(false)
         }
 
-        const onLinkDblClick = () => {
-            if (isOwner) {
+        const onLinkDblClick = (e: MouseEvent<HTMLAnchorElement>) => {
+            if (isOwner && !link) {
+                e.preventDefault()
                 setEdit(true)
             }
         }
 
+        const classNameForEmptyLink = !link && style.emptyLink
+
+        if (!link && !isOwner) {
+            return <></>
+        }
         return (
             <>
                 <a href={link}
-                         className={style.icon} onDoubleClick={onLinkDblClick}>
+                   className={`${style.icon} ${classNameForEmptyLink}`} onClick={onLinkDblClick}
+                   target='_blank' >
                     <FontAwesomeIcon icon={icon}/></a>
-                {edit && <input value={linkURL} onChange={onInputChange} autoFocus onBlur={onInputBlur}/>}
+                {edit && <SuperInputText value={linkURL} onChange={onInputChange} className={style.input}
+                                         autoFocus onBlur={onInputBlur}/>}
             </>
         )
     }

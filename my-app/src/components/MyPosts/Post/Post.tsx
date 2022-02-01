@@ -25,15 +25,11 @@ export const Post: FC<PostPropsType> = memo(({
                                                  email, photo, id, deletePost,likePost,isLiked,dislikePost
                                              }) => {
 
-        /*const [isSettingsShow, setIsSettingsShow] = useState(false)*/
+
 
         const srcForAvatar = photo || initialUserAvatar
 
-       /* const onSettingsBtnClick = () => {
-            setIsSettingsShow(true)
-        }
 
-        const onSettingsMouseLeave = () => setIsSettingsShow(false)*/
 
         const onDeleteLiClick = () => {
             deletePost(id)
