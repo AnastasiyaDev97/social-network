@@ -42,7 +42,7 @@ class ProfileContainer extends PureComponent<ProfilePropsType> {
         if (!userId && this.props.isAuth && this.props.userIdAuth) {
             userId = this.props.userIdAuth.toString()
             this.props.toggleItemsType('friends')
-            this.props.getUsersThunk(/*1,PAGE_SIZE,true*/)
+            this.props.getUsersThunk()
         }
         if (!userId && !this.props.isAuth) {
             this.props.history.push(PATH.LOGIN)
@@ -69,7 +69,7 @@ type mapStateToPropsType = {
 type mapDispatchToPropsType = {
     getUserProfile: (userId: string) => void
     getUserStatus: (userId: string) => void
-    getUsersThunk: (/*currentPage:number, pageSize: number,friend?:boolean*/) => void
+    getUsersThunk: () => void
     toggleItemsType : (itemsType: itemsT)=>void
 
 }

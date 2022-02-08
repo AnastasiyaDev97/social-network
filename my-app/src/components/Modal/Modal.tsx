@@ -29,8 +29,6 @@ type ModalPropsT = {
 export const Modal: FC<ModalPropsT> = memo(({itemsForForm, onSubmitBtnClick, setIsModalShown}) => {
 
 
-
-
     let objInitialValues = {}
     for (let i = 0; i < itemsForForm.length; i++) {
         let newVal = {[itemsForForm[i].initialValueTitle]: itemsForForm[i].initialValue}
@@ -40,7 +38,6 @@ export const Modal: FC<ModalPropsT> = memo(({itemsForForm, onSubmitBtnClick, set
 
     const formik = useFormik({
         initialValues: objInitialValues,
-
 
         onSubmit: (values) => {
             const hasChanged = !shallowEqual(formik.initialValues, values)
@@ -60,7 +57,7 @@ export const Modal: FC<ModalPropsT> = memo(({itemsForForm, onSubmitBtnClick, set
 
                     {itemsForForm.map((value, i) => {
                         return <div key={i}>
-                            <p>{value.title}</p>
+                            <p>{value.title||value.initialValueTitle}</p>
                             {((value.type === 'input')||(!value.type)) &&
                             <SuperInputText {...formik.getFieldProps(value.initialValueTitle)}
                             placeholder={value.initialValueTitle}/>}

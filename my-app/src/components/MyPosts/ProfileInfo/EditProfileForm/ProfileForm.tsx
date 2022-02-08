@@ -42,7 +42,7 @@ export const ProfileForm: FC<ProfileFormT> = memo(({
                                                        followingUsers, totalUserCount, toggleItemsType
                                                    }) => {
 
-    const [isContactEditFormShown, setIsContactEditFormShown] = useState(true)
+    const [isContactEditFormShown, setIsContactEditFormShown] = useState(false)
 
     const contactsArr = [
         {initialValueTitle: 'vk', initialValue: contacts.vk, icon: faVk},
@@ -60,14 +60,14 @@ export const ProfileForm: FC<ProfileFormT> = memo(({
         updateProfile({contacts: {...contacts, ...updateContact}})
     }, [contacts, updateProfile])
 
-    const onContactsClick = () => {
+    const onActivateModalIconClick = () => {
         setIsContactEditFormShown(true)
     }
- //добавить кнопку для вызова модалки изменения ссылок
+
     return (
         <div className={style.userForm}>
             <p className={style.aboutMe}>{aboutMe}</p>
-            <p className={style.contacts} >
+            <p className={style.contacts}>
                 {isContactEditFormShown ?
                     <Modal itemsForForm={contactsArr}
                            onSubmitBtnClick={handleIconUpdateLinkClick}
@@ -76,6 +76,8 @@ export const ProfileForm: FC<ProfileFormT> = memo(({
                         <ProfileContact key={i} link={contact.initialValue} icon={contact.icon}
                                         updateProfile={handleIconUpdateLinkClick} isOwner={isOwner}
                                         name={contact.initialValueTitle}/>)}
+
+                {isOwner && <span className={style.btnEditLinks} onClick={onActivateModalIconClick}/>}
             </p>
 
             {isOwner && <FriendsIcons followingUsers={followingUsers}

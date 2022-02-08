@@ -7,7 +7,6 @@ import {PATH} from "../../enums/PATH";
 import {FormikErrorType, validateLoginForm} from "../../utils/validators";
 import style from './Login.module.scss'
 import SuperButton from "../SuperButton/SuperButton";
-
 import SuperInputText from "../SuperInput/SuperInputText";
 import SuperCheckBox from "../SuperCheckBox/SuperCheckBox";
 
@@ -28,10 +27,10 @@ export type FormDataType = {
 
 export const Login: FC<LoginPropsType> = memo(({loginThunk, isAuth, captchaUrl}) => {
 
-        const formik = useFormik({
+        const formik = useFormik<FormDataType>({
             initialValues: {
-                email: EMPTY_STRING,
-                password: EMPTY_STRING,
+                email: process.env.REACT_APP_EMAIL as string,
+                password: process.env.REACT_APP_PASSWORD as string,
                 rememberMe: false,
                 captcha: EMPTY_STRING,
             },
@@ -58,9 +57,7 @@ export const Login: FC<LoginPropsType> = memo(({loginThunk, isAuth, captchaUrl})
         return <Redirect to={PATH.PROFILE}/>
     }
 
-
         return (
-
             <div className={style.loginWrapper}>
                 <h2 className={style.title}>Login</h2>
                 <form onSubmit={formik.handleSubmit} className={style.form}>

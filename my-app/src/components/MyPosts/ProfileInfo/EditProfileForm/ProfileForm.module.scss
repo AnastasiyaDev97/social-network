@@ -16,7 +16,15 @@
     display: flex;
     align-items: center;
     margin-top: 0;
+    position: relative;
 
+    .btnEditLinks {
+      width: 20px;
+      height: 20px;
+      background: url("./../../../../assets/edit.svg") center;
+      background-size:cover;
+      cursor: pointer;
+    }
   }
 
   .following {
@@ -26,19 +34,20 @@
       margin-top: 0;
       margin-bottom: 0;
     }
-      .followingIconsBlock {
-        display: flex;
 
-        .followingPhoto {
-          height: 25px;
-          border: 2px solid $activeFieldBackgr;
-          margin: 0 -6px 0 0px;
-          border-radius: 50%;
-          max-width: 100%;
-          vertical-align: middle;
-          cursor: pointer;
-        }
+    .followingIconsBlock {
+      display: flex;
+
+      .followingPhoto {
+        height: 25px;
+        border: 2px solid $activeFieldBackgr;
+        margin: 0 -6px 0 0px;
+        border-radius: 50%;
+        max-width: 100%;
+        vertical-align: middle;
+        cursor: pointer;
       }
     }
+  }
 
 }

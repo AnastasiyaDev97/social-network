@@ -3,20 +3,10 @@ import {ItemsUsersResponseType} from "../../../api/types";
 import {PAGE_SIZE} from "../../../const";
 import {Nullable} from "../../../types/Nullable";
 
-export type itemsT = 'users' | 'friends'
+export type itemsT = 'users' | 'friends' | null
 
 let initialState = {
-    items: [
-        /*  {name: string
-  id: number
-  uniqueUrlName: null
-  photos: {
-      small: Nullable<string>
-      large: Nullable<string>
-  }
-  status: Nullable<string>
-  followed: boolean}*/
-    ],
+    items: [ ],
     pageSize: PAGE_SIZE,
     totalUserCount: 0,
     currentPage: 1,
@@ -86,13 +76,13 @@ export const setUsers = (items: Array<ItemsUsersResponseType>) => ({
 export const changePage = (currentPage: number) => ({
         type: 'USER/CHANGE-PAGE',
         payload: {currentPage},
-    }as const
+    } as const
 )
 
 export const setTotalUsersCount = (totalUserCount: number) => ({
         type: 'USER/SET-TOTAL-USER-COUNT',
         payload: {totalUserCount},
-    }as const
+    } as const
 )
 
 
