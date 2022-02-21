@@ -1,5 +1,4 @@
 import {ChangeEvent, FC, KeyboardEvent, memo, useState} from "react";
-import { EMPTY_STRING } from "../../const";
 import SuperInputText from "../SuperInput/SuperInputText";
 import style from './EditableSpan.module.scss'
 

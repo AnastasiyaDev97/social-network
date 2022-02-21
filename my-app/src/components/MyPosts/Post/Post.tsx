@@ -1,9 +1,10 @@
-import React, {FC, memo} from 'react';
+import {FC, memo} from 'react';
 import style from './Post.module.scss'
 import {NavLink} from "react-router-dom";
 import {PATH} from "../../../enums/PATH";
 import {initialUserAvatar} from "../../../const";
 import like from './../../../assets/like.svg'
+import redLike from './../../../assets/redLike.svg'
 
 
 type PostPropsType = {
@@ -58,12 +59,7 @@ export const Post: FC<PostPropsType> = memo(({
                     <div className={style.dateSettingsBlock}>
                         <p className={style.date}>{date}</p>
                         <div className={style.settingsBtn} onClick={onDeleteLiClick}>
-                           {/* {isSettingsShow && <ul className={style.settingsBlock}
-                                                   onMouseLeave={onSettingsMouseLeave}>
-                                  <li onClick={onEditLiClick}>Edit Post</li>
-                                <li onClick={onDeleteLiClick}>Delete Post</li>
-                            </ul>
-                            }*/}
+                
                         </div>
                     </div>
                 </div>
@@ -73,7 +69,7 @@ export const Post: FC<PostPropsType> = memo(({
                         {message}
                     </div>
                     <div className={style.likeBlock}>
-                        {likesCount}<img src={like} className={style.likeIcon} alt='like' onClick={onLikeIconClick}/>
+                        {likesCount}<img src={isLiked?redLike:like} className={style.likeIcon} alt='like' onClick={onLikeIconClick}/>
                     </div>
                 </div>
             </div>

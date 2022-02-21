@@ -1,19 +1,18 @@
-import React, {FC, memo} from "react";
+import {FC, memo} from "react";
 import {initialUserAvatar} from "../../../../../const";
 import style from "../ProfileForm.module.scss";
 import {ItemsUsersResponseType} from "../../../../../api/types";
 import {NavLink,  useHistory} from "react-router-dom";
 import {PATH} from "../../../../../enums/PATH";
-import {itemsT} from "../../../../../redux/reducer/users/user-reducer";
+
 
 
 type FriendsIconsT = {
     followingUsers: Array<ItemsUsersResponseType>
     totalUserCount:number
-    toggleItemsType : (itemsType: itemsT)=>void
 }
 
-export const FriendsIcons: FC<FriendsIconsT> = memo(({followingUsers,totalUserCount,toggleItemsType}) => {
+export const FriendsIcons: FC<FriendsIconsT> = memo(({followingUsers,totalUserCount}) => {
 
     let history = useHistory();
 
@@ -21,8 +20,7 @@ export const FriendsIcons: FC<FriendsIconsT> = memo(({followingUsers,totalUserCo
     const followingCount=totalUserCount
 
     const onFriendBlockClick=()=>{
-        toggleItemsType('friends')
-        history.push(PATH.USERS)
+               history.push(PATH.USERS)
     }
 
     return (

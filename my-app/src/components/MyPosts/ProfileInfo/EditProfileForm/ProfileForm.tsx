@@ -34,12 +34,11 @@ type ProfileFormT = {
     updateProfile: (updateProfile: updateProfileThunkT) => void
     followingUsers: Array<ItemsUsersResponseType>
     totalUserCount: number
-    toggleItemsType: (itemsType: itemsT) => void
 }
 
 export const ProfileForm: FC<ProfileFormT> = memo(({
                                                        contacts, isOwner, aboutMe, updateProfile,
-                                                       followingUsers, totalUserCount, toggleItemsType
+                                                       followingUsers, totalUserCount
                                                    }) => {
 
     const [isContactEditFormShown, setIsContactEditFormShown] = useState(false)
@@ -81,7 +80,7 @@ export const ProfileForm: FC<ProfileFormT> = memo(({
             </p>
 
             {isOwner && <FriendsIcons followingUsers={followingUsers}
-                                      totalUserCount={totalUserCount} toggleItemsType={toggleItemsType}/>}
+                                      totalUserCount={totalUserCount}/>}
         </div>
     )
 })

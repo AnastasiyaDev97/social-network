@@ -23,6 +23,7 @@ import Preloader from "../../common/preloader/Preloader";
 import { User } from "./User/User";
 import SuperInputText from "../SuperInput/SuperInputText";
 import { EMPTY_STRING } from "../../const";
+import { UsersNav } from "./UserNav/UserNav";
 
 const Users: FC<UsersPropsType> = memo(
   ({
@@ -42,23 +43,10 @@ const Users: FC<UsersPropsType> = memo(
     const [searchValue, setSearchValue] = useState<string>(term);
 
     const portionSize = 10;
-    const disabledSpanStyle = !isLoggedIn && style.disabled;
+    
     const titleText =
       itemsType === "friends" ? "Your friends" : "People you can follow";
-    const itemsArr = [
-      {
-        name: "PEOPLE",
-        callback: onPeopleLinkClick,
-        styleName: itemsType === "users" ? style.activeLink : EMPTY_STRING,
-      },
-      {
-        name: "FRIENDS",
-        callback: onFriendsLinkClick,
-        styleName: `${disabledSpanStyle} ${
-          itemsType === "friends" ? style.activeLink : EMPTY_STRING
-        }`,
-      },
-    ];
+    
 
     useEffect(() => {
       let idOfTimeout = setTimeout(() => {
@@ -88,30 +76,14 @@ const Users: FC<UsersPropsType> = memo(
       }
     };
 
-    function onPeopleLinkClick() {
-      toggleItemsType("users");
-    }
-
-    function onFriendsLinkClick() {
-        if(isLoggedIn)
-      toggleItemsType("friends");
-      
-    }
+    
 
     if (isFetching) {
       return <Preloader />;
     }
     return (
       <div className={style.userContainer}>
-        <ul className={style.navBar}>
-          {itemsArr.map((item, i) => (
-            <li key={i}>
-              <span className={item.styleName} onClick={item.callback}>
-                {item.name}
-              </span>
-            </li>
-          ))}
-        </ul>
+       <UsersNav isLoggedIn={isLoggedIn} itemsType={itemsType} toggleItemsType={toggleItemsType}/>
 
         <div className={style.usersBlock}>
           <div className={style.titleWithSearchInput}>

@@ -11,7 +11,7 @@ import {Modal} from "../../Modal/Modal";
 export const ProfileInfo: FC<ProfileInfoPropsType> = memo(({
                                                                profile, updateUserStatus, status, saveProfileAvatar,
                                                                userIdAuth, updateProfile,
-                                                               totalUserCount, users, toggleItemsType
+                                                               totalUserCount, users
                                                            }) => {
 
     const [isModalShown, setIsModalShown] = useState(false)
@@ -72,7 +72,7 @@ export const ProfileInfo: FC<ProfileInfoPropsType> = memo(({
             </div>
             <ProfileForm contacts={profile.contacts} aboutMe={profile.aboutMe} isOwner={isOwner}
                          updateProfile={updateProfile} followingUsers={users}
-                         totalUserCount={totalUserCount} toggleItemsType={toggleItemsType}/>
+                         totalUserCount={totalUserCount} />
         </div>
     )
 })

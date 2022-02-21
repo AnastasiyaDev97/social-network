@@ -3,12 +3,10 @@
 .userBlock {
   align-items: center;
   color: $textColor;
-  text-decoration: none;
   padding: 1rem;
   border-bottom: 1px solid #dee2e6;
   display: flex;
-
-
+  
   .userPhoto {
     height: 60px;
     border-radius: 50%;
@@ -17,6 +15,7 @@
     vertical-align: middle;
 
   }
+
 
   .userName {
     font-weight: 700;
