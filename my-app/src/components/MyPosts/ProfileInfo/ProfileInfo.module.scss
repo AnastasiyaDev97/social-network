@@ -1,9 +1,8 @@
 @import '../../../styles/scss/variables';
+@import '../../../styles/scss/mixins';
 
 .profileInfoWrapper {
-  border-radius: 14px;
-  box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
-  background: $activeFieldBackgr;
+ @include wrapper;
 }
 
 .headerBlock {

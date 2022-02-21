@@ -13,6 +13,7 @@ let initialState = {
     isAuth: false,
     profile: null,
     captchaUrl: EMPTY_STRING,
+    isLoggedIn:false
 };
 
 export type authType = {
@@ -20,6 +21,7 @@ export type authType = {
     isAuth: boolean
     profile: Nullable<profileDataUserType>
     captchaUrl: string
+    isLoggedIn:boolean
 }
 
 export type authDataType = {

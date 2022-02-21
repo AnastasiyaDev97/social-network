@@ -35,7 +35,6 @@ export const ProfileInfo: FC<ProfileInfoPropsType> = memo(({
             initialValueTitle: 'lookingForAJobDescription',
             initialValue: profile.lookingForAJobDescription
         },
-
     ]
 
     const handleEditableSpanClick = useCallback((newTitle: string) => {
@@ -60,9 +59,9 @@ export const ProfileInfo: FC<ProfileInfoPropsType> = memo(({
 
                     <div className={style.nameBlock}>
                         <EditableSpan title={profile.fullName} updateTitle={handleEditableSpanClick}
-                                      myStyle={style.name}/>
+                                      myStyle={style.name} isOwner={isOwner}/>
                         <EditableSpan title={status} updateTitle={updateUserStatus}
-                                      myStyle={style.status}/>
+                                      myStyle={style.status} isOwner={isOwner}/>
                     </div>
                 </div>
 

@@ -30,7 +30,7 @@ class ProfileContainer extends PureComponent<ProfilePropsType> {
         this.refresh()
     }
 
-    componentDidUpdate(prevProps: Readonly<ProfilePropsType>, prevState: Readonly<{}>) {
+    componentDidUpdate(prevProps: Readonly<ProfilePropsType>) {
         if ((prevProps.match.params.userId !== this.props.match.params.userId) ||
             (prevProps.isAuth !== this.props.isAuth)) {
             this.refresh()
@@ -46,6 +46,7 @@ class ProfileContainer extends PureComponent<ProfilePropsType> {
         }
         if (!userId && !this.props.isAuth) {
             this.props.history.push(PATH.LOGIN)
+            return
         }
         this.props.getUserProfile(userId)
         this.props.getUserStatus(userId)
@@ -65,6 +66,7 @@ type mapStateToPropsType = {
     isAuth: boolean
     userIdAuth: Nullable<number>
     profile: profileDataUserType
+    isLoggedIn:boolean
 }
 type mapDispatchToPropsType = {
     getUserProfile: (userId: string) => void
@@ -77,6 +79,7 @@ let mapStateToProps = (state: stateType): mapStateToPropsType => ({
     userIdAuth: state.auth.data.id,
     isAuth: state.auth.isAuth,
     profile: state.ProfilePage.profile,
+    isLoggedIn:state.auth.isLoggedIn,
 })
 
 export default compose<ComponentType>(

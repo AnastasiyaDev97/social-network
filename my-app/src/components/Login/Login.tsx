@@ -48,8 +48,8 @@ export const Login: FC<LoginPropsType> = memo(({loginThunk, isAuth, captchaUrl})
         })
 
     const fieldsWithValidation=[
-        {name:'email',touched:formik.touched.email,error:formik.errors.email},
-        {name:'password',touched:formik.touched.password,error:formik.errors.password},
+        {name:'email',touched:formik.touched.email,error:formik.errors.email,type:'text'},
+        {name:'password',touched:formik.touched.password,error:formik.errors.password,type:'password'},
     ]
 
 
@@ -66,7 +66,8 @@ export const Login: FC<LoginPropsType> = memo(({loginThunk, isAuth, captchaUrl})
                         return <div key={i} className={style.relativeInputBlock}>
                             <SuperInputText placeholder={field.name}
                                             {...formik.getFieldProps(field.name)}
-                                            className={style.input}/>
+                                            className={style.input}
+                                            type={field.type}/>
                             {(field.touched && field.error) && <div
                                 className={style.error}>{field.error}</div>}
                         </div>

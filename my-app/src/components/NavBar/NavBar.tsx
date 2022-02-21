@@ -25,9 +25,9 @@ const NavBar: FC<NavBarPropsType> = memo(({isAuth, logoutThunk}) => {
         {path: PATH.PROFILE, title: 'PROFILE', icon: faUser},
         {path: PATH.DIALOGS, title: 'DIALOGS', icon: faEnvelope},
         {path: PATH.USERS, title: 'USERS', icon: faUsers},
-        {path: PATH.NEWS, title: 'NEWS', icon: faRss},
+       /*  {path: PATH.NEWS, title: 'NEWS', icon: faRss},
         {path: PATH.MUSIC, title: 'MUSIC', icon: faItunesNote},
-        {path: PATH.SETTINGS, title: 'SETTINGS', icon: faCogs},
+        {path: PATH.SETTINGS, title: 'SETTINGS', icon: faCogs}, */
     ]
 
     const onLogoutSpanClick = () => {

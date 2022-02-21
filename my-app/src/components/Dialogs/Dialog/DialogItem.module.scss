@@ -1,0 +1,28 @@
+@import "./../../../styles/scss/variables.scss";
+@import "./../../../styles/scss/mixins.scss";
+
+.dialogsWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.dialog {
+  color: $secondaryTextColor;
+  text-decoration: none;
+  font-family: $mainFont;
+  font-size: 15px;
+  height: 100%;
+  display: flex;
+align-items: center;
+padding-left: 1rem;
+  &:hover{
+    color: $textColor; 
+  }
+}
+.active {
+
+  color: $textColor;
+  @include wrapper;
+
+}

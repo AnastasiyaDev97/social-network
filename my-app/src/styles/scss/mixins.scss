@@ -26,3 +26,9 @@
   margin-right: 1rem;
   width: 25px;
 };
+
+@mixin wrapper {
+  border-radius: 14px;
+  box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+  background: $activeFieldBackgr;
+};

@@ -1,10 +1,9 @@
 import React, {Component, ComponentType} from "react"
 import {connect} from "react-redux";
-import {itemsT} from "../../redux/reducer/users/user-reducer";
+import {itemsT, toggleItemsType} from "../../redux/reducer/users/user-reducer";
 import {stateType} from "../../redux/redux-store";
 import {compose} from "redux";
 import Users from "./Users";
-import {Nullable} from "../../types/Nullable";
 import {getUsersThunk} from "../../redux/reducer/users/thunk";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 /*import * as queryString from "querystring";*/
@@ -31,7 +30,7 @@ class UsersContainer extends Component<PropsType> {
                 break;
         }*/
 
-
+this.props.toggleItemsType('users')
         this.props.getUsersThunk()
     }
 
@@ -40,7 +39,6 @@ class UsersContainer extends Component<PropsType> {
             this.props.getUsersThunk()
         }
     }
-
     render() {
         return <Users/>
     }
@@ -48,11 +46,12 @@ class UsersContainer extends Component<PropsType> {
 
 type mapDispatchToPropsType = {
     getUsersThunk: () => void
+    toggleItemsType : (itemsType: itemsT)=>void
 }
 type mapStateType = {
     currentPage: number
     itemsType: itemsT
-    term: Nullable<string>
+    term: string
 }
 
 export type PropsType = mapDispatchToPropsType & mapStateType & RouteComponentProps
@@ -65,4 +64,4 @@ let mapStateToProps = (state: stateType) => ({
 
 export default compose<ComponentType>(
     connect<mapStateType, mapDispatchToPropsType, {}, stateType>
-    (mapStateToProps, {getUsersThunk}), withRouter)(UsersContainer)
+    (mapStateToProps, {getUsersThunk,toggleItemsType}), withRouter)(UsersContainer)

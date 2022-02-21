@@ -1,0 +1,51 @@
+@import '../../styles/scss/mixins.scss';
+
+.dialogs{
+  display: flex;
+  @include wrapper;
+  padding: 1rem;
+
+  .dialogsItems{
+    @include wrapper;
+    background-color: $backgroundColor;
+    flex:0 1 30%;
+    display: flex;
+    flex-direction: column;
+    height:150px;
+    }
+    .messagesBlock{
+      display: flex; 
+      flex-direction: column; 
+      flex:0 1 70%;
+      padding-left: 1rem;
+      align-items: center;
+      .messages{
+        @include wrapper;
+        background-color: $backgroundColor;
+        display: flex;
+        flex-direction: column;
+        width: 60%;
+        padding: 0.5rem;
+        height:40vh;
+      }
+    }
+}
+
+.dialog{
+    color:saddlebrown;
+}
+.active{
+    color: cornflowerblue;
+}
+.addMessageWrapper{
+    margin:10px;
+    width: 60%;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .textarea{
+        margin-bottom:10px;
+    }
+}

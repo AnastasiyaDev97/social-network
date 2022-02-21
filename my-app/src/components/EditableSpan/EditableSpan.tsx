@@ -1,4 +1,5 @@
 import {ChangeEvent, FC, KeyboardEvent, memo, useState} from "react";
+import { EMPTY_STRING } from "../../const";
 import SuperInputText from "../SuperInput/SuperInputText";
 import style from './EditableSpan.module.scss'
 
@@ -6,26 +7,27 @@ type EditableSpanT = {
     title: string
     updateTitle: (newTitle: string) => void
     myStyle: string
+    isOwner:boolean
 }
 
-export const EditableSpan: FC<EditableSpanT> = memo(({title, updateTitle, myStyle}) => {
+export const EditableSpan: FC<EditableSpanT> = memo(({title, updateTitle, myStyle, isOwner}) => {
+    
     const [text, setText] = useState(title)
     let [edit, setEdit] = useState(true)
 
     const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setText(e.currentTarget.value)
-        if(e.currentTarget.value===''){
-            setText('----')
-        }
     }
 
     const activateInputMode = () => {
-        setEdit(false)
+        if (isOwner){
+        setEdit(false)}
+       
     }
 
     const activateSpanMode = () => {
         setEdit(true)
-        updateTitle(text)
+        updateTitle(text||'----')
     }
 
     const onActivateSpanKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {

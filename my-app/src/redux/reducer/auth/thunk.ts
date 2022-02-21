@@ -5,7 +5,7 @@ import {LoginAPI, securityAPI} from "../../../api/api";
 import {RESULT_CODES} from "../../../enums/ResultCode";
 import {loginAPIDataType} from "../../../api/types";
 import {handleServerNetworkError} from "../../../utils/errorHandler";
-import {setAuthUserData, setCaptchaSuccess} from "./auth-reducer";
+import {setAuthUserData, setCaptchaSuccess, toggleIsLoggedIn} from "./auth-reducer";
 
 export const getAuthDataThunk = () =>
     async (dispatch: Dispatch<actionsType>) => {
@@ -25,6 +25,7 @@ export const loginThunk = (loginData: loginAPIDataType): ThunkType =>
         let data = await LoginAPI.login(loginData)
         if (data.resultCode === RESULT_CODES.SUCCESS) {
             await dispatch(getAuthDataThunk())
+            dispatch(toggleIsLoggedIn(true))
             dispatch(setAppStatusAC('succeeded'))
         }
         if (data.resultCode === RESULT_CODES.CAPTCHA) {
@@ -41,6 +42,7 @@ export const logoutThunk = () =>
         let data = await LoginAPI.logout()
         if (data.resultCode === RESULT_CODES.SUCCESS) {
             dispatch(setAuthUserData({id: null, login: null, email: null}, false))
+            dispatch(toggleIsLoggedIn(false))
             dispatch(setAppStatusAC('succeeded'))
         }
     }

@@ -1,7 +1,7 @@
+import { EMPTY_STRING } from './../../../const/index';
 import {actionsType} from "../../redux-store";
 import {ItemsUsersResponseType} from "../../../api/types";
 import {PAGE_SIZE} from "../../../const";
-import {Nullable} from "../../../types/Nullable";
 
 export type itemsT = 'users' | 'friends' | null
 
@@ -12,8 +12,8 @@ let initialState = {
     currentPage: 1,
     isFetching: true,
     followingInProgress: [],
-    itemsType: 'friends' as itemsT,
-    term: null
+    itemsType: 'users' as itemsT,
+    term: EMPTY_STRING
 };
 export type UsersPageType = {
     items: Array<ItemsUsersResponseType>
@@ -23,7 +23,7 @@ export type UsersPageType = {
     isFetching: boolean
     followingInProgress: number[]
     itemsType: itemsT
-    term: Nullable<string>
+    term: string
 }
 
 
@@ -39,7 +39,7 @@ export const userReducer = (state: UsersPageType = initialState, action: actions
             return {
                 ...state,
                 items: state.items.map(m => m.id === action.id ? {...m, followed: false} : m)
-            }     //и тут
+            }     
         case "USER/SET-USERS":
         case "USER/CHANGE-PAGE":
         case "USER/SET-TOTAL-USER-COUNT":
@@ -105,7 +105,7 @@ export const toggleItemsType = (itemsType: itemsT) => ({
     }
 ) as const
 
-export const setTerm = (term: Nullable<string>) => ({
+export const setTerm = (term: string) => ({
         type: 'USER/SET-TERM',
         payload: {term}
     }

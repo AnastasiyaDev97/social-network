@@ -20,7 +20,7 @@
       flex-grow: 1;
       text-align: center;
 
-      .link {
+      span {
         width: 100%;
         letter-spacing: 1px;
         border: 0;
@@ -92,7 +92,9 @@
   }
 }
 
-
+.disabled{
+  cursor:not-allowed !important;
+}
 
 
 

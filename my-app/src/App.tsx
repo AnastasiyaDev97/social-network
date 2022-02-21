@@ -35,7 +35,7 @@ class App extends PureComponent<AppPropsType> {
 
         return (
             <div className={style.appContainer}>
-                <div className={/*{this.props.isAuth? */style.appWrapperAuth /*: style.appWrapper*/}>
+                <div className={style.appWrapperAuth}>
                     <NavBar />
                     <div className={style.appWrapperContent}>
                         {this.props.RequestStatus === 'loading' && <Preloader/>}
@@ -45,10 +45,10 @@ class App extends PureComponent<AppPropsType> {
                             <Route path={PATH.PROFILE + '/:userId?'}
                                    render={() => <ProfileContainer/>}/>
                             <Route path={PATH.DIALOGS} render={() => <DialogsContainer/>}/>
-                            <Route path={PATH.NEWS} render={() => <News/>}/>
+                            {/* <Route path={PATH.NEWS} render={() => <News/>}/> */}
                             <Route path={PATH.USERS} render={() => <UsersContainer/>}/>
-                            <Route path={PATH.MUSIC} render={() => <Music/>}/>
-                            <Route path={PATH.SETTINGS} render={() => <Settings/>}/>
+                          {/*   <Route path={PATH.MUSIC} render={() => <Music/>}/>
+                            <Route path={PATH.SETTINGS} render={() => <Settings/>}/> */}
                             <Route path={PATH.LOGIN} render={() => <LoginContainer/>}/>
                             <Route path={PATH.NOT_FOUND} render={() => <NotFound/>}/>
                             <Redirect from={'*'} to={PATH.NOT_FOUND}/>
