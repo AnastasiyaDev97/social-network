@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/social-network/static/css/main.fa38d77b.chunk.css",
-    "main.js": "/social-network/static/js/main.fd824f0a.chunk.js",
-    "main.js.map": "/social-network/static/js/main.fd824f0a.chunk.js.map",
+    "main.css": "/social-network/static/css/main.cd80ec44.chunk.css",
+    "main.js": "/social-network/static/js/main.b3d96c46.chunk.js",
+    "main.js.map": "/social-network/static/js/main.b3d96c46.chunk.js.map",
     "runtime-main.js": "/social-network/static/js/runtime-main.0d508453.js",
     "runtime-main.js.map": "/social-network/static/js/runtime-main.0d508453.js.map",
-    "static/js/2.d5d9c28a.chunk.js": "/social-network/static/js/2.d5d9c28a.chunk.js",
-    "static/js/2.d5d9c28a.chunk.js.map": "/social-network/static/js/2.d5d9c28a.chunk.js.map",
+    "static/js/2.95079c79.chunk.js": "/social-network/static/js/2.95079c79.chunk.js",
+    "static/js/2.95079c79.chunk.js.map": "/social-network/static/js/2.95079c79.chunk.js.map",
     "index.html": "/social-network/index.html",
-    "static/css/main.fa38d77b.chunk.css.map": "/social-network/static/css/main.fa38d77b.chunk.css.map",
-    "static/js/2.d5d9c28a.chunk.js.LICENSE.txt": "/social-network/static/js/2.d5d9c28a.chunk.js.LICENSE.txt",
+    "static/css/main.cd80ec44.chunk.css.map": "/social-network/static/css/main.cd80ec44.chunk.css.map",
+    "static/js/2.95079c79.chunk.js.LICENSE.txt": "/social-network/static/js/2.95079c79.chunk.js.LICENSE.txt",
     "static/media/Post.module.scss": "/social-network/static/media/delete.15eb07f1.svg",
     "static/media/ProfileForm.module.scss": "/social-network/static/media/edit.d80a0423.svg",
     "static/media/like.db5f2c5f.svg": "/social-network/static/media/like.db5f2c5f.svg",
@@ -18,8 +18,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.0d508453.js",
-    "static/js/2.d5d9c28a.chunk.js",
-    "static/css/main.fa38d77b.chunk.css",
-    "static/js/main.fd824f0a.chunk.js"
+    "static/js/2.95079c79.chunk.js",
+    "static/css/main.cd80ec44.chunk.css",
+    "static/js/main.b3d96c46.chunk.js"
   ]
 }
