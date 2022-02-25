@@ -59,7 +59,7 @@ On the users tab, you can view users and friends, subscribe and unsubscribe from
 
 <br/>
 
-To start the project, you need to enter the folder - 📂 fridayProject and type the command in the terminal:
+To start the project, you need to enter the folder - 📂 my-app and type the command in the terminal:
 
 ```javascript
 yarn
