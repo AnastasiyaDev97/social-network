@@ -28,21 +28,23 @@ export const UsersNav: FC<UserNavPropsT> = memo(({itemsType,isLoggedIn,toggleIte
   ];
 
   function onPeopleLinkClick() {
+    
     toggleItemsType("users");
   }
 
   function onFriendsLinkClick() {
-      if(isLoggedIn)
+      if(isLoggedIn){
+      
     toggleItemsType("friends");
-    
+      }
   }
 
   return (
     <ul className={style.navBar}>
-      {itemsArr.map((item, i) => (
-        <li key={i}>
-          <span className={item.styleName} onClick={item.callback}>
-            {item.name}
+      {itemsArr.map(({styleName,callback,name}) => (
+        <li key={name}>
+          <span className={styleName} onClick={callback}>
+            {name}
           </span>
         </li>
       ))}

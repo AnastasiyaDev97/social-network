@@ -12,8 +12,9 @@
   margin-bottom: 9px;
   text-decoration: none;
   color: $secondaryTextColor;
-  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
-};
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out;
+}
 
 @mixin icon {
   font-weight: normal;
@@ -25,10 +26,17 @@
   white-space: nowrap;
   margin-right: 1rem;
   width: 25px;
-};
+}
 
 @mixin wrapper {
   border-radius: 14px;
-  box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
   background: $activeFieldBackgr;
-};
+}
+
+@mixin center {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  top: 50%;
+} 

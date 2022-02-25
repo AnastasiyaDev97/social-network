@@ -4,6 +4,7 @@ import {setAppStatusAC} from "../app/app-reducer";
 import {UsersAPI} from "../../../api/api";
 import {RESULT_CODES} from "../../../enums/ResultCode";
 import {
+    changePage,
     followUser,
     setTotalUsersCount,
     setUsers,
@@ -12,19 +13,25 @@ import {
     unFollowUser
 } from "./user-reducer";
 
-export const getUsersThunk = () =>
+export const getUsersThunk = (actualPage?:number) =>
     async (dispatch: Dispatch<actionsType>, getState: () => stateType) => {
+        
         dispatch(setAppStatusAC('loading'))
         dispatch(toggleIsFetching(true))
         const {currentPage, pageSize, itemsType, term} = getState().UsersPage
+     if(actualPage!==currentPage){
+        dispatch(changePage())
+     }
         const paramsForQuery = {
             count:pageSize,
-            page: currentPage,
+            page:currentPage,
             term,
             friend: itemsType === 'friends'
         }
+    
         let data = await UsersAPI.getUsers(paramsForQuery)
         if (data) {
+           
             dispatch(setUsers(data.items))
             dispatch(setTotalUsersCount(data.totalCount))
         }

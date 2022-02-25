@@ -14,7 +14,6 @@ const Paginator: FC<PaginatorPropsType> = memo(({
                                                     totalUserCount, pageSize,
                                                     onChangePageClick, portionSize,currentPage
                                                 }) => {
-
     let [portionNumber, setPortionNumber] = useState(1);
 
     let pagesCount = Math.ceil(totalUserCount / pageSize);

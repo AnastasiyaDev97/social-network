@@ -13,6 +13,7 @@ export const getAuthDataThunk = () =>
         let data = await LoginAPI.getAuthUserData()
         if (data.resultCode === RESULT_CODES.SUCCESS) {
             dispatch(setAuthUserData(data.data, true))
+            dispatch(toggleIsLoggedIn(true))
             dispatch(setAppStatusAC('succeeded'))
         }
     }

@@ -1,4 +1,4 @@
-import { EMPTY_STRING } from './../../../const/index';
+import { EMPTY_STRING, FIRST_PAGE } from './../../../const/index';
 import {actionsType} from "../../redux-store";
 import {ItemsUsersResponseType} from "../../../api/types";
 import {PAGE_SIZE} from "../../../const";
@@ -73,7 +73,7 @@ export const setUsers = (items: Array<ItemsUsersResponseType>) => ({
     payload: {items},
 } as const)
 
-export const changePage = (currentPage: number) => ({
+export const changePage = (currentPage: number=FIRST_PAGE) => ({
         type: 'USER/CHANGE-PAGE',
         payload: {currentPage},
     } as const
