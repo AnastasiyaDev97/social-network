@@ -3,9 +3,9 @@
 
 # Social Network
 
-<a href="https://nastyaz23.github.io/social-network/">
+<a href="https://anastasiyadev97.github.io/social-network/">
   <div>
-   <h3><a href="https://nastyaz23.github.io/social-network/">Link to app </a></h3>
+   <h3><a href="https://anastasiyadev97.github.io/social-network/">Link to app </a></h3>
   </div>
 </a>
 
